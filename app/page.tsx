@@ -1,12 +1,4 @@
 "use client";
-import { getServerSession } from "next-auth/react";
-
-async function Login() {
-  const providers = await getServerSession().then((res) => {
-    console.log(res);
-    return res;
-  });
-}
 
 import Book from "./components/Book";
 
@@ -70,7 +62,7 @@ export default function Home() {
         </h2>
         {books.map((book) => (
           <Book key={book.id} book={book} />
-        ))}
+      ))}
       </main>
     </>
   );
