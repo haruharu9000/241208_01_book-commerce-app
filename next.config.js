@@ -9,8 +9,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.microcms-assets.io",
+      },
     ],
-    domains: ['avatars.githubusercontent.com'], // GitHubアバターのドメインを許可
   },
 };
 
