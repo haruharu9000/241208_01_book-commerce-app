@@ -1,4 +1,4 @@
-import { BookType } from "app/types/types";
+import { BookType } from "@/app/types/types";
 import { createClient } from "microcms-js-sdk";
 
 export const client = createClient({

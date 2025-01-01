@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { BookType } from "../types/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -18,6 +17,30 @@ const Book = ({ book }: BookProps) => {
   const user = session?.user;
   const router = useRouter();
 
+  const startCheckout = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: book.title,
+            price: book.price,
+          }),
+        }
+      );
+
+      const responseData = await response.json();
+
+      if (responseData) {
+        router.push(responseData.checkout_url);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handlePurchaseClick = () => {
     setShowModal(true);
   };
@@ -33,6 +56,7 @@ const Book = ({ book }: BookProps) => {
       router.push("/login")
     } else {
       // Stripeで決済する
+      startCheckout();
     }
   }
 

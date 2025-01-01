@@ -8,11 +8,11 @@ export interface User {
 type BookType = {
   id: number;
   title: string;
-  content: string;
   price: number;
+  content: string;
   thumbnail: { url: string };
-  createdAt: string;
-  updateAt: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type { BookType };
