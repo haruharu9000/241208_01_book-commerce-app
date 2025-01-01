@@ -14,8 +14,14 @@ type BookProps = {
 const Book = ({ book }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
-  const user = session?.user;
+  const user = session?.user as {
+    id: string;
+    name?: string;
+    email?: string
+  };
   const router = useRouter();
+  console.log(user?.id)
+  console.log(book.id);
 
   const startCheckout = async () => {
     try {
@@ -27,6 +33,8 @@ const Book = ({ book }: BookProps) => {
           body: JSON.stringify({
             title: book.title,
             price: book.price,
+            userId: user?.id,
+            bookId: book.id,
           }),
         }
       );
@@ -37,7 +45,7 @@ const Book = ({ book }: BookProps) => {
         router.push(responseData.checkout_url);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error in startCheckout:", err);
     }
   };
 

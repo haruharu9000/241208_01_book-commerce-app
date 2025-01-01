@@ -1,30 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `accounts` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `sessions` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `users` table. If the table is not empty, all the data it contains will be lost.
-  - A unique constraint covering the columns `[token]` on the table `verification_tokens` will be added. If there are existing duplicate values, this will fail.
-
-*/
--- DropForeignKey
-ALTER TABLE "Purchase" DROP CONSTRAINT "Purchase_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "accounts" DROP CONSTRAINT "accounts_user_id_fkey";
-
--- DropForeignKey
-ALTER TABLE "sessions" DROP CONSTRAINT "sessions_user_id_fkey";
-
--- DropTable
-DROP TABLE "accounts";
-
--- DropTable
-DROP TABLE "sessions";
-
--- DropTable
-DROP TABLE "users";
-
 -- CreateTable
 CREATE TABLE "Account" (
     "userId" TEXT NOT NULL,
@@ -64,6 +37,23 @@ CREATE TABLE "User" (
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Purchase" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "bookId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Purchase_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "verification_tokens" (
+    "identifier" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
@@ -71,7 +61,13 @@ CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Purchase_bookId_key" ON "Purchase"("bookId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "verification_tokens_token_key" ON "verification_tokens"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "verification_tokens_identifier_token_key" ON "verification_tokens"("identifier", "token");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

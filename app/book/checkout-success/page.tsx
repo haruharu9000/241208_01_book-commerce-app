@@ -1,10 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 const PurchaseSuccess = () => {
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get("session_id");
+  //console.log(sessionId);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (sessionId) {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/checkout/success`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessionId }),
+            }
+          );
+          console.log(await res.json());
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+
+    fetchData();
+  }, [sessionId]);
 
   return (
     <div className="flex items-center justify-center mt-20">

@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     try {
         const session = await stripe.checkout.sessions.retrieve(sessionId);
-        if (!session.client_reference_id || !session.metadata?.bookId) {
+         if (!session.client_reference_id || !session.metadata?.bookId) {
             throw new Error("Missing required session data");
         }
 
@@ -19,6 +19,8 @@ export async function POST(request: Request) {
                 bookId: session.metadata.bookId,
             },
         });
+
+        console.log(session);
 
         if (!existingPurchase) {
             const purchase = await prisma.purchase.create({
