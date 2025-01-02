@@ -12,8 +12,9 @@ const PurchaseSuccess = () => {
   //console.log(sessionId);
   useEffect(() => {
     const fetchData = async () => {
+    console.log("Debug - API request body:", { sessionId }); // リクエスト送信前の確認
       if (sessionId) {
-        console.log(sessionId);
+      console.log("Debug - sessionId is missing:", sessionId); // sessionId がない場合
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/checkout/success`,
@@ -25,9 +26,10 @@ const PurchaseSuccess = () => {
           );
           //console.log(await res.json());
           const data = await response.json();
+          console.log("Debug - API response data:", data); // レスポンス確認
           setBookUrl(data.purchase.bookId);
         } catch (err) {
-          console.error(err);
+           console.error("Error in fetchData:", err); // エラー内容をログ出力
         }
       }
     };
@@ -45,11 +47,8 @@ const PurchaseSuccess = () => {
           ご購入いただいた内容の詳細は、登録されたメールアドレスに送信されます。
         </p>
         <div className="mt-6 text-center">
-          <Link
-            href={`/book/${bookUrl}`}
-            className="text-indigo-600 hover:text-indigo-800 transition duration-300"
-          >
-            購入した記事を読む
+          <Link href="/book/[id]" as={`/book/${bookUrl}`} className="text-indigo-600">
+              購入した記事を読む
           </Link>
         </div>
       </div>

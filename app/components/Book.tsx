@@ -12,6 +12,8 @@ type BookProps = {
 
 // eslint-disable-next-line react/display-name
 const Book = ({ book }: BookProps) => {
+  console.log("Book props:", book);
+
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
   const user = session?.user as {

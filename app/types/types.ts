@@ -1,10 +1,3 @@
-export interface User {
-  id: string;
-  name?: string;
-  email?: string;
-  image?: string;
-}
-
 type BookType = {
   id: number;
   title: string;
@@ -15,4 +8,19 @@ type BookType = {
   updated_at: string;
 };
 
-export type { BookType };
+type Purchase = {
+  id: string;
+  userId: string;
+  bookId: string;
+  sessionId: string;
+  createdAt: string;
+};
+
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+};
+
+export type { BookType, Purchase, User };
