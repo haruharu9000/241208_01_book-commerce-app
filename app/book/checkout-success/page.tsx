@@ -26,10 +26,15 @@ const PurchaseSuccess = () => {
           );
           //console.log(await res.json());
           const data = await response.json();
-          console.log("Debug - API response data:", data); // レスポンス確認
+          console.log("API response data:", data);
+
+          if (!data || !data.purchase || !data.purchase.bookId) {
+            console.error("Invalid data structure:", data);
+            return;
+          }
           setBookUrl(data.purchase.bookId);
         } catch (err) {
-           console.error("Error in fetchData:", err); // エラー内容をログ出力
+          console.error("Error in fetchData:", err); // エラー内容をログ出力
         }
       }
     };

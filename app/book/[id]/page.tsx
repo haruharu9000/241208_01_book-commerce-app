@@ -4,7 +4,8 @@ import { notFound } from "next/navigation"; // notFound をインポート
 import React from "react";
 
 const DetailBook = async ({ params }: { params: { id: string } }) => {
-  const id = await params.id; // awaitを追加
+  console.log("Debug - params:", params); // params 全体を確認
+  const id = params.id;
   console.log("Debug - params.id:", id);
 
   if (!id || id === "null") {
@@ -38,8 +39,12 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           dangerouslySetInnerHTML={{ __html: book.content }}
         />
         <div className="flex justify-between items-center mt-2">
-          <span className="text-sm text-gray-500">公開日: {book.created_at}</span>
-          <span className="text-sm text-gray-500">最終更新: {book.updated_at}</span>
+          <span className="text-sm text-gray-500">
+            公開日: {book.created_at}
+          </span>
+          <span className="text-sm text-gray-500">
+            最終更新: {book.updated_at}
+          </span>
         </div>
       </div>
     </div>
