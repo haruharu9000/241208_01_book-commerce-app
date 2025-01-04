@@ -1,4 +1,4 @@
-"use client";
+//"use client";
 import { getProviders, signIn } from "next-auth/react";
 
 // eslint-disable-next-line @next/next/no-async-client-component
