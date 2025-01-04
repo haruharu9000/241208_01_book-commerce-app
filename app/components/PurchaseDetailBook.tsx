@@ -27,7 +27,7 @@ const PurchaseDetailBook = ({
         <h2 className="text-lg font-semibold">{purchaseDetailBook.title}</h2>
         {/* <p className="mt-2 text-lg text-slate-600">この本は○○...</p> */}
         <p className="mt-2 text-md text-slate-700">
-          値段：{purchaseDetailBook.price}円
+          価格：{purchaseDetailBook.price}円
         </p>
       </div>
     </Link>

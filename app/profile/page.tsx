@@ -41,7 +41,7 @@ export default async function ProfilePage() {
             height={60}
             className="rounded-full"
           />
-          <h2 className="text-lg ml-4 font-semibold">お名前：{user.name}</h2>
+          <h2 className="text-lg ml-4 font-semibold">ユーザー名：{user.name}</h2>
         </div>
       </div>
       <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
