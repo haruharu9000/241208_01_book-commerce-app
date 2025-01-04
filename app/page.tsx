@@ -1,5 +1,3 @@
-//"use client";
-
 import Book from "./components/Book";
 import { BookType, Purchase, User } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
