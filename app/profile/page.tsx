@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../../lib/next-auth/options";
-import { User } from "../../types/types";
+import { nextAuthOptions } from "../lib/next-auth/options";
+import { User } from "../types/types";
 
 export default async function ProfilePage() {
   const session = await getServerSession(nextAuthOptions);
