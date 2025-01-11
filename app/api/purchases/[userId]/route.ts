@@ -1,21 +1,24 @@
 import prisma from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 
-//https://nextjs.org/docs/app/building-your-application/routing/route-handlers#dynamic-route-segments
 export async function GET(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } } // 修正された型定義
 ) {
   const userId = params.userId;
 
   try {
-    const purchase = await prisma.purchase.findMany({
-      where: { userId: userId },
+    const purchases = await prisma.purchase.findMany({
+      where: { userId },
     });
-    console.log(purchase);
+    console.log(purchases);
 
-    return NextResponse.json(purchase);
+    return NextResponse.json(purchases);
   } catch (err) {
-    return NextResponse.json(err);
+    console.error("Failed to fetch purchases:", err);
+    return NextResponse.json(
+      { error: "Failed to fetch purchases" },
+      { status: 500 }
+    );
   }
 }
