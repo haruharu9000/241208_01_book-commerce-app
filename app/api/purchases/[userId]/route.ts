@@ -4,16 +4,16 @@ import { NextResponse } from "next/server";
 // GET ハンドラの定義
 export async function GET(
   request: Request,
-  { params }: { params: { userId: string } } // 型の明示
+  context: { params: { userId: string } } // 型定義を修正
 ) {
-  const userId = params.userId;
+  const userId = context.params.userId;
 
   try {
     const purchases = await prisma.purchase.findMany({
       where: { userId },
     });
 
-    return NextResponse.json(purchases); // 正常なレスポンスを返す
+    return NextResponse.json(purchases);
   } catch (err) {
     console.error("Failed to fetch purchases:", err);
 
