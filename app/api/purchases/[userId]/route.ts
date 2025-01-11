@@ -3,21 +3,18 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  context: { params: { userId: string } }
+  context: { params: { userId: string } } // 型を context に明示
 ) {
-  console.log("Context received:", context); // デバッグログ
-
-  const { userId } = context.params;
+  const { userId } = context.params; // context.params から userId を取得
 
   try {
     const purchases = await prisma.purchase.findMany({
       where: { userId },
     });
-    console.log("Purchases found:", purchases); // デバッグログ
 
-    return NextResponse.json(purchases);
+    return NextResponse.json(purchases); // 正常レスポンス
   } catch (error) {
-    console.error("Error in GET handler:", error); // エラーログ
+    console.error("Error fetching purchases:", error);
     return NextResponse.json(
       { error: "Failed to fetch purchases" },
       { status: 500 }
