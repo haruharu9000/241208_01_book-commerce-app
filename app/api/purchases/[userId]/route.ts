@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  context: { params: { userId: string } } // 型を context に明示
+  context: { params: { userId: string } }
 ) {
   const { userId } = context.params; // context.params から userId を取得
 
