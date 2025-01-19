@@ -15,7 +15,7 @@ export default async function Home() {
   if (user) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-      { cache: "no-store" } // SS
+      { cache: "no-store" } // SSR
     );
 
     if (response.ok) {
