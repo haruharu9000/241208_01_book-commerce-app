@@ -7,6 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 //購入履歴保存
 export async function POST(request: Request) {
     const { sessionId } = await request.json();
+    // console.log(sessionId);
 
     try {
         const session = await stripe.checkout.sessions.retrieve(sessionId);
