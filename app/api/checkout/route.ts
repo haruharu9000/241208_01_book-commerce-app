@@ -4,9 +4,9 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
-    const { title, price, bookId, userId } = await request.json();
-
     try {
+        const { title, price, bookId, userId } = await request.json();
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             metadata: {
@@ -30,13 +30,13 @@ export async function POST(request: Request) {
             cancel_url:  `${process.env.NEXT_PUBLIC_BASE_URL}`,
         });
 
-      return NextResponse.json({ checkout_url: session.url });
+        return NextResponse.json({ checkout_url: session.url });
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.error(err);
+            console.error("Checkout error:", err);
             return NextResponse.json({ error: err.message }, { status: 500 });
         }
-      console.error("Unexpected error:", err);
-      return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 });
+        console.error("Unexpected error:", err);
+        return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 });
     }
 }
