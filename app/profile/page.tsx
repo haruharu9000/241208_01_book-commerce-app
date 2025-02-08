@@ -8,7 +8,7 @@ import PurchaseDetailBook from "../components/PurchaseDetailBook";
 export default async function ProfilePage() {
   const session = await getServerSession(nextAuthOptions);
 
-  // セッションがない場合、未ログイン状態として処理
+  // セッションがない場合の処理
   if (!session || !session.user) {
     return (
       <div className="container mx-auto p-4">
@@ -22,16 +22,28 @@ export default async function ProfilePage() {
   let purchasesDetailBooks: BookType[] = [];
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-      { cache: "no-store" } // SSR
-    );
+    // API のデータ取得を 3 回リトライ
+    let retries = 3;
+    let purchasesData = null;
 
-    if (!response.ok) {
-      throw new Error("購入履歴の取得に失敗しました");
+    while (retries > 0) {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
+        { cache: "no-store" } // SSR
+      );
+
+      if (response.ok) {
+        purchasesData = await response.json();
+        if (purchasesData.length > 0) break; // データが取得できたらループを抜ける
+      }
+
+      retries--;
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1秒待つ
     }
 
-    const purchasesData = await response.json();
+    if (!purchasesData) {
+      throw new Error("購入履歴の取得に失敗しました");
+    }
 
     purchasesDetailBooks = await Promise.all(
       purchasesData.map(async (purchase: Purchase) => {
@@ -50,7 +62,7 @@ export default async function ProfilePage() {
         <div className="flex items-center">
           <Image
             priority
-            src={user.image || "/default_icon.png"} // 画像がなければデフォルトアイコンを表示
+            src={user.image || "/default_icon.png"}
             alt="user profile_icon"
             width={60}
             height={60}
