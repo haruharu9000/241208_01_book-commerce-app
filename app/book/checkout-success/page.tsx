@@ -22,12 +22,13 @@ const PurchaseSuccess = () => {
 
     const fetchData = async () => {
       try {
+        console.log("Fetching purchase data with session ID:", sessionId);
         const res = await fetch("/api/checkout/success", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
+          credentials: "include", // 認証情報を含める
           body: JSON.stringify({ sessionId }),
         });
 
@@ -38,7 +39,7 @@ const PurchaseSuccess = () => {
         const data = await res.json();
         console.log("Response data:", data);
 
-        if (!data || !data.purchase?.bookId) {
+        if (!data || !data.purchase.bookId) {
           throw new Error("購入データが正しくありません");
         }
 
@@ -57,11 +58,22 @@ const PurchaseSuccess = () => {
   return (
     <div className="flex items-center justify-center mt-20">
       <div className="text-center">
-        <h1>購入ありがとうございます！</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          購入ありがとうございます！
+        </h1>
+        <p className="text-lg text-gray-600">
+          購入手続きが正常に完了しました。
+        </p>
         {error ? (
-          <p>{error}</p>
+          <p className="text-red-600 mt-4">{error}</p>
+        ) : bookId ? (
+          <div className="mt-6">
+            <Link href={`/book/${bookId}`} className="text-indigo-600">
+              購入した本を見る
+            </Link>
+          </div>
         ) : (
-          bookId && <Link href={`/book/${bookId}`}>購入した本を見る</Link>
+          <p className="text-gray-600 mt-4">購入データを取得中...</p>
         )}
       </div>
     </div>

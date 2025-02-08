@@ -1,44 +1,41 @@
-import prisma from "@/app/lib/prisma";
-import { NextResponse } from "next/server";
-import Stripe from "stripe";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
-import { User } from "@/app/types/types";
-import { Session } from "next-auth";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import prisma from "@/app/lib/prisma";
+import type { ExtendedSession } from "@/app/lib/next-auth/options";
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
-    const session = await getServerSession(nextAuthOptions) as Session & { user: User };
-    console.log("Session Data:", session); // デバッグログ追加
+    const session = await getServerSession(nextAuthOptions) as ExtendedSession;
+    console.log("Session Data in API:", session); // デバッグログを追加
 
-    if (!session || !session.user || !session.user.id) { // `session.user.id` があるかを厳密にチェック
-        console.error("Session is missing user ID", session);
+    if (!session?.user?.id) {
+        console.error("Unauthorized: No session found or missing user ID.");
         return NextResponse.json({ error: "User not authenticated or missing ID" }, { status: 401 });
     }
 
-    const user = session.user;
-
+    const userId = session.user.id; // 直接取得
     const { sessionId } = await request.json();
     console.log("Received session ID:", sessionId);
 
     try {
         const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
-        console.log("Stripe Session:", stripeSession); // デバッグログ
-
         if (!stripeSession.client_reference_id || !stripeSession.metadata?.bookId) {
             throw new Error("Missing required session data");
         }
 
         const purchase = await prisma.purchase.findFirst({
             where: {
-                userId: user.id,
-                bookId: stripeSession.metadata.bookId,
+                userId: userId,
+                bookId: stripeSession.metadata?.bookId,
             },
         });
 
         if (!purchase) {
-            console.error("Purchase not found", user.id, stripeSession.metadata.bookId);
+            console.error("Purchase not found for user:", userId);
             return NextResponse.json({ error: "Purchase not found" }, { status: 404 });
         }
 
