@@ -3,61 +3,59 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const PurchaseSuccess = () => {
+  const { status } = useSession();
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [bookId, setBookId] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    console.log("Search Params:", searchParams.toString());
+    if (status !== "authenticated") return; // 認証されていない場合は処理しない
     const sessionIdParam = searchParams.get("session_id");
-    console.log("Session ID:", sessionIdParam);
-
     if (sessionIdParam) {
       setSessionId(sessionIdParam);
     }
-  }, [searchParams]);
+  }, [searchParams, status]);
 
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId || status !== "authenticated") return;
 
     const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/success`,
+          `${process.env.NEXT_PUBLIC_API_URL}/checkout/success`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ sessionId }),
+            credentials: "include", // 認証情報を含める
           }
         );
 
-        const data = await res.json();
-        console.log("API Response:", data); // 🛠 デバッグ用ログ
-
-        if (!res.ok || !data.purchase?.bookId) {
+        if (!res.ok) {
           throw new Error("購入データの取得に失敗しました。");
+        }
+
+        const data = await res.json();
+        console.log("Response data:", data);
+
+        if (!data || !data.purchase.bookId) {
+          console.error("Invalid data structure:", data);
+          return;
         }
 
         setBookId(data.purchase.bookId);
       } catch (err) {
         console.error("Error in fetchData:", err);
-        setError("購入情報を取得できませんでした。");
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, [sessionId]);
+  }, [sessionId, status]);
 
   return (
     <div className="flex items-center justify-center mt-20">
@@ -68,26 +66,14 @@ const PurchaseSuccess = () => {
         <p className="text-lg text-gray-600">
           購入手続きが正常に完了しました。
         </p>
-
-        {loading && <p className="text-gray-500 mt-4">購入情報を取得中...</p>}
-
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-
-        {!loading && !error && bookId && (
+        {bookId ? (
           <div className="mt-6">
-            <Link
-              href={`/book/${bookId}`}
-              className="text-indigo-600 hover:underline"
-            >
+            <Link href={`/book/${bookId}`} className="text-indigo-600">
               購入した本を見る
             </Link>
           </div>
-        )}
-
-        {!loading && !error && !bookId && (
-          <p className="text-gray-500 mt-4">
-            購入した本の情報が見つかりませんでした。
-          </p>
+        ) : (
+          <p className="text-red-500 mt-4">購入情報を取得できませんでした。</p>
         )}
       </div>
     </div>
