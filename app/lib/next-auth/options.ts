@@ -4,6 +4,11 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "../prisma";
 
+// Session 型を拡張
+interface ExtendedSession extends Session {
+  user: User & { id: string };
+}
+
 export const nextAuthOptions: NextAuthOptions = {
   debug: false,
   providers: [
@@ -18,12 +23,14 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    session: ({ session, user }: { session: Session; user: User & { id: string } }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: async ({ session, user }): Promise<ExtendedSession> => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id, // `id` を確実に含める
+        },
+      };
+    },
   },
 };
