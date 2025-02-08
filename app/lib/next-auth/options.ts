@@ -45,8 +45,8 @@ export const nextAuthOptions: NextAuthOptions = {
       return {
         ...session,
         user: {
-          ...(session.user ?? {}), // userオブジェクトが存在しない場合に対応
-          id: token.id as string, // ここで user.id を適用
+          ...(session.user as ExtendedUser), // 型を適用
+          id: token.id as string, // `id` を適用
         },
       };
     },
