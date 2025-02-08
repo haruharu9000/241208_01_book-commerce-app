@@ -7,10 +7,12 @@ import { useSearchParams } from "next/navigation";
 const PurchaseSuccess = () => {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [bookId, setBookId] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // クエリパラメータから`session_id`を取得
+    // クエリパラメータから `session_id` を取得
     const sessionIdParam = searchParams.get("session_id");
     if (sessionIdParam) {
       setSessionId(sessionIdParam);
@@ -21,9 +23,12 @@ const PurchaseSuccess = () => {
     if (!sessionId) return;
 
     const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/checkout/success`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/success`,
           {
             method: "POST",
             headers: {
@@ -36,14 +41,16 @@ const PurchaseSuccess = () => {
         const data = await res.json();
         console.log("Response data:", data);
 
-        if (!data || !data.purchase.bookId) {
-          console.error("Invalid data structure:", data);
-          return;
+        if (!res.ok || !data.purchase?.bookId) {
+          throw new Error("購入データの取得に失敗しました。");
         }
 
         setBookId(data.purchase.bookId);
       } catch (err) {
         console.error("Error in fetchData:", err);
+        setError("購入情報を取得できませんでした。");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -59,12 +66,26 @@ const PurchaseSuccess = () => {
         <p className="text-lg text-gray-600">
           購入手続きが正常に完了しました。
         </p>
-        {bookId && (
+
+        {loading && <p className="text-gray-500 mt-4">購入情報を取得中...</p>}
+
+        {error && <p className="text-red-500 mt-4">{error}</p>}
+
+        {!loading && !error && bookId && (
           <div className="mt-6">
-            <Link href={`/book/${bookId}`} className="text-indigo-600">
+            <Link
+              href={`/book/${bookId}`}
+              className="text-indigo-600 hover:underline"
+            >
               購入した本を見る
             </Link>
           </div>
+        )}
+
+        {!loading && !error && !bookId && (
+          <p className="text-gray-500 mt-4">
+            購入した本の情報が見つかりませんでした。
+          </p>
         )}
       </div>
     </div>
