@@ -12,8 +12,10 @@ const PurchaseSuccess = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // クエリパラメータから `session_id` を取得
+    console.log("Search Params:", searchParams.toString());
     const sessionIdParam = searchParams.get("session_id");
+    console.log("Session ID:", sessionIdParam);
+
     if (sessionIdParam) {
       setSessionId(sessionIdParam);
     }
@@ -39,7 +41,7 @@ const PurchaseSuccess = () => {
         );
 
         const data = await res.json();
-        console.log("Response data:", data);
+        console.log("API Response:", data); // 🛠 デバッグ用ログ
 
         if (!res.ok || !data.purchase?.bookId) {
           throw new Error("購入データの取得に失敗しました。");
