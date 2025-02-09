@@ -27,12 +27,25 @@ export async function POST(request: Request) {
             throw new Error("Missing required session data");
         }
 
-        const purchase = await prisma.purchase.findFirst({
+        let purchase = await prisma.purchase.findFirst({
             where: {
                 userId: userId,
                 bookId: stripeSession.metadata?.bookId,
             },
         });
+
+        if (!purchase) {
+            console.log("Creating new purchase record...");
+            // ✅ 修正: sessionId をデータベースに保存
+            purchase = await prisma.purchase.create({
+                data: {
+                    userId: userId,
+                    bookId: stripeSession.metadata?.bookId,
+                    sessionId: sessionId, // ✅ 修正: sessionId を追加
+                    createdAt: new Date(),
+                },
+            });
+        }
 
         if (!purchase) {
             console.error("Purchase not found for user:", userId);
