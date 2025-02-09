@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const user = session.user as User;
     const { title, price, bookId } = await request.json();
 
-    // ✅ `success_url` を環境変数に基づいて動的に設定する
+    //`success_url` を環境変数に基づいて動的に設定する
     const BASE_URL =
         process.env.NODE_ENV === "development"
             ? "http://localhost:3000" // ローカル環境の場合
@@ -27,8 +27,8 @@ export async function POST(request: Request) {
         client_reference_id: user.id,
         line_items: [{ price_data: { currency: "jpy", product_data: { name: title }, unit_amount: price }, quantity: 1 }],
         mode: "payment",
-        success_url: `${BASE_URL}/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`, // ✅ 修正
-        cancel_url: `${BASE_URL}`, // ✅ 修正
+        success_url: `${BASE_URL}/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`, // 修正
+        cancel_url: `${BASE_URL}`, // 修正
     });
 
     return NextResponse.json({ checkout_url: stripeSession.url });
