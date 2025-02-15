@@ -38,6 +38,7 @@ export const nextAuthOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id; // JWTに `id` を追加
+        token.image = user.image ?? null; // 🔹 プロフィール画像をセット
       }
       return token;
     },
@@ -47,6 +48,7 @@ export const nextAuthOptions: NextAuthOptions = {
         user: {
           ...(session.user as ExtendedUser), // 型を適用
           id: token.id as string, // `id` を適用
+          image: token.image as string ?? null, // 🔹 画像をセット
         },
       };
     },

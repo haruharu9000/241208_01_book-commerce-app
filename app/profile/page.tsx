@@ -53,6 +53,7 @@ export default async function ProfilePage() {
   } catch (error) {
     console.error("Error fetching purchases:", error);
   }
+  console.log("User Image:", user.image); // 🔍 ここでデバッグ
 
   return (
     <div className="container mx-auto p-4">
