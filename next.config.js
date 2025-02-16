@@ -1,26 +1,21 @@
 const nextConfig = {
   images: {
+    domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com", "images.microcms-assets.io"],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
-        port: '',
-        pathname: '/**', // すべてのパスを許可
-        search: '',
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "images.microcms-assets.io",
-        port: '',
-        pathname: '/**', // すべてのパスを許可
-        search: '',
+        pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "lh3.googleusercontent.com", // Googleのプロフィール画像
-        port: '',
-        pathname: '/**', // すべてのパスを許可
-        search: '',
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
       },
     ],
   },
@@ -28,3 +23,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+

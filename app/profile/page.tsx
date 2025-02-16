@@ -53,7 +53,9 @@ export default async function ProfilePage() {
   } catch (error) {
     console.error("Error fetching purchases:", error);
   }
-  console.log("User Image:", user.image); // 🔍 ここでデバッグ
+
+  // 画像URLをデバッグ出力
+  console.log("User Image URL:", user.image);
 
   return (
     <div className="container mx-auto p-4">
@@ -63,7 +65,9 @@ export default async function ProfilePage() {
         <div className="flex items-center">
           <Image
             priority
-            src={user.image || "/default_icon.png"}
+            src={
+              typeof user.image === "string" ? user.image : "/default_icon.png"
+            }
             alt="user profile_icon"
             width={60}
             height={60}

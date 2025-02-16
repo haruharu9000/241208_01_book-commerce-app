@@ -37,8 +37,8 @@ export const nextAuthOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id; // ユーザーIDをセット
-        token.image = user.image ?? null; // GitHubの画像をセット
+        token.id = user.id;
+        token.image = user.image ?? `https://avatars.githubusercontent.com/u/${token.sub}`;
       }
 
       // GitHubログイン時に `image` をセット
@@ -54,7 +54,8 @@ export const nextAuthOptions: NextAuthOptions = {
         user: {
           ...(session.user as ExtendedUser),
           id: token.id as string,
-          image: token.image as string ?? `https://avatars.githubusercontent.com/u/${token.sub}`,
+          // `typeof token.image === "string"` を確認
+          image: typeof token.image === "string" ? token.image : `https://avatars.githubusercontent.com/u/${token.sub}`,
         },
       };
     },
