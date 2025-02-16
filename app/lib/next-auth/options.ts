@@ -32,23 +32,29 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt", // JWTベースのセッションにする
+    strategy: "jwt", // JWTベースのセッション
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id; // JWTに `id` を追加
-        token.image = user.image ?? null; // 🔹 プロフィール画像をセット
+        token.id = user.id; // ユーザーIDをセット
+        token.image = user.image ?? null; // GitHubの画像をセット
       }
+
+      // GitHubログイン時に `image` をセット
+      if (account?.provider === "github" && !token.image) {
+        token.image = `https://avatars.githubusercontent.com/u/${token.sub}`;
+      }
+
       return token;
     },
     async session({ session, token }): Promise<ExtendedSession> {
       return {
         ...session,
         user: {
-          ...(session.user as ExtendedUser), // 型を適用
-          id: token.id as string, // `id` を適用
-          image: token.image as string ?? null, // 🔹 画像をセット
+          ...(session.user as ExtendedUser),
+          id: token.id as string,
+          image: token.image as string ?? `https://avatars.githubusercontent.com/u/${token.sub}`,
         },
       };
     },
