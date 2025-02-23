@@ -13,12 +13,6 @@ type BookProps = {
 
 const Book = ({ book, isPurchased, user }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
-  // const { data: session } = useSession();
-  // const user = session?.user as {
-  //   id: string;
-  //   name?: string;
-  //   email?: string;
-  // };
   const router = useRouter();
 
   const startCheckout = async () => {
