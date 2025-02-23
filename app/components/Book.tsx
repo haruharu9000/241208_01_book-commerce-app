@@ -27,6 +27,7 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
           price: book.price,
           bookId: book.id,
           userId: user?.id,
+          description: book.description,
         }),
       });
 
