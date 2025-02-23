@@ -13,12 +13,6 @@ type BookProps = {
 
 const Book = ({ book, isPurchased, user }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
-  // const { data: session } = useSession();
-  // const user = session?.user as {
-  //   id: string;
-  //   name?: string;
-  //   email?: string;
-  // };
   const router = useRouter();
 
   const startCheckout = async () => {
@@ -33,6 +27,7 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
           price: book.price,
           bookId: book.id,
           userId: user?.id,
+          description: book.description
         }),
       });
 
@@ -103,7 +98,7 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
           />
           <div className="px-4 py-4 bg-slate-100 rounded-b-md">
             <h2 className="text-lg font-semibold">{book.title}</h2>
-            <p className="mt-2 text-lg text-slate-600">この本は○○...</p>
+            <p className="mt-2 text-lg text-slate-600">{book.description}</p>
             <p className="mt-2 text-md text-slate-700">価格:{book.price}円</p>
           </div>
         </a>

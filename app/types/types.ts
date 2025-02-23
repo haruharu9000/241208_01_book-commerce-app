@@ -3,6 +3,7 @@ type BookType = {
   title: string;
   price: number;
   content: string;
+  description: string; // 追加
   thumbnail: { url: string };
   created_at: string;
   updated_at: string;
