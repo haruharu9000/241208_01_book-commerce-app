@@ -25,11 +25,9 @@ export default function RootLayout({
         <NextAuthProvider>
           <div className="min-h-screen">
             <Header />
-            <div className="flex">
-              <main className="flex-1 px-8 py-6">
-                <Suspense fallback={<Loading />}>
-                  {children}
-                </Suspense>
+            <div className="flex flex-col lg:flex-row">
+              <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6">
+                <Suspense fallback={<Loading />}>{children}</Suspense>
               </main>
               <Sidebar />
             </div>
