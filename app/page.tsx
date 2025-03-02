@@ -3,6 +3,7 @@ import { BookType, Purchase, User } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "./lib/next-auth/options";
+import Image from "next/image";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
@@ -29,11 +30,9 @@ export default async function Home() {
   }
 
   return (
-    <>
-      <main className="flex flex-wrap justify-center items-center md:mt-32 mt-20">
-        <h2 className="text-center w-full font-bold text-3xl mb-2">
-          Book Commerce
-        </h2>
+    <div className="container mx-auto">
+      <h1 className="text-3xl font-bold mb-8">記事一覧</h1>
+      <div className="grid grid-cols-3 gap-6">
         {contents.map((book: BookType) => (
           <Book
             key={book.id}
@@ -42,7 +41,7 @@ export default async function Home() {
             user={user}
           />
         ))}
-      </main>
-    </>
+      </div>
+    </div>
   );
 }

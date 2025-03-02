@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import { NextAuthProvider } from "./lib/next-auth/provider";
 import Loading from "./loading";
 import { Suspense } from "react";
+import Sidebar from "./components/Sidebar";
 
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: "400" });
 
@@ -19,11 +20,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="jp">
+    <html lang="ja">
       <body className={notoSansJP.className}>
         <NextAuthProvider>
-          <Header />
-          <Suspense fallback={<Loading></Loading>}>{children}</Suspense>
+          <div className="min-h-screen">
+            <Header />
+            <div className="flex">
+              <main className="flex-1 px-8 py-6">
+                <Suspense fallback={<Loading />}>
+                  {children}
+                </Suspense>
+              </main>
+              <Sidebar />
+            </div>
+          </div>
         </NextAuthProvider>
       </body>
     </html>
