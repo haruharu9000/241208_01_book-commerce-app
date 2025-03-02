@@ -66,7 +66,7 @@ const Sidebar = () => {
               href="/category/web"
               className="flex items-center justify-between text-gray-700 hover:text-blue-600"
             >
-              <span>Web開発</span>
+              <span>AI・人工知能</span>
               <span className="text-sm text-gray-500">(8)</span>
             </Link>
           </li>
@@ -75,7 +75,7 @@ const Sidebar = () => {
               href="/category/ai"
               className="flex items-center justify-between text-gray-700 hover:text-blue-600"
             >
-              <span>AI・機械学習</span>
+              <span>確率・統計・データ分析</span>
               <span className="text-sm text-gray-500">(5)</span>
             </Link>
           </li>
@@ -84,7 +84,7 @@ const Sidebar = () => {
               href="/category/infrastructure"
               className="flex items-center justify-between text-gray-700 hover:text-blue-600"
             >
-              <span>インフラ</span>
+              <span>科学・テクノロジー</span>
               <span className="text-sm text-gray-500">(3)</span>
             </Link>
           </li>
