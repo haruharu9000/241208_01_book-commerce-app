@@ -3,7 +3,6 @@ import { BookType, Purchase, User } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "./lib/next-auth/options";
-import Image from "next/image";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
