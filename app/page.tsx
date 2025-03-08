@@ -1,4 +1,4 @@
-import Book from "./components/Book";
+import BookItem from "./components/Bookitem"; // 修正: 新しいコンポーネントを作成
 import { BookType, Purchase, User } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
@@ -29,14 +29,14 @@ export default async function Home() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold mb-8">記事一覧</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold mb-6">記事一覧</h1>
+      <div className="space-y-6">
         {contents.map((book: BookType) => (
-          <Book
+          <BookItem
             key={book.id}
             book={book}
-            isPurchased={purchaseBookIds?.includes(book.id) ?? false}
+            isPurchased={purchaseBookIds.includes(book.id)}
             user={user}
           />
         ))}
