@@ -1,4 +1,4 @@
-import BookItem from "./components/Bookitem"; // 修正: 新しいコンポーネントを作成
+import BookItem from "./components/BookItem"; // 修正: 新しいコンポーネントを作成
 import { BookType, Purchase, User } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
