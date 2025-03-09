@@ -25,4 +25,15 @@ type Purchase = {
   user: User;
 };
 
-export type { BookType, User, Purchase };
+// 追加: 記事（Article）用の型
+type ArticleType = {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type { BookType, User, Purchase, ArticleType };
+
