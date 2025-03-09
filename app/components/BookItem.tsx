@@ -7,33 +7,27 @@ import { useRouter } from "next/navigation";
 type BookProps = {
   book: BookType;
   isPurchased: boolean;
-  user: User | null; // user が null の場合も考慮
+  user: User;
 };
 
 const BookItem = ({ book, isPurchased, user }: BookProps) => {
   const router = useRouter();
 
-  const handleBookClick = () => {
-    if (!user) {
-      // ユーザーが未ログインならログインページへリダイレクト
-      router.push("/api/auth/signin");
-      return;
-    }
-
-    if ((book.price ?? 0) > 0 && !isPurchased) {
-      // 有料かつ未購入 → 購入画面へ
-      router.push(`/checkout/${book.id}`);
+  const handlePurchaseClick = () => {
+    if (isPurchased) {
+      alert("その商品は購入済みです。");
     } else {
-      // 無料 or 購入済み → 記事内容ページへ
-      router.push(`/article/${book.id}`);
+      if (!user) {
+        router.push("/api/auth/signin");
+      } else {
+        // 購入処理
+        console.log("購入処理開始");
+      }
     }
   };
 
   return (
-    <div
-      className="flex flex-col sm:flex-row items-center sm:items-start space-x-0 sm:space-x-6 p-4 border-b cursor-pointer"
-      onClick={handleBookClick}
-    >
+    <div className="flex flex-col sm:flex-row items-center sm:items-start space-x-0 sm:space-x-6 p-4 border-b">
       {/* 画像 */}
       <Image
         src={book.thumbnail.url}
@@ -49,16 +43,16 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
         <p className="text-gray-600">{book.description}</p>
 
         {/* 有料記事のみ価格を表示 */}
-        {(book.price ?? 0) > 0 && (
+        {book.price > 0 && (
           <p className="text-gray-800 font-bold mt-2">価格: {book.price}円</p>
         )}
 
-        {/* 有料かつ未購入の場合のみ「購入する」ボタンを表示 */}
-        {(book.price ?? 0) > 0 && !isPurchased && (
-          <button className="mt-2 text-blue-500 hover:underline">
-            購入する
-          </button>
-        )}
+        <button
+          onClick={handlePurchaseClick}
+          className="mt-2 text-blue-500 hover:underline"
+        >
+          {isPurchased ? "購入済み" : "購入する"}
+        </button>
       </div>
     </div>
   );
