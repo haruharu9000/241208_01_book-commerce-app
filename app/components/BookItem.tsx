@@ -41,7 +41,12 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
       <div className="flex-1">
         <h2 className="text-xl font-semibold">{book.title}</h2>
         <p className="text-gray-600">{book.description}</p>
-        <p className="text-gray-800 font-bold mt-2">価格: {book.price}円</p>
+
+        {/* 有料記事のみ価格を表示 */}
+        {book.price > 0 && (
+          <p className="text-gray-800 font-bold mt-2">価格: {book.price}円</p>
+        )}
+
         <button
           onClick={handlePurchaseClick}
           className="mt-2 text-blue-500 hover:underline"
