@@ -1,19 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { BookType } from "../types/types";
+import { BookType, User } from "../types/types";
 import { useRouter } from "next/navigation";
 
 type BookProps = {
   book: BookType;
   isPurchased: boolean;
+  user: User | null; // user が null の場合も考慮
 };
 
-const BookItem = ({ book, isPurchased}: BookProps) => {
+const BookItem = ({ book, isPurchased, user }: BookProps) => {
   const router = useRouter();
 
   const handleBookClick = () => {
-    if (book.price > 0 && !isPurchased) {
+    if (!user) {
+      // ユーザーが未ログインならログインページへリダイレクト
+      router.push("/api/auth/signin");
+      return;
+    }
+
+    if ((book.price ?? 0) > 0 && !isPurchased) {
       // 有料かつ未購入 → 購入画面へ
       router.push(`/checkout/${book.id}`);
     } else {
@@ -42,12 +49,12 @@ const BookItem = ({ book, isPurchased}: BookProps) => {
         <p className="text-gray-600">{book.description}</p>
 
         {/* 有料記事のみ価格を表示 */}
-        {book.price > 0 && (
+        {(book.price ?? 0) > 0 && (
           <p className="text-gray-800 font-bold mt-2">価格: {book.price}円</p>
         )}
 
         {/* 有料かつ未購入の場合のみ「購入する」ボタンを表示 */}
-        {book.price > 0 && !isPurchased && (
+        {(book.price ?? 0) > 0 && !isPurchased && (
           <button className="mt-2 text-blue-500 hover:underline">
             購入する
           </button>
