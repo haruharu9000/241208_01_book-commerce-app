@@ -15,17 +15,17 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
 
   const handleBookClick = () => {
     if (!user) {
-      // ユーザーが未ログインならログインページへリダイレクト
+      // ユーザーがログインしていない場合はログインページへ
       router.push("/api/auth/signin");
       return;
     }
 
-    if ((book.price ?? 0) > 0 && !isPurchased) {
-      // 有料かつ未購入 → 購入画面へ
-      router.push(`/checkout/${book.id}`);
+    if (book.price === 0 || isPurchased) {
+      // 無料記事 または 購入済みなら そのまま記事ページへ
+      router.push(`/articles/${book.id}`);
     } else {
-      // 無料 or 購入済み → 記事内容ページへ
-      router.push(`/article/${book.id}`);
+      // 有料記事なら決済ページへ
+      router.push(`/checkout/${book.id}`);
     }
   };
 

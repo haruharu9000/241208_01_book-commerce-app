@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 const PurchaseSuccess = () => {
-  const [sessionId, setSessionId] = useState<string | null>(null);
-  const [bookId, setBookId] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | undefined>();
+  const [bookId, setBookId] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
 
@@ -28,18 +28,23 @@ const PurchaseSuccess = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // 認証情報を含める
           body: JSON.stringify({ sessionId }),
         });
 
         if (!res.ok) {
-          throw new Error(`購入データの取得に失敗しました (${res.status})`);
+          if (res.status === 404) {
+            throw new Error("購入データが見つかりませんでした");
+          } else if (res.status === 401) {
+            throw new Error("認証が必要です。ログインしてください");
+          } else {
+            throw new Error(`購入データの取得に失敗しました (${res.status})`);
+          }
         }
 
         const data = await res.json();
         console.log("Response data:", data);
 
-        if (!data || !data.purchase.bookId) {
+        if (!data || !data.purchase || !data.purchase.bookId) {
           throw new Error("購入データが正しくありません");
         }
 
