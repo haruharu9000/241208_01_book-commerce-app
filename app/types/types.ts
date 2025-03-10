@@ -31,8 +31,8 @@ type ArticleType = {
   title: string;
   description: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type { BookType, User, Purchase, ArticleType };

@@ -21,21 +21,22 @@ const PurchaseSuccess = () => {
     if (!sessionId) return;
 
     const fetchData = async () => {
+      if (!sessionId) return;
+
       try {
         console.log("Fetching purchase data with session ID:", sessionId);
-        const res = await fetch("/api/checkout/success", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ sessionId }),
-        });
+        const res = await fetch(
+          `/api/checkout/success?session_id=${sessionId}`,
+          {
+            method: "GET",
+          }
+        );
 
         if (!res.ok) {
           if (res.status === 404) {
             throw new Error("購入データが見つかりませんでした");
-          } else if (res.status === 401) {
-            throw new Error("認証が必要です。ログインしてください");
+          } else if (res.status === 400) {
+            throw new Error("セッションIDが不足しています");
           } else {
             throw new Error(`購入データの取得に失敗しました (${res.status})`);
           }
@@ -44,7 +45,7 @@ const PurchaseSuccess = () => {
         const data = await res.json();
         console.log("Response data:", data);
 
-        if (!data || !data.purchase || !data.purchase.bookId) {
+        if (!data || !data.purchase?.bookId) {
           throw new Error("購入データが正しくありません");
         }
 

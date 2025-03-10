@@ -30,8 +30,11 @@ export const getDetailBook = async (contentId: string) => {
 
 // 記事一覧を取得
 export const getAllArticles = async (): Promise<ArticleType[]> => {
-  const allArticles = await client.get<{ contents: ArticleType[] }>({
+  const allArticles = await client.getList<ArticleType>({
     endpoint: "articles",
+    customRequestInit: {
+      cache: "no-store",
+    },
   });
 
   return allArticles.contents;
