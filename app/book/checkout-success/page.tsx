@@ -12,6 +12,8 @@ const PurchaseSuccess = () => {
 
   useEffect(() => {
     const sessionIdParam = searchParams.get("session_id");
+    console.log("Debug: Retrieved session_id from URL:", sessionIdParam);
+
     if (sessionIdParam) {
       setSessionId(sessionIdParam);
     }
@@ -24,26 +26,36 @@ const PurchaseSuccess = () => {
       if (!sessionId) return;
 
       try {
-        console.log("Fetching purchase data with session ID:", sessionId);
+        console.log(
+          "Debug: Fetching purchase data with session ID:",
+          sessionId
+        );
+
         const res = await fetch(
           `/api/checkout/success?session_id=${sessionId}`
         );
 
+        console.log("Debug: API response status:", res.status);
+
         if (!res.ok) {
           if (res.status === 404) {
-            throw new Error("購入データが見つかりませんでした");
+            throw new Error(
+              "購入データが見つかりませんでした（404 Not Found）"
+            );
           } else if (res.status === 400) {
-            throw new Error("セッションIDが不足しています");
+            throw new Error("セッションIDが不足しています（400 Bad Request）");
           } else {
-            throw new Error(`購入データの取得に失敗しました (${res.status})`);
+            throw new Error(
+              `購入データの取得に失敗しました（エラーコード: ${res.status}）`
+            );
           }
         }
 
         const data = await res.json();
-        console.log("Response data:", data);
+        console.log("Debug: Response data from API:", data);
 
         if (!data || !data.purchase?.bookId) {
-          throw new Error("購入データが正しくありません");
+          throw new Error("購入データが正しくありません（データ不整合）");
         }
 
         setBookId(data.purchase.bookId);
