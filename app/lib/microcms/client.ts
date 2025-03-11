@@ -41,8 +41,12 @@ export const getAllArticles = async (): Promise<ArticleType[]> => {
 };
 // 記事を ID で取得（追加）
 export const getArticleById = async (id: string) => {
-  return await client.get({
-    endpoint: "articles", // MicroCMS のエンドポイント名を確認
-    queries: { filters: `id[equals]${id}` },
+  const article = await client.get({
+    endpoint: "articles",
+    contentId: id,
+    customRequestInit: {
+      cache: "no-store",
+    },
   });
+  return article;
 };

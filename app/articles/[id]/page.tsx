@@ -1,16 +1,11 @@
-import { getArticleById } from "app/lib/microcms/client"; // 記事データ取得関数
+import { getArticleById } from "app/lib/microcms/client";
 import { notFound } from "next/navigation";
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ArticlePage({ params,}: { params: { id: string } }) {
   const article = await getArticleById(params.id);
-  console.log("Fetched article:", article); // デバッグ用ログ
 
   if (!article || !article.id) {
-    console.error("Article not found:", params.id);
+    console.error("Article not found", params.id);
     return notFound();
   }
 

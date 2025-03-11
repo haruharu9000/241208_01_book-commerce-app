@@ -26,10 +26,7 @@ const PurchaseSuccess = () => {
       try {
         console.log("Fetching purchase data with session ID:", sessionId);
         const res = await fetch(
-          `/api/checkout/success?session_id=${sessionId}`,
-          {
-            method: "GET",
-          }
+          `/api/checkout/success?session_id=${sessionId}`
         );
 
         if (!res.ok) {

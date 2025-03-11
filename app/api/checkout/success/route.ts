@@ -5,8 +5,7 @@ import prisma from "@/app/lib/prisma";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(request: Request) {
-    // クエリパラメータから session_id を取得
-    const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams;
     const sessionId = searchParams.get("session_id");
 
     if (!sessionId) {
