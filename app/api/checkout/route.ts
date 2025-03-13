@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   const BASE_URL =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : process.env.NEXT_PUBLIC_BASE_URL || "https://your-deployed-url.vercel.app";
+      : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000/api";
 
   const stripeSession = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],

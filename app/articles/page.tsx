@@ -12,7 +12,7 @@ export default async function ArticlesPage() {
         {articles.map((article: ArticleType) => (
           <li key={article.id} className="mb-4">
             <Link
-              href={`/articles/${article.id}`}
+              href={`/api/articles/${article.id}`}
               className="text-blue-500 hover:underline"
             >
               {article.title}

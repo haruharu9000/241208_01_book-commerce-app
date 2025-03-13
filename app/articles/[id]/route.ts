@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { client } from "app/lib/microcms/client";
+import { client } from "@/app/lib/microcms/client";
 
 export async function GET(
   request: Request,

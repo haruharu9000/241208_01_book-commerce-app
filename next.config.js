@@ -20,7 +20,7 @@ const nextConfig = {
     ],
   },
   reactStrictMode: false,
+  trailingSlash: false,  // ← 追加
 };
 
 module.exports = nextConfig;
-
