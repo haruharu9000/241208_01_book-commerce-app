@@ -3,7 +3,7 @@ import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// `ExtendedUser` 型を定義
+// ExtendedUser型を定義
 interface ExtendedUser {
   id: string;
   name?: string | null;
