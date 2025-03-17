@@ -6,12 +6,15 @@ export default async function ArticlePage({
 }: {
   params: { id: string };
 }) {
+  console.log("Fetching article with ID:", params.id); // 確認用
   const article = await client
     .get({
       endpoint: "articles",
       contentId: params.id,
     })
     .catch(() => null);
+
+  console.log("Fetched article:", article); // 確認用
 
   if (!article) return notFound();
 
