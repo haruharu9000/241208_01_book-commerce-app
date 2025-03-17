@@ -5,7 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  console.log("API called with ID:", params.id); // ここを追加
+  console.log("API called with ID:", params.id);
   const articleId = params.id;
   if (!articleId) {
     return NextResponse.json({ error: "Missing article ID" }, { status: 400 });
@@ -17,7 +17,7 @@ export async function GET(
       contentId: articleId,
     });
 
-    console.log("Fetched article:", article); // ここを追加
+    console.log("Fetched article:", article);
 
     if (!article) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
