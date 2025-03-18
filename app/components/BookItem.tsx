@@ -15,7 +15,7 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
 
   const handleBookClick = () => {
     // 無料記事の場合は、ログインチェックをスキップして直接記事ページへ
-    if (book.price === 0) {
+    if (!book.price || book.price === 0) {
       router.push(`/book/${book.id}`);
       return;
     }
@@ -61,6 +61,10 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
       console.error("Error in startCheckout:", error);
     }
   };
+
+  console.log("Book price:", book.price);
+  console.log("Is purchased:", isPurchased);
+  console.log("User:", user);
 
   return (
     <div
