@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 type BookProps = {
   book: BookType;
   isPurchased: boolean;
-  user: User | null; // user が null の場合も考慮
+  user: User | null;
 };
 
 const BookItem = ({ book, isPurchased, user }: BookProps) => {
@@ -32,7 +32,7 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
     }
   };
 
-  // 決済処理の関数を追加
+  // 決済処理の関数
   const startCheckout = async () => {
     try {
       const response = await fetch("/api/checkout", {
