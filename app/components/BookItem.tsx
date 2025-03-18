@@ -21,8 +21,8 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
     }
 
     if (book.price === 0 || isPurchased) {
-      // 無料記事 または 購入済みなら そのまま記事ページへ
-      router.push(`/articles/${book.id}`);
+      // 無料記事 または 購入済みなら 記事ページへ
+      router.push(`/book/${book.id}`);  // すべての記事を /book/[id] で表示
     } else {
       // 有料記事なら決済ページへ
       router.push(`/book/${book.id}`);
