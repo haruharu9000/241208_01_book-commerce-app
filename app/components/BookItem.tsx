@@ -22,10 +22,37 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
 
     if (book.price === 0 || isPurchased) {
       // 無料記事 または 購入済みなら 記事ページへ
-      router.push(`/book/${book.id}`);  // すべての記事を /book/[id] で表示
-    } else {
-      // 有料記事なら決済ページへ
       router.push(`/book/${book.id}`);
+    } else {
+      // 有料記事で未購入の場合は決済処理を開始
+      startCheckout();
+    }
+  };
+
+  // 決済処理の関数を追加
+  const startCheckout = async () => {
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: book.title,
+          price: book.price,
+          bookId: book.id,
+          userId: user?.id,
+          description: book.description,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.checkout_url) {
+        window.location.href = responseData.checkout_url;
+      }
+    } catch (error) {
+      console.error("Error in startCheckout:", error);
     }
   };
 
