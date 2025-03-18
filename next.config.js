@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com", "images.microcms-assets.io"],
@@ -21,6 +22,14 @@ const nextConfig = {
   },
   reactStrictMode: false,
   trailingSlash: false,  // ← 追加
+  async rewrites() {
+    return [
+      {
+        source: '/checkout/:id',
+        destination: '/checkout/:id/page',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
