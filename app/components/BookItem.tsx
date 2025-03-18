@@ -25,7 +25,7 @@ const BookItem = ({ book, isPurchased, user }: BookProps) => {
       router.push(`/articles/${book.id}`);
     } else {
       // 有料記事なら決済ページへ
-      router.push(`/checkout/${book.id}`);
+      router.push(`/book/${book.id}`);
     }
   };
 
