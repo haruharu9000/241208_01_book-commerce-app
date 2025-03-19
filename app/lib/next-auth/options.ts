@@ -16,7 +16,7 @@ interface ExtendedSession extends Session {
 }
 
 export const nextAuthOptions: NextAuthOptions = {
-  debug: true, // ✅ デバッグON（Vercelのログで確認する）
+  debug: true, // デバッグON（Vercelのログで確認する）
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
