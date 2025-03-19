@@ -1,17 +1,17 @@
 import { createClient } from "microcms-js-sdk";
 import { BookType, ArticleType } from "@/app/types/types";
 
-if (!process.env.NEXT_PUBLIC_SERVICE_DOMAIN) {
-  throw new Error("NEXT_PUBLIC_SERVICE_DOMAIN is required");
+if (!process.env.MICROCMS_SERVICE_DOMAIN) {
+  throw new Error("MICROCMS_SERVICE_DOMAIN is required");
 }
 
-if (!process.env.NEXT_PUBLIC_API_KEY) {
-  throw new Error("NEXT_PUBLIC_API_KEY is required");
+if (!process.env.MICROCMS_API_KEY) {
+  throw new Error("MICROCMS_API_KEY is required");
 }
 
 export const client = createClient({
-  serviceDomain: process.env.NEXT_PUBLIC_SERVICE_DOMAIN,
-  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: process.env.MICROCMS_API_KEY,
 });
 
 // 書籍一覧を取得
