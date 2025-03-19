@@ -22,7 +22,7 @@ export default async function ProfilePage() {
   let purchasesDetailBooks: BookType[] = [];
 
   try {
-    // API のデータ取得を 3 回リトライ
+    // API のデータ取得を3回リトライ
     let retries = 3;
     let purchasesData = null;
 
