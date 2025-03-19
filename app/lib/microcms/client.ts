@@ -1,10 +1,17 @@
-import { BookType } from "@/app/types/types";
 import { createClient } from "microcms-js-sdk";
-import { ArticleType } from "@/app/types/types";
+import { BookType, ArticleType } from "@/app/types/types";
+
+if (!process.env.MICROCMS_SERVICE_DOMAIN) {
+  throw new Error("MICROCMS_SERVICE_DOMAIN is required");
+}
+
+if (!process.env.MICROCMS_API_KEY) {
+  throw new Error("MICROCMS_API_KEY is required");
+}
 
 export const client = createClient({
-  serviceDomain: process.env.NEXT_PUBLIC_SERVICE_DOMAIN!,
-  apiKey: process.env.NEXT_PUBLIC_API_KEY!,
+  serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
+  apiKey: process.env.MICROCMS_API_KEY,
 });
 
 // 書籍一覧を取得
@@ -49,4 +56,23 @@ export const getArticleById = async (id: string) => {
     },
   });
   return article;
+};
+
+// カテゴリー別の記事一覧を取得
+export const getBooksByCategory = async (category: string) => {
+  const books = await client.get({
+    endpoint: "bookcommerce",
+    queries: {
+      filters: `category[equals]${category}`,
+    },
+  });
+  return books;
+};
+
+// カテゴリー一覧を取得
+export const getCategories = async () => {
+  const response = await client.get({
+    endpoint: "categories",
+  });
+  return response.contents;
 };

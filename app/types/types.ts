@@ -7,6 +7,7 @@ type BookType = {
   thumbnail: { url: string };
   created_at: string;
   updated_at: string;
+  category: string;
 };
 
 type User = {
@@ -35,5 +36,12 @@ type ArticleType = {
   updated_at: string;
 };
 
-export type { BookType, User, Purchase, ArticleType };
+// 既存の型定義の後に追加
+type Category = {
+  id: string;
+  name: string;
+  count: number;
+};
+
+export type { BookType, User, Purchase, ArticleType, Category };
 

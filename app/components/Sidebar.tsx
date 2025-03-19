@@ -1,8 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
+import { getCategories } from "@/app/lib/microcms/client";
+import { Category } from "@/app/types/types";
 
-const Sidebar = () => {
+const Sidebar = async () => {
+  const categories = await getCategories();
+
   return (
     <aside className="w-80 bg-slate-50 min-h-screen p-6 border-l border-gray-200">
       {/* プロフィールセクション */}
@@ -48,46 +52,23 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* カテゴリ一覧 */}
+      {/* カテゴリー一覧 */}
       <div className="mb-8">
         <h3 className="font-bold text-lg mb-4">カテゴリー</h3>
         <ul className="space-y-2">
-          <li>
-            <Link
-              href="/category/programming"
-              className="flex items-center justify-between text-gray-700 hover:text-blue-600"
-            >
-              <span>プログラミング</span>
-              <span className="text-sm text-gray-500">(12)</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/category/web"
-              className="flex items-center justify-between text-gray-700 hover:text-blue-600"
-            >
-              <span>AI・人工知能</span>
-              <span className="text-sm text-gray-500">(8)</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/category/ai"
-              className="flex items-center justify-between text-gray-700 hover:text-blue-600"
-            >
-              <span>確率・統計・データ分析</span>
-              <span className="text-sm text-gray-500">(5)</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/category/infrastructure"
-              className="flex items-center justify-between text-gray-700 hover:text-blue-600"
-            >
-              <span>科学・テクノロジー</span>
-              <span className="text-sm text-gray-500">(3)</span>
-            </Link>
-          </li>
+          {categories.map((category: Category) => (
+            <li key={category.id}>
+              <Link
+                href={`/category/${category.id}`}
+                className="flex items-center justify-between text-gray-700 hover:text-blue-600"
+              >
+                <span>{category.name}</span>
+                <span className="text-sm text-gray-500">
+                  ({category.count || 0})
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
 
