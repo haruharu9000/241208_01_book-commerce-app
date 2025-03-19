@@ -34,7 +34,7 @@ export const nextAuthOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // 🔥 `id` が undefined にならないように修正
+        token.id = user.id; // `id` が undefined にならないように修正
         token.image = user.image ?? `https://avatars.githubusercontent.com/u/${token.sub}`;
       }
       return token;
