@@ -47,7 +47,7 @@ export const nextAuthOptions: NextAuthOptions = {
       return {
         ...session,
         user: {
-          id: token.id as string || "unknown", // 🔥 `undefined` の場合デフォルト値
+          id: token.id as string || "unknown", //`undefined` の場合デフォルト値
           name: session.user?.name ?? null,
           email: session.user?.email ?? null,
           image:
