@@ -9,9 +9,7 @@ export default async function CategoryPage({
 }: {
   params: { id: string };
 }) {
-  const { contents } = (await getBooksByCategory(params.id)) as {
-    contents: BookType[];
-  };
+  const { contents } = await getBooksByCategory(params.id);
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
@@ -31,9 +29,13 @@ export default async function CategoryPage({
     }
   }
 
+  const categoryDisplayName = params.id === "worksummary" ? "日報" : params.id;
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6">カテゴリー: {params.id}</h1>
+      <h1 className="text-3xl font-bold mb-6">
+        カテゴリー: {categoryDisplayName}
+      </h1>
       <div className="space-y-6">
         {contents.map((book: BookType) => (
           <BookItem

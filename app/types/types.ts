@@ -1,15 +1,17 @@
 // 書籍の型定義
-type BookType = {
+export type BookType = {
   id: string;
   title: string;
   content: string;
-  description: string;
+  description?: string;
+  thumbnail: {
+    url: string;
+  } | null;
   price: number;
-  category: string;
-  categoryId: string;
-  thumbnail: { url: string } | null;
   created_at: string;
   updated_at: string;
+  category: string;
+  categoryId: string;
 };
 
 // ユーザーの型定義

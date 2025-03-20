@@ -93,14 +93,14 @@ export const getArticleById = async (id: string) => {
 export const getBooksByCategory = async (categoryId: string) => {
   try {
     console.log('Fetching books for categoryId:', categoryId); // デバッグ用
-    const books = await client.get({
+    const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
-        filters: `category[equals]${categoryId}`,
+        filters: `categoryId[equals]${categoryId}`,
       },
     });
-    console.log('Books by category response:', books); // デバッグ用
-    return books.contents;
+    console.log('Books by category response:', response); // デバッグ用
+    return response;
   } catch (error) {
     console.error(`Error fetching books for categoryId ${categoryId}:`, error);
     throw error;
@@ -114,7 +114,7 @@ export const getCategories = async (): Promise<Category[]> => {
     const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
-        fields: ['id', 'category'].join(','),
+        fields: ['id', 'categoryId', 'category'].join(','),
         limit: 100
       },
     });
@@ -127,17 +127,18 @@ export const getCategories = async (): Promise<Category[]> => {
 
     // カテゴリー情報を整形して返す
     const categoriesMap = response.contents.reduce((acc: { [key: string]: Category }, content: BookType) => {
+      const categoryId = content.categoryId;
       const categoryName = content.category;
-      if (!categoryName) return acc;
+      if (!categoryId || !categoryName) return acc;
 
-      if (!acc[categoryName]) {
-        acc[categoryName] = {
-          id: categoryName, // カテゴリー名をIDとしても使用
+      if (!acc[categoryId]) {
+        acc[categoryId] = {
+          id: categoryId,
           name: categoryName,
           count: 1
         };
       } else {
-        acc[categoryName].count = (acc[categoryName].count || 0) + 1;
+        acc[categoryId].count = (acc[categoryId].count || 0) + 1;
       }
       return acc;
     }, {});
