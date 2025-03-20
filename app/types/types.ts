@@ -1,3 +1,5 @@
+import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
+
 // 書籍の型定義
 type BookType = {
   id: string;
@@ -8,10 +10,7 @@ type BookType = {
   description: string;
   category: string;
   categoryId: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-};
+} & MicroCMSContentId & MicroCMSDate;
 
 // ユーザーの型定義
 type User = {
@@ -37,9 +36,7 @@ type ArticleType = {
   title: string;
   description: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
-};
+} & MicroCMSContentId & MicroCMSDate;
 
 // カテゴリーの型定義
 type Category = {
