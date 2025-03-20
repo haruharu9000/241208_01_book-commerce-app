@@ -47,10 +47,10 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="flex justify-between items-center mt-2">
           <span className="text-sm text-gray-500">
-            公開日: {book.created_at}
+            公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
           </span>
           <span className="text-sm text-gray-500">
-            最終更新: {book.updated_at}
+            最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
           </span>
         </div>
       </div>
