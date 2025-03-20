@@ -32,7 +32,11 @@ const PurchaseDetailBook = ({
           </h2>
           <p className="text-gray-600 mb-4">{purchaseDetailBook.description}</p>
           <p className="text-lg font-bold">
-            価格：{purchaseDetailBook.price.toLocaleString()}円
+            価格：
+            {typeof purchaseDetailBook.price === "number"
+              ? purchaseDetailBook.price.toLocaleString()
+              : 0}
+            円
           </p>
         </div>
       </div>
