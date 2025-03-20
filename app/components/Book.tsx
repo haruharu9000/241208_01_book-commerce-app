@@ -90,7 +90,7 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
         >
           <Image
             priority
-            src={book.thumbnail.url}
+            src={book.thumbnail?.url ?? ''}
             alt={book.title}
             width={450}
             height={350}

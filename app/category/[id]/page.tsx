@@ -40,7 +40,6 @@ export default async function CategoryPage({
             key={book.id}
             book={book}
             isPurchased={purchaseBookIds.includes(book.id)}
-            user={user}
           />
         ))}
       </div>

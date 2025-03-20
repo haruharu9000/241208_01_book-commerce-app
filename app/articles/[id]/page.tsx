@@ -15,22 +15,24 @@ export default async function ArticlePage({
     }
 
     return (
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <Image
-            src={book.thumbnail.url}
-            alt={book.title}
-            width={1200}
-            height={600}
-            className="w-full h-64 object-cover"
-          />
-          <div className="p-6">
-            <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: book.content }}
+      <div>
+        {book.thumbnail && (
+          <div className="w-full h-64 object-cover">
+            <Image
+              src={book.thumbnail.url}
+              alt={book.title}
+              width={1200}
+              height={600}
+              className="w-full h-64 object-cover"
             />
           </div>
+        )}
+        <div className="p-6">
+          <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
+          <div
+            className="prose max-w-none"
+            dangerouslySetInnerHTML={{ __html: book.content }}
+          />
         </div>
       </div>
     );

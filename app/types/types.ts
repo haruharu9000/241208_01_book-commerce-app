@@ -1,15 +1,18 @@
+// 書籍の型定義
 type BookType = {
   id: string;
   title: string;
-  price: number;
   content: string;
   description: string;
-  thumbnail: { url: string };
+  price: number;
+  category: string;
+  categoryId: string;
+  thumbnail: { url: string } | null;
   created_at: string;
   updated_at: string;
-  category: string;
 };
 
+// ユーザーの型定義
 type User = {
   id: string;
   name?: string | null | undefined;
@@ -17,6 +20,7 @@ type User = {
   image?: string | null | undefined;
 };
 
+// 購入情報の型定義
 type Purchase = {
   id: string;
   userId: string;
@@ -26,7 +30,7 @@ type Purchase = {
   user: User;
 };
 
-// 追加: 記事（Article）用の型
+// 記事の型定義
 type ArticleType = {
   id: string;
   title: string;
@@ -36,12 +40,13 @@ type ArticleType = {
   updated_at: string;
 };
 
-// 既存の型定義の後に追加
+// カテゴリーの型定義
 type Category = {
   id: string;
   name: string;
-  count: number;
+  count?: number;
 };
 
+// まとめてエクスポート
 export type { BookType, User, Purchase, ArticleType, Category };
 

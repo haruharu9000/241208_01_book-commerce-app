@@ -1,5 +1,5 @@
 import { createClient } from "microcms-js-sdk";
-import { BookType, ArticleType } from "@/app/types/types";
+import { BookType, ArticleType, Category } from "@/app/types/types";
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN && !process.env.NEXT_PUBLIC_SERVICE_DOMAIN) {
   throw new Error("MICROCMS_SERVICE_DOMAIN or NEXT_PUBLIC_SERVICE_DOMAIN is required");
@@ -90,42 +90,60 @@ export const getArticleById = async (id: string) => {
 };
 
 // カテゴリー別の記事一覧を取得
-export const getBooksByCategory = async (category: string) => {
+export const getBooksByCategory = async (categoryId: string) => {
   try {
-    console.log('Fetching books for category:', category); // デバッグ用
+    console.log('Fetching books for categoryId:', categoryId); // デバッグ用
     const books = await client.get({
       endpoint: "bookcommerce",
       queries: {
-        filters: `category[equals]${category}`,
+        filters: `category[equals]${categoryId}`,
       },
     });
-    return books;
+    console.log('Books by category response:', books); // デバッグ用
+    return books.contents;
   } catch (error) {
-    console.error(`Error fetching books for category ${category}:`, error);
+    console.error(`Error fetching books for categoryId ${categoryId}:`, error);
     throw error;
   }
 };
 
-// カテゴリー一覧を取得（修正）
-export const getCategories = async () => {
+// カテゴリー一覧を取得
+export const getCategories = async (): Promise<Category[]> => {
   try {
     console.log('Fetching categories...'); // デバッグ用
     const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
-        fields: 'category',
+        fields: ['id', 'category'].join(','),
         limit: 100
       },
     });
-    
-    // カテゴリーの重複を除去して返す
-    const categories = response.contents
-      .map((content: BookType) => content.category)
-      .filter((category: string) => category) // null や undefined を除外
-      .filter((category: string, index: number, self: string[]) => 
-        self.indexOf(category) === index // 重複を除去
-      );
-    
+    console.log('Categories response:', response); // デバッグ用
+
+    if (!response?.contents?.length) {
+      console.log('No contents found in response');
+      return [];
+    }
+
+    // カテゴリー情報を整形して返す
+    const categoriesMap = response.contents.reduce((acc: { [key: string]: Category }, content: BookType) => {
+      const categoryName = content.category;
+      if (!categoryName) return acc;
+
+      if (!acc[categoryName]) {
+        acc[categoryName] = {
+          id: categoryName, // カテゴリー名をIDとしても使用
+          name: categoryName,
+          count: 1
+        };
+      } else {
+        acc[categoryName].count = (acc[categoryName].count || 0) + 1;
+      }
+      return acc;
+    }, {});
+
+    const categories = Object.values(categoriesMap) as Category[];
+    console.log('Processed categories:', categories); // デバッグ用
     return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);

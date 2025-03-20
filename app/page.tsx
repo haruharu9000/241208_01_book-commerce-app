@@ -37,7 +37,6 @@ export default async function Home() {
             key={book.id}
             book={book}
             isPurchased={purchaseBookIds.includes(book.id)}
-            user={user}
           />
         ))}
       </div>
