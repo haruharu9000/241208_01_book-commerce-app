@@ -28,28 +28,30 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
     return (
       <div className="container mx-auto p-4">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <Image
-            src={book.thumbnail.url}
-            alt={book.title}
-            className="w-full h-80 object-cover object-center"
-            width={700}
-            height={700}
-          />
-        </div>
-        <div className="p-4">
-          <h2 className="text-2xl font-bold">{book.title}</h2>
-          <div
-            className="text-gray-700 mt-2"
-            dangerouslySetInnerHTML={{ __html: book.content }}
-          />
-          <div className="flex justify-between items-center mt-2">
-            <span className="text-sm text-gray-500">
-              公開日: {book.created_at}
-            </span>
-            <span className="text-sm text-gray-500">
-              最終更新: {book.updated_at}
-            </span>
+          {book.thumbnail && (
+            <Image
+              src={book.thumbnail.url}
+              alt={book.title}
+              className="w-full h-80 object-cover object-center"
+              width={700}
+              height={400}
+            />
+          )}
+          <div className="p-6">
+            <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
+            <div
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: book.content }}
+            />
           </div>
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-sm text-gray-500">
+            公開日: {book.created_at}
+          </span>
+          <span className="text-sm text-gray-500">
+            最終更新: {book.updated_at}
+          </span>
         </div>
       </div>
     );
