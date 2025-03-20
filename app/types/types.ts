@@ -1,5 +1,5 @@
 // 書籍の型定義
-export type BookType = {
+type BookType = {
   id: string;
   title: string;
   content: string;
