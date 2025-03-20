@@ -1,21 +1,17 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import { getCategories } from "@/app/lib/microcms/client";
+import {
+  getCategories,
+  getAllBooks,
+  getBooksByMonth,
+} from "@/app/lib/microcms/client";
 import { Category } from "@/app/types/types";
 import { BookType } from "../types/types";
 
-type SidebarProps = {
-  groupedBooks: { [key: string]: BookType[] };
-  sortedMonths: string[];
-  contents: BookType[];
-};
-
-const Sidebar = async ({
-  groupedBooks,
-  sortedMonths,
-  contents,
-}: SidebarProps) => {
+const Sidebar = async () => {
+  const { contents } = await getAllBooks();
+  const { groupedBooks, sortedMonths } = await getBooksByMonth();
   const categories = await getCategories();
 
   return (

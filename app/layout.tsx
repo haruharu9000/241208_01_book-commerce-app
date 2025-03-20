@@ -29,7 +29,11 @@ export default function RootLayout({
               <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6">
                 <Suspense fallback={<Loading />}>{children}</Suspense>
               </main>
-              <Sidebar />
+              <div className="w-full lg:w-1/4 mt-6 lg:mt-0">
+                <Suspense fallback={<Loading />}>
+                  <Sidebar />
+                </Suspense>
+              </div>
             </div>
           </div>
         </NextAuthProvider>
