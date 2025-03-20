@@ -22,7 +22,7 @@ const Sidebar = async () => {
           <div className="flex items-center space-x-4 mb-4">
             <div className="w-16 h-16 relative rounded-full overflow-hidden">
               <Image
-                src="/default-avatar.png"
+                src="/profile-icon.jpg"
                 alt="Profile"
                 fill
                 className="object-cover"
