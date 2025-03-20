@@ -2,11 +2,10 @@ import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 
 // 書籍の型定義
 type BookType = {
-  id: string;
   title: string;
   content: string;
   price: number;
-  thumbnail: { url: string } | null;
+  thumbnail: { url: string };  // 必須フィールドなのでnullは除去
   description: string;
   category: string;
   categoryId: string;
