@@ -11,9 +11,9 @@ export default function BookItem({
   isPurchased: boolean;
 }) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden">
       {book.thumbnail && (
-        <div className="relative w-full h-48">
+        <div className="relative w-full h-40">
           <Image
             src={book.thumbnail.url}
             alt={book.title}
@@ -23,21 +23,25 @@ export default function BookItem({
           />
         </div>
       )}
-      <div className="p-4 flex-grow">
-        <h2 className="text-xl font-bold mb-2">{book.title}</h2>
-        <p className="text-gray-600 mb-4">{book.description}</p>
-        <p className="text-lg font-bold">
-          {typeof book.price === "number" && book.price === 0
-            ? "無料"
-            : typeof book.price === "number"
-              ? `¥${book.price.toLocaleString()}`
-              : "¥0"}
+      <div className="p-4">
+        <h2 className="text-lg font-bold mb-2">{book.title}</h2>
+        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+          {book.description}
         </p>
-        {isPurchased && (
-          <span className="bg-green-500 text-white px-2 py-1 rounded-md text-sm">
-            購入済み
-          </span>
-        )}
+        <div className="flex justify-between items-center">
+          <p className="text-lg font-bold">
+            {typeof book.price === "number" && book.price === 0
+              ? "無料"
+              : typeof book.price === "number"
+                ? `¥${book.price.toLocaleString()}`
+                : "¥0"}
+          </p>
+          {isPurchased && (
+            <span className="bg-green-500 text-white px-2 py-1 rounded-md text-sm">
+              購入済み
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
