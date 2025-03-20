@@ -4,7 +4,7 @@ import Image from "next/image";
 import { BookType } from "../types/types";
 
 type purchaseDetailBookProps = {
-    purchaseDetailBook: BookType;
+  purchaseDetailBook: BookType;
 };
 
 const PurchaseDetailBook = ({
@@ -15,22 +15,26 @@ const PurchaseDetailBook = ({
       href={`/book/${purchaseDetailBook.id}`}
       className="cursor-pointer shadow-2xl duration-300 hover:translate-y-1 hover:shadow-none"
     >
-      <Image
-        priority
-        src={purchaseDetailBook.thumbnail.url}
-        alt={purchaseDetailBook.title}
-        width={400}
-        height={300}
-        className="rounded-t-md"
-      />
-      <div className="px-4 py-4 bg-slate-100 rounded-b-md">
-        <h2 className="text-lg font-semibold">{purchaseDetailBook.title}</h2>
-        <p className="mt-2 text-lg text-slate-600">
-          {purchaseDetailBook.description}
-        </p>
-        <p className="mt-2 text-md text-slate-700">
-          価格：{purchaseDetailBook.price}円
-        </p>
+      <div className="flex flex-col md:flex-row items-center bg-white rounded-lg overflow-hidden">
+        {purchaseDetailBook.thumbnail && (
+          <Image
+            priority
+            src={purchaseDetailBook.thumbnail.url}
+            alt={purchaseDetailBook.title}
+            width={400}
+            height={300}
+            className="w-full md:w-1/3 object-cover"
+          />
+        )}
+        <div className="p-6 md:w-2/3">
+          <h2 className="text-2xl font-bold mb-4">
+            {purchaseDetailBook.title}
+          </h2>
+          <p className="text-gray-600 mb-4">{purchaseDetailBook.description}</p>
+          <p className="text-lg font-bold">
+            価格：{purchaseDetailBook.price.toLocaleString()}円
+          </p>
+        </div>
       </div>
     </Link>
   );
