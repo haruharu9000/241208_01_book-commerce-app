@@ -154,45 +154,31 @@ export const getCategories = async (): Promise<Category[]> => {
 
 // 月別の記事一覧を取得
 export const getBooksByMonth = async () => {
-  try {
-    const response = await client.get({
-      endpoint: "bookcommerce",
-      queries: {
-        fields: ['id', 'title', 'createdAt'],
-        limit: 100,
-        orders: '-createdAt'
-      },
-      customRequestInit: {
-        next: { revalidate: 3600 }
-      },
-    });
+  const response = await client.getList<BookType>({
+    endpoint: "bookcommerce",
+    queries: { limit: 100 },
+  });
 
-    // 記事を月ごとにグループ化
-    const groupedBooks = response.contents.reduce((acc: { [key: string]: BookType[] }, book: BookType) => {
-      const date = new Date(book.createdAt);
-      const yearMonth = `${date.getFullYear()}年${date.getMonth() + 1}月`;
-      
-      if (!acc[yearMonth]) {
-        acc[yearMonth] = [];
-      }
-      acc[yearMonth].push(book);
-      return acc;
-    }, {});
+  const books = response.contents;
+  const groupedBooks: { [key: string]: BookType[] } = {};
 
-    // 月別にソートされた配列に変換
-    const sortedMonths = Object.keys(groupedBooks).sort((a, b) => {
-      const [yearA, monthA] = a.split('年').map(part => parseInt(part));
-      const [yearB, monthB] = b.split('年').map(part => parseInt(part));
-      if (yearA !== yearB) return yearB - yearA;
-      return monthB - monthA;
-    });
+  books.forEach((book) => {
+    const date = new Date(book.createdAt);
+    const yearMonth = `${date.getFullYear()}年${date.getMonth() + 1}月`;
+    
+    if (!groupedBooks[yearMonth]) {
+      groupedBooks[yearMonth] = [];
+    }
+    groupedBooks[yearMonth].push(book);
+  });
 
-    return {
-      groupedBooks,
-      sortedMonths
-    };
-  } catch (error) {
-    console.error("Error fetching books by month:", error);
-    throw error;
-  }
+  // 月別にソートされた配列を作成
+  const sortedMonths = Object.keys(groupedBooks).sort((a, b) => {
+    const [yearA, monthA] = a.split('年').map(part => parseInt(part));
+    const [yearB, monthB] = b.split('年').map(part => parseInt(part));
+    if (yearA !== yearB) return yearB - yearA;
+    return monthB - monthA;
+  });
+
+  return { groupedBooks, sortedMonths };
 };

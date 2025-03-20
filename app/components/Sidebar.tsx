@@ -12,8 +12,8 @@ import { BookType } from "../types/types";
 const Sidebar = async () => {
   try {
     const { contents } = await getAllBooks();
-    const { groupedBooks, sortedMonths } = await getBooksByMonth();
     const categories = await getCategories();
+    const { groupedBooks, sortedMonths } = await getBooksByMonth();
 
     return (
       <div className="space-y-6">

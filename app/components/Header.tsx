@@ -4,6 +4,7 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth/options";
 import { User } from "../types/types";
+import LogoutButton from "./LogoutButton";
 
 const Header = async () => {
   const session = await getServerSession(nextAuthOptions);
@@ -29,26 +30,22 @@ const Header = async () => {
             {user ? "プロフィール" : "ログイン"}
           </Link>
 
-          {user ? (
-            <Link
-              href={"/api/auth/signout"}
-              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >
-              ログアウト
-            </Link>
+          {session ? (
+            <div className="flex items-center space-x-4">
+              <Link href="/profile">
+                <Image
+                  src={session.user?.image || "/default-avatar.png"}
+                  alt="プロフィール"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </Link>
+              <LogoutButton />
+            </div>
           ) : (
             ""
           )}
-
-          <Link href={`/profile`}>
-            <Image
-              className="rounded-full"
-              width={50}
-              height={50}
-              alt="profile_icon"
-              src={user?.image || "/default_icon.png"}
-            />
-          </Link>
         </div>
       </nav>
     </header>
