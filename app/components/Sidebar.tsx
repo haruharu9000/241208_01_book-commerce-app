@@ -20,13 +20,16 @@ const Sidebar = async () => {
         {/* プロフィールセクション */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center space-x-4 mb-4">
-            <div className="w-16 h-16 relative rounded-full overflow-hidden">
-              <Image
-                src="/profile-icon.jpg"
-                alt="Profile"
-                fill
-                className="object-cover"
-              />
+            <div className="w-[200px] relative">
+              <div className="relative w-full pt-[75%]">
+                <Image
+                  src="/profile-icon.jpg"
+                  alt="Profile"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className="rounded-lg"
+                />
+              </div>
             </div>
             <div>
               <h2 className="text-xl font-bold">hoge</h2>
