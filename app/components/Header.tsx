@@ -4,7 +4,6 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth/options";
 import { User } from "../types/types";
-import LogoutButton from "./LogoutButton";
 
 const Header = async () => {
   const session = await getServerSession(nextAuthOptions);
@@ -30,21 +29,16 @@ const Header = async () => {
             {user ? "プロフィール" : "ログイン"}
           </Link>
 
-          {session ? (
-            <div className="flex items-center space-x-4">
-              <Link href="/profile">
-                <Image
-                  src={session.user?.image || "/default-avatar.png"}
-                  alt="プロフィール"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-              </Link>
-              <LogoutButton />
-            </div>
-          ) : (
-            ""
+          {session && (
+            <Link href="/profile">
+              <Image
+                src={session.user?.image || "/default-avatar.png"}
+                alt="プロフィール"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            </Link>
           )}
         </div>
       </nav>

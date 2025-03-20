@@ -182,3 +182,26 @@ export const getBooksByMonth = async () => {
 
   return { groupedBooks, sortedMonths };
 };
+
+// 特定の月の記事一覧を取得
+export const getBooksBySpecificMonth = async (yearMonth: string) => {
+  try {
+    const response = await client.getList<BookType>({
+      endpoint: "bookcommerce",
+      queries: { 
+        limit: 100,
+        orders: '-createdAt'
+      },
+    });
+
+    const books = response.contents;
+    return books.filter((book) => {
+      const date = new Date(book.createdAt);
+      const bookYearMonth = `${date.getFullYear()}年${date.getMonth() + 1}月`;
+      return bookYearMonth === yearMonth;
+    });
+  } catch (error) {
+    console.error("Error fetching books for specific month:", error);
+    throw error;
+  }
+};
