@@ -12,6 +12,8 @@ if (!process.env.MICROCMS_API_KEY && !process.env.NEXT_PUBLIC_API_KEY) {
 const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
 const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
 
+console.log('MicroCMS Service Domain:', serviceDomain); // デバッグ用
+
 export const client = createClient({
   serviceDomain: serviceDomain!,
   apiKey: apiKey!,
@@ -20,6 +22,7 @@ export const client = createClient({
 // 書籍一覧を取得
 export const getAllBooks = async () => {
   try {
+    console.log('Fetching all books...'); // デバッグ用
     const allBooks = await client.get({
       endpoint: "bookcommerce",
       queries: { limit: 100 },
@@ -27,6 +30,7 @@ export const getAllBooks = async () => {
         next: { revalidate: 3600 }
       },
     });
+    console.log('Books fetched successfully:', allBooks); // デバッグ用
     return allBooks;
   } catch (error) {
     console.error("Error fetching all books:", error);
@@ -37,6 +41,7 @@ export const getAllBooks = async () => {
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
   try {
+    console.log('Fetching book detail for ID:', contentId); // デバッグ用
     const detailBook = await client.getListDetail<BookType>({
       endpoint: "bookcommerce",
       contentId,
@@ -51,42 +56,66 @@ export const getDetailBook = async (contentId: string) => {
 
 // 記事一覧を取得
 export const getAllArticles = async (): Promise<ArticleType[]> => {
-  const allArticles = await client.getList<ArticleType>({
-    endpoint: "articles",
-    customRequestInit: {
-      cache: "no-store",
-    },
-  });
-
-  return allArticles.contents;
+  try {
+    console.log('Fetching all articles...'); // デバッグ用
+    const allArticles = await client.getList<ArticleType>({
+      endpoint: "articles",
+      customRequestInit: {
+        cache: "no-store",
+      },
+    });
+    return allArticles.contents;
+  } catch (error) {
+    console.error("Error fetching all articles:", error);
+    throw error;
+  }
 };
-// 記事を ID で取得（追加）
+
+// 記事を ID で取得
 export const getArticleById = async (id: string) => {
-  const article = await client.get({
-    endpoint: "articles",
-    contentId: id,
-    customRequestInit: {
-      cache: "no-store",
-    },
-  });
-  return article;
+  try {
+    console.log('Fetching article for ID:', id); // デバッグ用
+    const article = await client.get({
+      endpoint: "articles",
+      contentId: id,
+      customRequestInit: {
+        cache: "no-store",
+      },
+    });
+    return article;
+  } catch (error) {
+    console.error(`Error fetching article for ID ${id}:`, error);
+    throw error;
+  }
 };
 
 // カテゴリー別の記事一覧を取得
 export const getBooksByCategory = async (category: string) => {
-  const books = await client.get({
-    endpoint: "bookcommerce",
-    queries: {
-      filters: `category[equals]${category}`,
-    },
-  });
-  return books;
+  try {
+    console.log('Fetching books for category:', category); // デバッグ用
+    const books = await client.get({
+      endpoint: "bookcommerce",
+      queries: {
+        filters: `category[equals]${category}`,
+      },
+    });
+    return books;
+  } catch (error) {
+    console.error(`Error fetching books for category ${category}:`, error);
+    throw error;
+  }
 };
 
 // カテゴリー一覧を取得
 export const getCategories = async () => {
-  const response = await client.get({
-    endpoint: "categories",
-  });
-  return response.contents;
+  try {
+    console.log('Fetching categories...'); // デバッグ用
+    const response = await client.get({
+      endpoint: "categories",
+    });
+    return response.contents;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw error;
+  }
 };
