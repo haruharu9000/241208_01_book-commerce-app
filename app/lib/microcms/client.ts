@@ -106,14 +106,27 @@ export const getBooksByCategory = async (category: string) => {
   }
 };
 
-// カテゴリー一覧を取得
+// カテゴリー一覧を取得（修正）
 export const getCategories = async () => {
   try {
     console.log('Fetching categories...'); // デバッグ用
     const response = await client.get({
-      endpoint: "categories",
+      endpoint: "bookcommerce",
+      queries: {
+        fields: 'category',
+        limit: 100
+      },
     });
-    return response.contents;
+    
+    // カテゴリーの重複を除去して返す
+    const categories = response.contents
+      .map((content: BookType) => content.category)
+      .filter((category: string) => category) // null や undefined を除外
+      .filter((category: string, index: number, self: string[]) => 
+        self.indexOf(category) === index // 重複を除去
+      );
+    
+    return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);
     throw error;
