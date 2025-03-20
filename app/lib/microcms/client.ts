@@ -151,3 +151,45 @@ export const getCategories = async (): Promise<Category[]> => {
     throw error;
   }
 };
+
+// 月別の記事一覧を取得
+export const getBooksByMonth = async () => {
+  try {
+    const response = await client.get({
+      endpoint: "bookcommerce",
+      queries: {
+        fields: ['id', 'title', 'created_at'],
+        limit: 100,
+        orders: '-created_at'
+      },
+    });
+
+    // 記事を月ごとにグループ化
+    const groupedBooks = response.contents.reduce((acc: { [key: string]: BookType[] }, book: BookType) => {
+      const date = new Date(book.created_at);
+      const yearMonth = `${date.getFullYear()}年${date.getMonth() + 1}月`;
+      
+      if (!acc[yearMonth]) {
+        acc[yearMonth] = [];
+      }
+      acc[yearMonth].push(book);
+      return acc;
+    }, {});
+
+    // 月別にソートされた配列に変換
+    const sortedMonths = Object.keys(groupedBooks).sort((a, b) => {
+      const [yearA, monthA] = a.split('年').map(part => parseInt(part));
+      const [yearB, monthB] = b.split('年').map(part => parseInt(part));
+      if (yearA !== yearB) return yearB - yearA;
+      return monthB - monthA;
+    });
+
+    return {
+      groupedBooks,
+      sortedMonths
+    };
+  } catch (error) {
+    console.error("Error fetching books by month:", error);
+    throw error;
+  }
+};
