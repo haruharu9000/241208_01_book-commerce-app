@@ -9,9 +9,11 @@ export default async function ArchivePage({
 }: {
   params: { date: string };
 }) {
+  // URLデコードを行う
+  const decodedDate = decodeURIComponent(params.date);
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
-  const books = await getBooksBySpecificMonth(params.date);
+  const books = await getBooksBySpecificMonth(decodedDate);
 
   let purchaseBookIds: string[] = [];
 
@@ -31,7 +33,7 @@ export default async function ArchivePage({
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6">アーカイブ: {params.date}</h1>
+      <h1 className="text-3xl font-bold mb-6">アーカイブ: {decodedDate}</h1>
       {books.length > 0 ? (
         <div className="space-y-6">
           {books.map((book) => (
