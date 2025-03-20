@@ -1,15 +1,22 @@
-import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
+// MicroCMSのレスポンス型
+type MicroCMSType = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+};
 
 // 書籍の型定義
 type BookType = {
   title: string;
   content: string;
   price: number;
-  thumbnail: { url: string };  // 必須フィールドなのでnullは除去
+  thumbnail: { url: string };
   description: string;
   category: string;
   categoryId: string;
-} & MicroCMSContentId & MicroCMSDate;
+} & MicroCMSType;
 
 // ユーザーの型定義
 type User = {
@@ -31,11 +38,10 @@ type Purchase = {
 
 // 記事の型定義
 type ArticleType = {
-  id: string;
   title: string;
   description: string;
   content: string;
-} & MicroCMSContentId & MicroCMSDate;
+} & MicroCMSType;
 
 // カテゴリーの型定義
 type Category = {

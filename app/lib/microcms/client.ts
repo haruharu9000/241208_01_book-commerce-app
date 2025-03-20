@@ -158,9 +158,9 @@ export const getBooksByMonth = async () => {
     const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
-        fields: ['id', 'title', 'publishedAt'],
+        fields: ['id', 'title', 'createdAt'],
         limit: 100,
-        orders: '-publishedAt'
+        orders: '-createdAt'
       },
       customRequestInit: {
         next: { revalidate: 3600 }
@@ -168,8 +168,8 @@ export const getBooksByMonth = async () => {
     });
 
     // 記事を月ごとにグループ化
-    const groupedBooks = response.contents.reduce((acc: { [key: string]: BookType[] }, book: BookType & { publishedAt: string }) => {
-      const date = new Date(book.publishedAt);
+    const groupedBooks = response.contents.reduce((acc: { [key: string]: BookType[] }, book: BookType) => {
+      const date = new Date(book.createdAt);
       const yearMonth = `${date.getFullYear()}年${date.getMonth() + 1}月`;
       
       if (!acc[yearMonth]) {
