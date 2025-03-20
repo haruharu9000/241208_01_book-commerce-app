@@ -12,36 +12,36 @@ export default function BookItem({
   isPurchased: boolean;
 }) {
   return (
-    <Link href={`/book/${book.id}`} className="block">
-      <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <Link href={`/book/${book.id}`} className="block hover:opacity-80">
+      <div className="flex bg-white rounded-lg overflow-hidden shadow-md">
         {book.thumbnail && (
-          <div className="relative w-full h-40">
-            <Image
-              src={book.thumbnail.url}
-              alt={book.title}
-              fill
-              style={{ objectFit: "cover" }}
-              className="rounded-t-lg"
-            />
+          <div className="w-1/4 min-w-[200px]">
+            <div className="relative w-full pt-[75%]">
+              <Image
+                src={book.thumbnail.url}
+                alt={book.title}
+                fill
+                style={{ objectFit: "cover" }}
+                className="rounded-l-lg"
+              />
+            </div>
           </div>
         )}
-        <div className="p-4">
-          <h2 className="text-lg font-bold mb-2">{book.title}</h2>
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-            {book.description}
-          </p>
-          <div className="flex justify-between items-center">
-            <p className="text-lg font-bold">
-              {typeof book.price === "number" && book.price === 0
-                ? "無料"
-                : typeof book.price === "number"
-                  ? `¥${book.price.toLocaleString()}`
-                  : "¥0"}
-            </p>
-            {isPurchased && (
-              <span className="bg-green-500 text-white px-2 py-1 rounded-md text-sm">
-                購入済み
-              </span>
+        <div className="flex-1 p-6">
+          <h2 className="text-xl font-bold mb-2">{book.title}</h2>
+          <p className="text-gray-600 mb-4">{book.description}</p>
+          <div className="mt-auto">
+            {typeof book.price === "number" && book.price > 0 && (
+              <div className="flex items-center">
+                <p className="text-lg font-bold text-blue-600">
+                  ¥{book.price.toLocaleString()}
+                </p>
+                <span
+                  className={`ml-4 ${isPurchased ? "text-green-600" : "text-blue-600 hover:text-blue-800"}`}
+                >
+                  {isPurchased ? "購入済み" : "購入する"}
+                </span>
+              </div>
             )}
           </div>
         </div>
