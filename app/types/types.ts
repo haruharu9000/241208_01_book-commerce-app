@@ -3,15 +3,14 @@ type BookType = {
   id: string;
   title: string;
   content: string;
-  description?: string;
-  thumbnail: {
-    url: string;
-  } | null;
   price: number;
-  created_at: string;
-  updated_at: string;
+  thumbnail: { url: string } | null;
+  description: string;
   category: string;
   categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 };
 
 // ユーザーの型定義
@@ -38,8 +37,8 @@ type ArticleType = {
   title: string;
   description: string;
   content: string;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 // カテゴリーの型定義

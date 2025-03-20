@@ -21,19 +21,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={(notoSansJP.className, "min-h-screen bg-gray-100")}>
+      <body className={`${notoSansJP.className} min-h-screen bg-gray-100`}>
         <NextAuthProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
-            <div className="flex px-4 py-6 flex-col lg:flex-row">
-              <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 py-6">
+              <main className="flex-1 lg:mr-6">
                 <Suspense fallback={<Loading />}>{children}</Suspense>
               </main>
-              <div className="w-full lg:w-1/4 mt-6 lg:mt-0">
+              <aside className="w-full lg:w-80 mt-6 lg:mt-0">
                 <Suspense fallback={<Loading />}>
                   <Sidebar />
                 </Suspense>
-              </div>
+              </aside>
             </div>
           </div>
         </NextAuthProvider>

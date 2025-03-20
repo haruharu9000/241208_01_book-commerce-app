@@ -1,14 +1,12 @@
 import BookItem from "./components/BookItem";
-import Sidebar from "./components/Sidebar";
 import { BookType, Purchase, User } from "./types/types";
-import { getAllBooks, getBooksByMonth } from "./lib/microcms/client";
+import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "./lib/next-auth/options";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
   const { contents } = await getAllBooks();
-  const { groupedBooks, sortedMonths } = await getBooksByMonth();
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
@@ -44,13 +42,6 @@ export default async function Home() {
               />
             ))}
           </div>
-        </div>
-        <div className="md:col-span-1">
-          <Sidebar
-            groupedBooks={groupedBooks}
-            sortedMonths={sortedMonths}
-            contents={contents}
-          />
         </div>
       </div>
     </div>
