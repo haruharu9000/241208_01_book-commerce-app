@@ -15,9 +15,6 @@ const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
 export const client = createClient({
   serviceDomain: serviceDomain!,
   apiKey: apiKey!,
-  retry: true,
-  retryStatus: [404, 500],
-  retryLimit: 3,
 });
 
 // 書籍一覧を取得
