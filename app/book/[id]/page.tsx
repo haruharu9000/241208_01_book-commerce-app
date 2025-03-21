@@ -1,6 +1,6 @@
 import { getDetailBook } from "@/app/lib/microcms/client";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
@@ -19,6 +19,7 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
   }
 
   try {
+    console.log("Fetching book details for ID:", id);
     // 本のデータを取得
     const book = await getDetailBook(id);
 
@@ -28,23 +29,82 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       return notFound();
     }
 
+    console.log("Book data retrieved successfully:", {
+      title: book.title,
+      id: book.id,
+    });
+
     // 購入状態を確認
     let isPurchased = false;
     if (user) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-        { cache: "no-store" }
-      );
-      if (response.ok) {
-        const purchases = await response.json();
-        isPurchased = purchases.some(
-          (purchase: Purchase) => purchase.bookId === id
+      console.log("Checking purchase status for user:", user.id);
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
+          {
+            cache: "no-store",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
+
+        if (response.ok) {
+          const purchases = await response.json();
+          console.log("Purchases data retrieved:", purchases);
+          isPurchased = purchases.some(
+            (purchase: Purchase) => purchase.bookId === id
+          );
+          console.log("Is book purchased:", isPurchased);
+        } else {
+          console.error(
+            "Purchase check failed:",
+            response.status,
+            await response.text()
+          );
+        }
+      } catch (purchaseError) {
+        console.error("Error checking purchase status:", purchaseError);
+        // 購入確認でエラーが発生しても、コンテンツは表示する（未購入として扱う）
+      }
+    }
+
+    // 有料記事で未購入の場合の処理
+    if (book.price > 0 && !isPurchased) {
+      if (!user) {
+        // 未ログインの場合はログインページへ
+        redirect("/api/auth/signin");
+      } else {
+        // ログイン済みの場合は決済処理を開始
+        const response = await fetch("/api/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: book.title,
+            price: book.price,
+            bookId: book.id,
+            userId: user.id,
+            description: book.description,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.checkout_url) {
+            redirect(data.checkout_url);
+          }
+        }
       }
     }
 
     // 無料記事または購入済みの場合は全文表示
     const shouldShowFullContent = book.price === 0 || isPurchased;
+    console.log("Should show full content:", shouldShowFullContent, {
+      price: book.price,
+      isPurchased,
+    });
 
     return (
       <div className="container mx-auto p-4">
@@ -111,7 +171,12 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
     );
   } catch (error) {
     // APIエラーのハンドリング
-    console.error("Error fetching book data:", error);
+    console.error("Detailed error in DetailBook:", {
+      error,
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     return (
       <div className="container mx-auto p-4">
         <div className="bg-red-100 text-red-800 p-4 rounded-lg shadow-md">
@@ -119,6 +184,11 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           <p>
             データの取得中に問題が発生しました。しばらくしてからもう一度お試しください。
           </p>
+          {process.env.NODE_ENV === "development" && (
+            <pre className="mt-4 p-2 bg-red-50 rounded text-sm overflow-auto">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </pre>
+          )}
         </div>
       </div>
     );
