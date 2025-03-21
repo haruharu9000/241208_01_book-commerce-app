@@ -32,9 +32,15 @@ export default async function SearchPage({
 
   // 検索ロジック
   const searchResults = contents.filter((book: BookType) => {
-    const searchText = `${book.title} ${book.description}`.toLowerCase();
+    const searchText =
+      `${book.title} ${book.description} ${book.content}`.toLowerCase();
     const searchQuery = query.toLowerCase();
-    return searchText.includes(searchQuery);
+
+    // 検索クエリを空白で分割して、各キーワードで検索
+    const keywords = searchQuery
+      .split(/\s+/)
+      .filter((keyword) => keyword.length > 0);
+    return keywords.every((keyword) => searchText.includes(keyword));
   });
 
   return (

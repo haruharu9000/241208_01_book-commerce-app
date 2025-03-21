@@ -25,7 +25,10 @@ export const getAllBooks = async () => {
     console.log('Fetching all books...'); // デバッグ用
     const allBooks = await client.get({
       endpoint: "bookcommerce",
-      queries: { limit: 100 },
+      queries: { 
+        limit: 100,
+        fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
+      },
       customRequestInit: {
         next: { revalidate: 3600 }
       },
