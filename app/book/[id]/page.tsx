@@ -109,8 +109,13 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            // セッションCookieを含める
+            Cookie: (await getServerSession(nextAuthOptions))?.user
+              ? `next-auth.session-token=${(await getServerSession(nextAuthOptions))?.user}`
+              : "",
           },
           credentials: "include",
+          cache: "no-store",
           body: JSON.stringify({
             bookId: book.id,
             userId: user.id,
