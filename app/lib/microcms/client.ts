@@ -31,14 +31,28 @@ export const getAllBooks = async () => {
 
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
-  const detailBook = await client.get<BookType>({
-    endpoint: "bookcommerce",
-    contentId,
-    queries: {
-      fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
+  try {
+    if (!contentId) {
+      throw new Error("contentId is required");
     }
-  });
-  return detailBook;
+    
+    const detailBook = await client.get<BookType>({
+      endpoint: "bookcommerce",
+      contentId,
+      queries: {
+        fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
+      }
+    });
+
+    if (!detailBook) {
+      throw new Error("Book not found");
+    }
+
+    return detailBook;
+  } catch (error) {
+    console.error("Error fetching book detail:", error);
+    return null;
+  }
 };
 
 // 記事一覧を取得

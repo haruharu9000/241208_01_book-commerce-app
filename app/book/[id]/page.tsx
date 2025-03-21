@@ -8,138 +8,164 @@ import { User, Purchase } from "@/app/types/types";
 import Link from "next/link";
 
 const DetailBook = async ({ params }: { params: { id: string } }) => {
-  const session = await getServerSession(nextAuthOptions);
-  const user = session?.user as User;
-  const id = params.id;
+  try {
+    const session = await getServerSession(nextAuthOptions);
+    const user = session?.user as User;
+    const id = params.id;
 
-  // IDのバリデーション
-  if (!id || typeof id !== "string") {
-    return notFound();
-  }
-
-  // 本の詳細を取得
-  const book = await getDetailBook(id).catch(() => null);
-  if (!book) {
-    return notFound();
-  }
-
-  // 購入状態を確認
-  let isPurchased = false;
-  if (user) {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-      {
-        cache: "no-store",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).catch(() => null);
-
-    if (response?.ok) {
-      const purchases = await response.json().catch(() => []);
-      isPurchased = purchases.some(
-        (purchase: Purchase) => purchase.bookId === id
-      );
+    // IDのバリデーション
+    if (!id || typeof id !== "string") {
+      console.error("Invalid book ID:", id);
+      return notFound();
     }
-  }
 
-  // 有料記事で未購入の場合の処理
-  if (book.price > 0 && !isPurchased) {
-    if (!user) {
-      // 未ログインの場合はログインページへ
-      redirect("/api/auth/signin");
-    } else {
-      // ログイン済みの場合は決済処理を開始
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: book.title,
-          price: book.price,
-          bookId: book.id,
-          userId: user.id,
-          description: book.description,
-        }),
-      }).catch(() => null);
+    // 本の詳細を取得
+    const book = await getDetailBook(id);
+    if (!book) {
+      console.error("Book not found for ID:", id);
+      return notFound();
+    }
 
-      if (response?.ok) {
-        const data = await response.json().catch(() => ({}));
-        if (data.checkout_url) {
-          redirect(data.checkout_url);
+    // 購入状態を確認
+    let isPurchased = false;
+    if (user) {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
+          {
+            cache: "no-store",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch purchase status: ${response.statusText}`
+          );
+        }
+
+        const purchases = await response.json();
+        isPurchased = purchases.some(
+          (purchase: Purchase) => purchase.bookId === id
+        );
+      } catch (error) {
+        console.error("Error checking purchase status:", error);
+        // 購入状態の確認に失敗した場合は、未購入として扱う
+        isPurchased = false;
+      }
+    }
+
+    // 有料記事で未購入の場合の処理
+    if (book.price > 0 && !isPurchased) {
+      if (!user) {
+        // 未ログインの場合はログインページへ
+        redirect("/api/auth/signin");
+      } else {
+        try {
+          // ログイン済みの場合は決済処理を開始
+          const response = await fetch("/api/checkout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              title: book.title,
+              price: book.price,
+              bookId: book.id,
+              userId: user.id,
+              description: book.description,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`Checkout failed: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          if (data.checkout_url) {
+            redirect(data.checkout_url);
+          } else {
+            throw new Error("Checkout URL not found in response");
+          }
+        } catch (error) {
+          console.error("Error during checkout:", error);
+          throw error; // エラーを上位に伝播させる
         }
       }
     }
-  }
 
-  // 無料記事または購入済みの場合は全文表示
-  const shouldShowFullContent = book.price === 0 || isPurchased;
+    // 無料記事または購入済みの場合は全文表示
+    const shouldShowFullContent = book.price === 0 || isPurchased;
 
-  return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        {book.thumbnail && (
-          <Image
-            src={book.thumbnail.url}
-            alt={book.title}
-            className="w-full h-80 object-cover object-center"
-            width={700}
-            height={400}
-          />
-        )}
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
-          {shouldShowFullContent ? (
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: book.content }}
+    return (
+      <div className="container mx-auto p-4">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          {book.thumbnail && (
+            <Image
+              src={book.thumbnail.url}
+              alt={book.title}
+              className="w-full h-80 object-cover object-center"
+              width={700}
+              height={400}
             />
-          ) : (
-            <div className="space-y-4">
-              <p className="text-gray-600">{book.description}</p>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <p className="text-lg font-semibold mb-2">
-                  この記事は有料コンテンツです
-                </p>
-                <p className="text-2xl font-bold text-blue-600 mb-4">
-                  ¥{book.price.toLocaleString()}
-                </p>
-                {user ? (
-                  <form action="/api/checkout" method="POST">
-                    <input type="hidden" name="bookId" value={book.id} />
-                    <input type="hidden" name="userId" value={user.id} />
-                    <button
-                      type="submit"
-                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      購入して続きを読む
-                    </button>
-                  </form>
-                ) : (
-                  <Link
-                    href="/api/auth/signin"
-                    className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    ログインして購入
-                  </Link>
-                )}
-              </div>
-            </div>
           )}
+          <div className="p-6">
+            <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
+            {shouldShowFullContent ? (
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: book.content }}
+              />
+            ) : (
+              <div className="space-y-4">
+                <p className="text-gray-600">{book.description}</p>
+                <div className="bg-gray-50 p-6 rounded-lg">
+                  <p className="text-lg font-semibold mb-2">
+                    この記事は有料コンテンツです
+                  </p>
+                  <p className="text-2xl font-bold text-blue-600 mb-4">
+                    ¥{book.price.toLocaleString()}
+                  </p>
+                  {user ? (
+                    <form action="/api/checkout" method="POST">
+                      <input type="hidden" name="bookId" value={book.id} />
+                      <input type="hidden" name="userId" value={user.id} />
+                      <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        購入して続きを読む
+                      </button>
+                    </form>
+                  ) : (
+                    <Link
+                      href="/api/auth/signin"
+                      className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      ログインして購入
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-sm text-gray-500">
+            公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
+          </span>
+          <span className="text-sm text-gray-500">
+            最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
+          </span>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <span className="text-sm text-gray-500">
-          公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
-        </span>
-        <span className="text-sm text-gray-500">
-          最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
-        </span>
-      </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error("Error in DetailBook component:", error);
+    throw error; // Next.jsのエラーページにリダイレクト
+  }
 };
 
 export default DetailBook;
