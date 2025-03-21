@@ -21,9 +21,7 @@ const config = getConfig();
 export const client = createClient({
   serviceDomain: config.serviceDomain,
   apiKey: config.apiKey,
-  retry: true, // リトライを有効化
-  retryStatus: [429, 500, 502, 503, 504], // リトライするステータスコード
-  retryLimit: 3, // リトライ回数
+  retry: true // リトライを有効化
 });
 
 // 書籍一覧を取得
