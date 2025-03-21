@@ -34,7 +34,7 @@ export const client = createClient({
 export const getAllBooks = async () => {
   try {
     console.log('Fetching all books...');
-    const response = await client.get({
+    const response = await client.getList<BookType>({
       endpoint: "bookcommerce",
       queries: { 
         limit: 100,
@@ -42,15 +42,7 @@ export const getAllBooks = async () => {
       }
     });
 
-    // レスポンスの型チェックと変換
-    if (!response || !response.contents) {
-      console.error('Invalid response format:', response);
-      throw new Error('データの形式が不正です');
-    }
-
-    return {
-      contents: response.contents as BookType[]
-    };
+    return response;
   } catch (error) {
     console.error("Error fetching all books:", error);
     throw new Error("記事一覧の取得に失敗しました");
@@ -145,7 +137,7 @@ export const getArticleById = async (id: string) => {
 export const getBooksByCategory = async (categoryId: string) => {
   try {
     console.log('Fetching books for categoryId:', categoryId);
-    const response = await client.get({
+    const response = await client.getList<BookType>({
       endpoint: "bookcommerce",
       queries: {
         filters: `categoryId[equals]${categoryId}`,
@@ -153,13 +145,7 @@ export const getBooksByCategory = async (categoryId: string) => {
       }
     });
 
-    if (!response || !response.contents) {
-      throw new Error('データの形式が不正です');
-    }
-
-    return {
-      contents: response.contents as BookType[]
-    };
+    return response;
   } catch (error) {
     console.error(`Error fetching books for categoryId ${categoryId}:`, error);
     throw new Error("カテゴリー別記事の取得に失敗しました");
@@ -169,18 +155,16 @@ export const getBooksByCategory = async (categoryId: string) => {
 // カテゴリー一覧を取得
 export const getCategories = async (): Promise<Category[]> => {
   try {
-    console.log('Fetching categories...'); // デバッグ用
-    const response = await client.get({
+    console.log('Fetching categories...');
+    const response = await client.getList<BookType>({
       endpoint: "bookcommerce",
       queries: {
         fields: ['id', 'categoryId', 'category'].join(','),
         limit: 100
-      },
+      }
     });
-    console.log('Categories response:', response); // デバッグ用
 
     if (!response?.contents?.length) {
-      console.log('No contents found in response');
       return [];
     }
 
@@ -202,12 +186,10 @@ export const getCategories = async (): Promise<Category[]> => {
       return acc;
     }, {});
 
-    const categories = Object.values(categoriesMap) as Category[];
-    console.log('Processed categories:', categories); // デバッグ用
-    return categories;
+    return Object.values(categoriesMap);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    throw error;
+    throw new Error("カテゴリー一覧の取得に失敗しました");
   }
 };
 
