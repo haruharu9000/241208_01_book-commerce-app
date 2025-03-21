@@ -1,50 +1,55 @@
 import { createClient } from "microcms-js-sdk";
 import { BookType, ArticleType, Category } from "@/app/types/types";
 
-if (!process.env.MICROCMS_SERVICE_DOMAIN && !process.env.NEXT_PUBLIC_SERVICE_DOMAIN) {
-  throw new Error("MICROCMS_SERVICE_DOMAIN or NEXT_PUBLIC_SERVICE_DOMAIN is required");
-}
+// 環境変数のチェックと取得
+const getConfig = () => {
+  const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
+  const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
 
-if (!process.env.MICROCMS_API_KEY && !process.env.NEXT_PUBLIC_API_KEY) {
-  throw new Error("MICROCMS_API_KEY or NEXT_PUBLIC_API_KEY is required");
-}
+  if (!serviceDomain) {
+    throw new Error("MICROCMS_SERVICE_DOMAIN is not defined");
+  }
+  if (!apiKey) {
+    throw new Error("MICROCMS_API_KEY is not defined");
+  }
 
-const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
-const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
+  return { serviceDomain, apiKey };
+};
 
-console.log('MicroCMS Service Domain:', serviceDomain); // デバッグ用
-
+// クライアントの初期化
+const config = getConfig();
 export const client = createClient({
-  serviceDomain: serviceDomain!,
-  apiKey: apiKey!,
+  serviceDomain: config.serviceDomain,
+  apiKey: config.apiKey,
+  retry: true, // リトライを有効化
+  retryStatus: [429, 500, 502, 503, 504], // リトライするステータスコード
+  retryLimit: 3, // リトライ回数
 });
 
 // 書籍一覧を取得
 export const getAllBooks = async () => {
   try {
-    console.log('Fetching all books...'); // デバッグ用
     const allBooks = await client.get({
       endpoint: "bookcommerce",
       queries: { 
         limit: 100,
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
-      },
-      customRequestInit: {
-        next: { revalidate: 3600 }
-      },
+      }
     });
-    console.log('Books fetched successfully:', allBooks); // デバッグ用
     return allBooks;
   } catch (error) {
     console.error("Error fetching all books:", error);
-    throw error;
+    throw new Error("記事一覧の取得に失敗しました");
   }
 };
 
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
+  if (!contentId) {
+    throw new Error("記事IDが指定されていません");
+  }
+
   try {
-    console.log('Fetching book detail for ID:', contentId);
     const detailBook = await client.get<BookType>({
       endpoint: "bookcommerce",
       contentId,
@@ -52,15 +57,18 @@ export const getDetailBook = async (contentId: string) => {
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
       }
     });
-    console.log('Book detail fetched successfully:', {
-      id: detailBook.id,
-      title: detailBook.title,
-      price: detailBook.price
-    });
+
+    if (!detailBook) {
+      throw new Error("記事が見つかりませんでした");
+    }
+
     return detailBook;
   } catch (error) {
     console.error(`Error fetching book detail for ID ${contentId}:`, error);
-    throw error;
+    if (error instanceof Error) {
+      throw new Error(`記事の取得に失敗しました: ${error.message}`);
+    }
+    throw new Error("記事の取得に失敗しました");
   }
 };
 
