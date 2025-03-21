@@ -1,6 +1,6 @@
 import { getDetailBook } from "@/app/lib/microcms/client";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
@@ -100,72 +100,37 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         throw new Error("必要な情報が不足しています");
       }
 
-      // 購入ボタンコンポーネント
-      const PurchaseButton = () => {
-        const handlePurchase = async () => {
-          try {
-            const response = await fetch("/api/checkout", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                bookId: book.id,
-                userId: user.id,
-                title: book.title,
-                price: book.price,
-                description: book.description || "",
-              }),
-            });
-
-            if (!response.ok) {
-              throw new Error("決済処理中にエラーが発生しました");
-            }
-
-            const data = await response.json();
-            if (data.checkout_url) {
-              window.location.href = data.checkout_url;
-            }
-          } catch (error) {
-            console.error("Purchase error:", error);
-            alert("決済処理中にエラーが発生しました。もう一度お試しください。");
-          }
-        };
-
-        return (
-          <button
-            onClick={handlePurchase}
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            ¥{book.price.toLocaleString()}で購入
-          </button>
-        );
-      };
-
-      return (
-        <div className="container mx-auto p-4">
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-            {book.thumbnail?.url && (
-              <Image
-                src={book.thumbnail.url}
-                alt={book.title || "無題"}
-                className="w-full h-80 object-cover object-center"
-                width={700}
-                height={400}
-              />
-            )}
-            <div className="p-6 text-center">
-              <h1 className="text-3xl font-bold mb-4">
-                {book.title || "無題"}
-              </h1>
-              <p className="text-gray-600 mb-4">
-                {book.description || "説明なし"}
-              </p>
-              <PurchaseButton />
-            </div>
-          </div>
-        </div>
+      // Stripe決済を直接開始
+      const response = await fetch(
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000/api/checkout"
+          : `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bookId: book.id,
+            userId: user.id,
+            title: book.title,
+            price: book.price,
+            description: book.description || "",
+          }),
+        }
       );
+
+      if (!response.ok) {
+        throw new Error("決済処理中にエラーが発生しました");
+      }
+
+      const data = await response.json();
+      if (!data.checkout_url) {
+        throw new Error("決済URLが見つかりませんでした");
+      }
+
+      // 直接Stripe決済画面にリダイレクト
+      return redirect(data.checkout_url);
     }
 
     // 無料記事または購入済みの場合は全文表示
