@@ -27,7 +27,7 @@ export const getAllBooks = async () => {
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
       },
       customRequestInit: {
-        next: { revalidate: 3600 }
+        cache: 'no-store'
       },
     });
     return allBooks;
@@ -49,6 +49,9 @@ export const getDetailBook = async (contentId: string) => {
       contentId,
       queries: {
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
+      },
+      customRequestInit: {
+        cache: 'no-store'
       }
     });
 
