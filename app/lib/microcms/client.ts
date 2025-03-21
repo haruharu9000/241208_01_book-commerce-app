@@ -61,7 +61,7 @@ export const getDetailBook = async (contentId: string) => {
       endpoint: "bookcommerce"
     });
 
-    const detailBook = await client.get<BookType>({
+    const response = await client.getListDetail<BookType>({
       endpoint: "bookcommerce",
       contentId,
       queries: {
@@ -69,31 +69,16 @@ export const getDetailBook = async (contentId: string) => {
       }
     });
 
-    if (!detailBook) {
-      console.log('No book found for ID:', contentId);
+    if (!response) {
       throw new Error("記事が見つかりませんでした");
     }
 
-    console.log('Book details retrieved:', {
-      id: detailBook.id,
-      title: detailBook.title,
-      hasContent: !!detailBook.content
-    });
-
-    return detailBook;
+    return response;
   } catch (error) {
     console.error('Detailed error in getDetailBook:', {
       contentId,
-      error: error instanceof Error ? {
-        message: error.message,
-        name: error.name,
-        stack: error.stack
-      } : error
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
-
-    if (error instanceof Error) {
-      throw new Error(`記事の取得に失敗しました: ${error.message}`);
-    }
     throw new Error("記事の取得に失敗しました");
   }
 };
