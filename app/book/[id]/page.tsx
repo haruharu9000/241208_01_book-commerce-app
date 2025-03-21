@@ -7,6 +7,16 @@ import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User, Purchase } from "@/app/types/types";
 import Link from "next/link";
 
+const formatDate = (dateString: string | undefined): string => {
+  if (!dateString) return "日付なし";
+  try {
+    return new Date(dateString).toLocaleDateString("ja-JP");
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return "日付なし";
+  }
+};
+
 const DetailBook = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
@@ -18,6 +28,9 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
 
   try {
     const book = await getDetailBook(id);
+    if (!book || typeof book !== "object") {
+      throw new Error("Invalid book data received");
+    }
 
     // 購入状態を確認
     let isPurchased = false;
@@ -63,11 +76,11 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              title: book.title,
-              price: book.price,
+              title: book.title || "無題",
+              price: book.price || 0,
               bookId: book.id,
               userId: user.id,
-              description: book.description,
+              description: book.description || "",
             }),
           }
         );
@@ -96,31 +109,33 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
     return (
       <div className="container mx-auto p-4">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          {book.thumbnail && (
+          {book.thumbnail?.url && (
             <Image
               src={book.thumbnail.url}
-              alt={book.title}
+              alt={book.title || "無題"}
               className="w-full h-80 object-cover object-center"
               width={700}
               height={400}
             />
           )}
           <div className="p-6">
-            <h1 className="text-3xl font-bold mb-4">{book.title}</h1>
+            <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
             {shouldShowFullContent ? (
               <div
                 className="prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: book.content }}
+                dangerouslySetInnerHTML={{ __html: book.content || "" }}
               />
             ) : (
               <div className="space-y-4">
-                <p className="text-gray-600">{book.description}</p>
+                <p className="text-gray-600">
+                  {book.description || "説明なし"}
+                </p>
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <p className="text-lg font-semibold mb-2">
                     この記事は有料コンテンツです
                   </p>
                   <p className="text-2xl font-bold text-blue-600 mb-4">
-                    ¥{book.price.toLocaleString()}
+                    ¥{(book.price || 0).toLocaleString()}
                   </p>
                   {user ? (
                     <form
@@ -151,10 +166,10 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="flex justify-between items-center mt-2">
           <span className="text-sm text-gray-500">
-            公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
+            公開日: {formatDate(book.createdAt)}
           </span>
           <span className="text-sm text-gray-500">
-            最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
+            最終更新: {formatDate(book.updatedAt)}
           </span>
         </div>
       </div>
