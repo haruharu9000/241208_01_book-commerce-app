@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User } from "@/app/types/types";
 import { Suspense } from "react";
+import Link from "next/link";
 
 const CheckoutPage = async ({
   searchParams,
@@ -88,9 +89,12 @@ const CheckoutPage = async ({
           <p className="mb-4">
             決済処理中にエラーが発生しました。もう一度お試しください。
           </p>
-          <a href="/" className="text-blue-600 hover:text-blue-800 underline">
+          <Link
+            href="/"
+            className="text-blue-600 hover:text-blue-800 underline"
+          >
             トップページに戻る
-          </a>
+          </Link>
         </div>
       </div>
     );
