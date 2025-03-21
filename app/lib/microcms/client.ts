@@ -44,11 +44,18 @@ export const getAllBooks = async () => {
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
   try {
-    console.log('Fetching book detail for ID:', contentId); // デバッグ用
-    const detailBook = await client.getListDetail<BookType>({
+    console.log('Fetching book detail for ID:', contentId);
+    const detailBook = await client.get<BookType>({
       endpoint: "bookcommerce",
       contentId,
-      customRequestInit: { cache: "no-store" },
+      queries: {
+        fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
+      }
+    });
+    console.log('Book detail fetched successfully:', {
+      id: detailBook.id,
+      title: detailBook.title,
+      price: detailBook.price
     });
     return detailBook;
   } catch (error) {
