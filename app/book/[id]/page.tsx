@@ -65,14 +65,22 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       if (!user) {
         redirect("/api/auth/signin");
       }
-      const checkoutParams = new URLSearchParams({
+
+      // 必須パラメータの存在確認
+      if (!book.id || !user.id || !book.title) {
+        throw new Error("必要な情報が不足しています");
+      }
+
+      // 決済に必要な情報を安全に構築
+      const params = new URLSearchParams({
         bookId: book.id,
         userId: user.id,
-        title: book.title || "",
+        title: book.title,
         price: book.price.toString(),
         description: book.description || "",
       });
-      redirect(`/checkout?${checkoutParams.toString()}`);
+
+      redirect(`/checkout?${params.toString()}`);
     }
 
     // 無料記事または購入済みの場合は全文表示
