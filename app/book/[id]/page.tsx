@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
-import { User } from "@/app/types/types";
+import { User, Purchase } from "@/app/types/types";
+import Link from "next/link";
 
 const DetailBook = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(nextAuthOptions);
@@ -36,7 +37,9 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       );
       if (response.ok) {
         const purchases = await response.json();
-        isPurchased = purchases.some((purchase: any) => purchase.bookId === id);
+        isPurchased = purchases.some(
+          (purchase: Purchase) => purchase.bookId === id
+        );
       }
     }
 
@@ -84,12 +87,12 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
                       </button>
                     </form>
                   ) : (
-                    <a
+                    <Link
                       href="/api/auth/signin"
                       className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       ログインして購入
-                    </a>
+                    </Link>
                   )}
                 </div>
               </div>
