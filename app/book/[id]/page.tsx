@@ -65,9 +65,14 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       if (!user) {
         redirect("/api/auth/signin");
       }
-      redirect(
-        `/checkout?bookId=${book.id}&userId=${user.id}&title=${encodeURIComponent(book.title)}&price=${book.price}&description=${encodeURIComponent(book.description || "")}`
-      );
+      const checkoutParams = new URLSearchParams({
+        bookId: book.id,
+        userId: user.id,
+        title: book.title || "",
+        price: book.price.toString(),
+        description: book.description || "",
+      });
+      redirect(`/checkout?${checkoutParams.toString()}`);
     }
 
     // 無料記事または購入済みの場合は全文表示
