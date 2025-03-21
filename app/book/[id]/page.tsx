@@ -97,15 +97,33 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
 
       // 必須パラメータの存在確認
       if (!book.id || !user.id || !book.title) {
+        console.error("Missing required params:", {
+          bookId: book.id,
+          userId: user.id,
+          title: book.title,
+        });
         throw new Error("必要な情報が不足しています");
       }
 
-      // Stripe決済を直接開始
-      const response = await fetch(
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:3000/api/checkout"
-          : `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`,
-        {
+      try {
+        console.log("Starting checkout process...");
+        console.log("Request params:", {
+          bookId: book.id,
+          userId: user.id,
+          title: book.title,
+          price: book.price,
+        });
+
+        // APIエンドポイントのURL構築
+        const apiUrl =
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000/api/checkout"
+            : `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`;
+
+        console.log("API URL:", apiUrl);
+
+        // Stripe決済を直接開始
+        const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -117,20 +135,34 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
             price: book.price,
             description: book.description || "",
           }),
+        });
+
+        console.log("Checkout response status:", response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Checkout error response:", errorText);
+          throw new Error(
+            `決済処理中にエラーが発生しました: ${response.statusText}`
+          );
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("決済処理中にエラーが発生しました");
+        const data = await response.json();
+        console.log("Checkout response data:", data);
+
+        if (!data.checkout_url) {
+          console.error("No checkout URL in response:", data);
+          throw new Error("決済URLが見つかりませんでした");
+        }
+
+        console.log("Redirecting to:", data.checkout_url);
+        return redirect(data.checkout_url);
+      } catch (error) {
+        console.error("Checkout process error:", error);
+        throw new Error(
+          "決済処理中にエラーが発生しました。詳細はログを確認してください。"
+        );
       }
-
-      const data = await response.json();
-      if (!data.checkout_url) {
-        throw new Error("決済URLが見つかりませんでした");
-      }
-
-      // 直接Stripe決済画面にリダイレクト
-      return redirect(data.checkout_url);
     }
 
     // 無料記事または購入済みの場合は全文表示
