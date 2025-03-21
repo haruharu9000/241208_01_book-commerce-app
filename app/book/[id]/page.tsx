@@ -63,7 +63,7 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
     // 有料記事で未購入の場合は決済画面へリダイレクト
     if (book.price > 0 && !isPurchased) {
       if (!user) {
-        redirect("/api/auth/signin");
+        return redirect("/api/auth/signin");
       }
 
       // 必須パラメータの存在確認
@@ -72,15 +72,16 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       }
 
       // 決済に必要な情報を安全に構築
-      const params = new URLSearchParams({
-        bookId: book.id,
-        userId: user.id,
-        title: book.title,
-        price: book.price.toString(),
-        description: book.description || "",
-      });
+      const params = new URLSearchParams();
+      params.append("bookId", book.id);
+      params.append("userId", user.id);
+      params.append("title", book.title);
+      params.append("price", book.price.toString());
+      if (book.description) {
+        params.append("description", book.description);
+      }
 
-      redirect(`/checkout?${params.toString()}`);
+      return redirect(`/checkout?${params.toString()}`);
     }
 
     // 無料記事または購入済みの場合は全文表示
