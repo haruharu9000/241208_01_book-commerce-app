@@ -23,7 +23,9 @@ const CheckoutPage = async ({
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/api/checkout"
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout`,
       {
         method: "POST",
         headers: {
