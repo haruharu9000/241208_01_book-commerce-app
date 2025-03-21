@@ -6,6 +6,12 @@ const getConfig = () => {
   const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
   const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
 
+  console.log('Environment check:', {
+    hasServiceDomain: !!serviceDomain,
+    hasApiKey: !!apiKey,
+    isDevelopment: process.env.NODE_ENV === 'development'
+  });
+
   if (!serviceDomain) {
     throw new Error("MICROCMS_SERVICE_DOMAIN is not defined");
   }
@@ -48,6 +54,11 @@ export const getDetailBook = async (contentId: string) => {
   }
 
   try {
+    console.log('Fetching book details with:', {
+      contentId,
+      endpoint: "bookcommerce"
+    });
+
     const detailBook = await client.get<BookType>({
       endpoint: "bookcommerce",
       contentId,
@@ -57,12 +68,27 @@ export const getDetailBook = async (contentId: string) => {
     });
 
     if (!detailBook) {
+      console.log('No book found for ID:', contentId);
       throw new Error("記事が見つかりませんでした");
     }
 
+    console.log('Book details retrieved:', {
+      id: detailBook.id,
+      title: detailBook.title,
+      hasContent: !!detailBook.content
+    });
+
     return detailBook;
   } catch (error) {
-    console.error(`Error fetching book detail for ID ${contentId}:`, error);
+    console.error('Detailed error in getDetailBook:', {
+      contentId,
+      error: error instanceof Error ? {
+        message: error.message,
+        name: error.name,
+        stack: error.stack
+      } : error
+    });
+    
     if (error instanceof Error) {
       throw new Error(`記事の取得に失敗しました: ${error.message}`);
     }
