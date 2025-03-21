@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User } from "@/app/types/types";
+import { Suspense } from "react";
 
 const CheckoutPage = async ({
   searchParams,
@@ -50,16 +51,50 @@ const CheckoutPage = async ({
       throw new Error("Checkout URL not found in response");
     }
 
-    redirect(data.checkout_url);
+    // クライアントサイドでリダイレクトを行うためのHTML返却
+    return (
+      <Suspense fallback={<div>決済ページに移動中...</div>}>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-xl font-bold mb-4">決済ページに移動中...</h1>
+            <p className="mb-4">自動的に決済ページに移動します。</p>
+            <p className="text-sm text-gray-500">
+              移動しない場合は
+              <a
+                href={data.checkout_url}
+                className="text-blue-600 hover:text-blue-800 underline"
+              >
+                こちら
+              </a>
+              をクリックしてください。
+            </p>
+          </div>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.location.href = "${data.checkout_url}";`,
+            }}
+          />
+        </div>
+      </Suspense>
+    );
   } catch (error) {
     console.error("Checkout error:", error);
-    throw new Error(
-      "決済処理中にエラーが発生しました。もう一度お試しください。"
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-xl font-bold text-red-600 mb-4">
+            エラーが発生しました
+          </h1>
+          <p className="mb-4">
+            決済処理中にエラーが発生しました。もう一度お試しください。
+          </p>
+          <a href="/" className="text-blue-600 hover:text-blue-800 underline">
+            トップページに戻る
+          </a>
+        </div>
+      </div>
     );
   }
-
-  // この部分は実行されることはありませんが、TypeScriptの要件を満たすために必要です
-  return null;
 };
 
 export default CheckoutPage;
