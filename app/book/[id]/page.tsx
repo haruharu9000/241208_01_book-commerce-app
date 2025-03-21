@@ -1,6 +1,6 @@
 import { getDetailBook } from "@/app/lib/microcms/client";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
@@ -12,7 +12,16 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
   const user = session?.user as User;
   const id = params.id;
 
-  const book = await getDetailBook(id);
+  // IDのバリデーション
+  if (!id || typeof id !== "string") {
+    return notFound();
+  }
+
+  // 本の詳細を取得
+  const book = await getDetailBook(id).catch(() => null);
+  if (!book) {
+    return notFound();
+  }
 
   // 購入状態を確認
   let isPurchased = false;
@@ -25,10 +34,10 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           "Content-Type": "application/json",
         },
       }
-    );
+    ).catch(() => null);
 
-    if (response.ok) {
-      const purchases = await response.json();
+    if (response?.ok) {
+      const purchases = await response.json().catch(() => []);
       isPurchased = purchases.some(
         (purchase: Purchase) => purchase.bookId === id
       );
@@ -54,10 +63,10 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           userId: user.id,
           description: book.description,
         }),
-      });
+      }).catch(() => null);
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response?.ok) {
+        const data = await response.json().catch(() => ({}));
         if (data.checkout_url) {
           redirect(data.checkout_url);
         }
