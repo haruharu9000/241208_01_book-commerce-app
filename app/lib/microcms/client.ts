@@ -20,6 +20,7 @@ export const client = createClient({
 // 書籍一覧を取得
 export const getAllBooks = async () => {
   try {
+    console.log('Fetching all books...'); // デバッグ用
     const allBooks = await client.get({
       endpoint: "bookcommerce",
       queries: { 
@@ -27,9 +28,10 @@ export const getAllBooks = async () => {
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
       },
       customRequestInit: {
-        cache: 'no-store'
+        next: { revalidate: 3600 }
       },
     });
+    console.log('Books fetched successfully:', allBooks); // デバッグ用
     return allBooks;
   } catch (error) {
     console.error("Error fetching all books:", error);
