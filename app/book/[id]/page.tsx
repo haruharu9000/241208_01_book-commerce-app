@@ -100,14 +100,47 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         throw new Error("必要な情報が不足しています");
       }
 
-      const params = new URLSearchParams();
-      params.append("bookId", book.id);
-      params.append("userId", user.id);
-      params.append("title", book.title);
-      params.append("price", book.price.toString());
-      if (book.description) {
-        params.append("description", book.description);
-      }
+      // 購入ボタンコンポーネント
+      const PurchaseButton = () => {
+        const handlePurchase = async () => {
+          try {
+            const response = await fetch("/api/checkout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                bookId: book.id,
+                userId: user.id,
+                title: book.title,
+                price: book.price,
+                description: book.description || "",
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error("決済処理中にエラーが発生しました");
+            }
+
+            const data = await response.json();
+            if (data.checkout_url) {
+              window.location.href = data.checkout_url;
+            }
+          } catch (error) {
+            console.error("Purchase error:", error);
+            alert("決済処理中にエラーが発生しました。もう一度お試しください。");
+          }
+        };
+
+        return (
+          <button
+            onClick={handlePurchase}
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            ¥{book.price.toLocaleString()}で購入
+          </button>
+        );
+      };
 
       return (
         <div className="container mx-auto p-4">
@@ -128,12 +161,7 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
               <p className="text-gray-600 mb-4">
                 {book.description || "説明なし"}
               </p>
-              <Link
-                href={`/checkout?${params.toString()}`}
-                className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                ¥{book.price.toLocaleString()}で購入
-              </Link>
+              <PurchaseButton />
             </div>
           </div>
         </div>
