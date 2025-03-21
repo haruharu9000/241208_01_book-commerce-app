@@ -31,11 +31,11 @@ export const getAllBooks = async () => {
 
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
+  if (!contentId) {
+    throw new Error("contentId is required");
+  }
+
   try {
-    if (!contentId) {
-      throw new Error("contentId is required");
-    }
-    
     const detailBook = await client.get<BookType>({
       endpoint: "bookcommerce",
       contentId,
@@ -44,14 +44,16 @@ export const getDetailBook = async (contentId: string) => {
       }
     });
 
-    if (!detailBook) {
-      throw new Error("Book not found");
+    if (!detailBook || !detailBook.id) {
+      throw new Error(`Book not found for ID: ${contentId}`);
     }
 
     return detailBook;
   } catch (error) {
-    console.error("Error fetching book detail:", error);
-    return null;
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch book: ${error.message}`);
+    }
+    throw new Error("Unknown error occurred while fetching book");
   }
 };
 

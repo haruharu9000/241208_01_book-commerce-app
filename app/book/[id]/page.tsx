@@ -8,23 +8,16 @@ import { User, Purchase } from "@/app/types/types";
 import Link from "next/link";
 
 const DetailBook = async ({ params }: { params: { id: string } }) => {
+  const session = await getServerSession(nextAuthOptions);
+  const user = session?.user as User;
+  const id = params.id;
+
+  if (!id || typeof id !== "string") {
+    return notFound();
+  }
+
   try {
-    const session = await getServerSession(nextAuthOptions);
-    const user = session?.user as User;
-    const id = params.id;
-
-    // IDのバリデーション
-    if (!id || typeof id !== "string") {
-      console.error("Invalid book ID:", id);
-      return notFound();
-    }
-
-    // 本の詳細を取得
     const book = await getDetailBook(id);
-    if (!book) {
-      console.error("Book not found for ID:", id);
-      return notFound();
-    }
 
     // 購入状態を確認
     let isPurchased = false;
@@ -41,18 +34,16 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         );
 
         if (!response.ok) {
-          throw new Error(
-            `Failed to fetch purchase status: ${response.statusText}`
+          console.error(`Purchase check failed: ${response.statusText}`);
+          isPurchased = false;
+        } else {
+          const purchases = await response.json();
+          isPurchased = purchases.some(
+            (purchase: Purchase) => purchase.bookId === id
           );
         }
-
-        const purchases = await response.json();
-        isPurchased = purchases.some(
-          (purchase: Purchase) => purchase.bookId === id
-        );
       } catch (error) {
         console.error("Error checking purchase status:", error);
-        // 購入状態の確認に失敗した場合は、未購入として扱う
         isPurchased = false;
       }
     }
@@ -60,39 +51,39 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
     // 有料記事で未購入の場合の処理
     if (book.price > 0 && !isPurchased) {
       if (!user) {
-        // 未ログインの場合はログインページへ
         redirect("/api/auth/signin");
-      } else {
-        try {
-          // ログイン済みの場合は決済処理を開始
-          const response = await fetch("/api/checkout", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              title: book.title,
-              price: book.price,
-              bookId: book.id,
-              userId: user.id,
-              description: book.description,
-            }),
-          });
+      }
 
-          if (!response.ok) {
-            throw new Error(`Checkout failed: ${response.statusText}`);
-          }
+      try {
+        const response = await fetch("/api/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: book.title,
+            price: book.price,
+            bookId: book.id,
+            userId: user.id,
+            description: book.description,
+          }),
+        });
 
-          const data = await response.json();
-          if (data.checkout_url) {
-            redirect(data.checkout_url);
-          } else {
-            throw new Error("Checkout URL not found in response");
-          }
-        } catch (error) {
-          console.error("Error during checkout:", error);
-          throw error; // エラーを上位に伝播させる
+        if (!response.ok) {
+          throw new Error(`Checkout failed: ${response.statusText}`);
         }
+
+        const data = await response.json();
+        if (!data.checkout_url) {
+          throw new Error("Checkout URL not found in response");
+        }
+
+        redirect(data.checkout_url);
+      } catch (error) {
+        console.error("Checkout error:", error);
+        throw new Error(
+          "決済処理中にエラーが発生しました。もう一度お試しください。"
+        );
       }
     }
 
@@ -163,8 +154,13 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       </div>
     );
   } catch (error) {
-    console.error("Error in DetailBook component:", error);
-    throw error; // Next.jsのエラーページにリダイレクト
+    if (error instanceof Error && error.message.includes("Book not found")) {
+      return notFound();
+    }
+    console.error("Error in DetailBook:", error);
+    throw new Error(
+      "記事の取得中にエラーが発生しました。もう一度お試しください。"
+    );
   }
 };
 
