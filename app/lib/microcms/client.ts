@@ -33,14 +33,24 @@ export const client = createClient({
 // 書籍一覧を取得
 export const getAllBooks = async () => {
   try {
-    const allBooks = await client.get({
+    console.log('Fetching all books...');
+    const response = await client.get({
       endpoint: "bookcommerce",
       queries: { 
         limit: 100,
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
       }
     });
-    return allBooks;
+
+    // レスポンスの型チェックと変換
+    if (!response || !response.contents) {
+      console.error('Invalid response format:', response);
+      throw new Error('データの形式が不正です');
+    }
+
+    return {
+      contents: response.contents as BookType[]
+    };
   } catch (error) {
     console.error("Error fetching all books:", error);
     throw new Error("記事一覧の取得に失敗しました");
@@ -88,7 +98,7 @@ export const getDetailBook = async (contentId: string) => {
         stack: error.stack
       } : error
     });
-    
+
     if (error instanceof Error) {
       throw new Error(`記事の取得に失敗しました: ${error.message}`);
     }
@@ -134,18 +144,25 @@ export const getArticleById = async (id: string) => {
 // カテゴリー別の記事一覧を取得
 export const getBooksByCategory = async (categoryId: string) => {
   try {
-    console.log('Fetching books for categoryId:', categoryId); // デバッグ用
+    console.log('Fetching books for categoryId:', categoryId);
     const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
         filters: `categoryId[equals]${categoryId}`,
-      },
+        fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
+      }
     });
-    console.log('Books by category response:', response); // デバッグ用
-    return response;
+
+    if (!response || !response.contents) {
+      throw new Error('データの形式が不正です');
+    }
+
+    return {
+      contents: response.contents as BookType[]
+    };
   } catch (error) {
     console.error(`Error fetching books for categoryId ${categoryId}:`, error);
-    throw error;
+    throw new Error("カテゴリー別記事の取得に失敗しました");
   }
 };
 
@@ -207,7 +224,7 @@ export const getBooksByMonth = async () => {
   books.forEach((book) => {
     const date = new Date(book.createdAt);
     const yearMonth = `${date.getFullYear()}年${date.getMonth() + 1}月`;
-    
+
     if (!groupedBooks[yearMonth]) {
       groupedBooks[yearMonth] = [];
     }
@@ -230,7 +247,7 @@ export const getBooksBySpecificMonth = async (yearMonth: string) => {
   try {
     const response = await client.getList<BookType>({
       endpoint: "bookcommerce",
-      queries: { 
+      queries: {
         limit: 100,
         orders: '-createdAt'
       },
