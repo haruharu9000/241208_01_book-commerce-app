@@ -55,19 +55,22 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       }
 
       try {
-        const response = await fetch("/api/checkout", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: book.title,
-            price: book.price,
-            bookId: book.id,
-            userId: user.id,
-            description: book.description,
-          }),
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/checkout`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              title: book.title,
+              price: book.price,
+              bookId: book.id,
+              userId: user.id,
+              description: book.description,
+            }),
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`Checkout failed: ${response.statusText}`);
@@ -120,7 +123,10 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
                     ¥{book.price.toLocaleString()}
                   </p>
                   {user ? (
-                    <form action="/api/checkout" method="POST">
+                    <form
+                      action={`${process.env.NEXT_PUBLIC_API_URL}/api/checkout`}
+                      method="POST"
+                    >
                       <input type="hidden" name="bookId" value={book.id} />
                       <input type="hidden" name="userId" value={user.id} />
                       <button
