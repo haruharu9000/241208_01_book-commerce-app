@@ -65,15 +65,32 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
     if (book.price > 0 && !isPurchased) {
       if (!user) {
         return (
-          <div className="container mx-auto p-4 text-center">
-            <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
-            <p className="mb-4">この記事は有料コンテンツです</p>
-            <Link
-              href="/api/auth/signin"
-              className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              ログインして購入
-            </Link>
+          <div className="container mx-auto p-4">
+            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+              {book.thumbnail?.url && (
+                <Image
+                  src={book.thumbnail.url}
+                  alt={book.title || "無題"}
+                  className="w-full h-80 object-cover object-center"
+                  width={700}
+                  height={400}
+                />
+              )}
+              <div className="p-6 text-center">
+                <h1 className="text-3xl font-bold mb-4">
+                  {book.title || "無題"}
+                </h1>
+                <p className="text-gray-600 mb-4">
+                  {book.description || "説明なし"}
+                </p>
+                <Link
+                  href="/api/auth/signin"
+                  className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  ログインして購入
+                </Link>
+              </div>
+            </div>
           </div>
         );
       }
@@ -93,15 +110,32 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       }
 
       return (
-        <div className="container mx-auto p-4 text-center">
-          <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
-          <p className="mb-4">この記事は有料コンテンツです</p>
-          <Link
-            href={`/checkout?${params.toString()}`}
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            ¥{book.price.toLocaleString()}で購入
-          </Link>
+        <div className="container mx-auto p-4">
+          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            {book.thumbnail?.url && (
+              <Image
+                src={book.thumbnail.url}
+                alt={book.title || "無題"}
+                className="w-full h-80 object-cover object-center"
+                width={700}
+                height={400}
+              />
+            )}
+            <div className="p-6 text-center">
+              <h1 className="text-3xl font-bold mb-4">
+                {book.title || "無題"}
+              </h1>
+              <p className="text-gray-600 mb-4">
+                {book.description || "説明なし"}
+              </p>
+              <Link
+                href={`/checkout?${params.toString()}`}
+                className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                ¥{book.price.toLocaleString()}で購入
+              </Link>
+            </div>
+          </div>
         </div>
       );
     }
