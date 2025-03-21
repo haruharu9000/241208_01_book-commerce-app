@@ -120,12 +120,25 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           )}
           <div className="p-6">
             <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
-            {shouldShowFullContent ? (
+            {book.price === 0 ? (
+              // 無料記事の場合
+              <div>
+                <p className="text-gray-600 mb-4">
+                  {book.description || "説明なし"}
+                </p>
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: book.content || "" }}
+                />
+              </div>
+            ) : shouldShowFullContent ? (
+              // 有料記事で購入済みの場合
               <div
                 className="prose max-w-none"
                 dangerouslySetInnerHTML={{ __html: book.content || "" }}
               />
             ) : (
+              // 有料記事で未購入の場合
               <div className="space-y-4">
                 <p className="text-gray-600">
                   {book.description || "説明なし"}
