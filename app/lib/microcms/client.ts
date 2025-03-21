@@ -1,51 +1,39 @@
 import { createClient } from "microcms-js-sdk";
 import { BookType, ArticleType, Category } from "@/app/types/types";
 
-// 環境変数のチェックと取得
-const getConfig = () => {
-  const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
-  const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
+if (!process.env.MICROCMS_SERVICE_DOMAIN && !process.env.NEXT_PUBLIC_SERVICE_DOMAIN) {
+  throw new Error("MICROCMS_SERVICE_DOMAIN or NEXT_PUBLIC_SERVICE_DOMAIN is required");
+}
 
-  console.log('Environment check:', {
-    hasServiceDomain: !!serviceDomain,
-    hasApiKey: !!apiKey,
-    isDevelopment: process.env.NODE_ENV === 'development'
-  });
+if (!process.env.MICROCMS_API_KEY && !process.env.NEXT_PUBLIC_API_KEY) {
+  throw new Error("MICROCMS_API_KEY or NEXT_PUBLIC_API_KEY is required");
+}
 
-  if (!serviceDomain) {
-    throw new Error("MICROCMS_SERVICE_DOMAIN is not defined");
-  }
-  if (!apiKey) {
-    throw new Error("MICROCMS_API_KEY is not defined");
-  }
+const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
+const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
 
-  return { serviceDomain, apiKey };
-};
-
-// クライアントの初期化
-const config = getConfig();
 export const client = createClient({
-  serviceDomain: config.serviceDomain,
-  apiKey: config.apiKey,
-  retry: true // リトライを有効化
+  serviceDomain: serviceDomain!,
+  apiKey: apiKey!,
 });
 
 // 書籍一覧を取得
 export const getAllBooks = async () => {
   try {
-    console.log('Fetching all books...');
-    const response = await client.getList<BookType>({
+    const allBooks = await client.get({
       endpoint: "bookcommerce",
       queries: { 
         limit: 100,
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
-      }
+      },
+      customRequestInit: {
+        next: { revalidate: 3600 }
+      },
     });
-
-    return response;
+    return allBooks;
   } catch (error) {
     console.error("Error fetching all books:", error);
-    throw new Error("記事一覧の取得に失敗しました");
+    throw error;
   }
 };
 
@@ -56,12 +44,7 @@ export const getDetailBook = async (contentId: string) => {
   }
 
   try {
-    console.log('Fetching book details with:', {
-      contentId,
-      endpoint: "bookcommerce"
-    });
-
-    const response = await client.getListDetail<BookType>({
+    const detailBook = await client.get<BookType>({
       endpoint: "bookcommerce",
       contentId,
       queries: {
@@ -69,17 +52,14 @@ export const getDetailBook = async (contentId: string) => {
       }
     });
 
-    if (!response) {
+    if (!detailBook) {
       throw new Error("記事が見つかりませんでした");
     }
 
-    return response;
+    return detailBook;
   } catch (error) {
-    console.error('Detailed error in getDetailBook:', {
-      contentId,
-      error: error instanceof Error ? error.message : 'Unknown error'
-    });
-    throw new Error("記事の取得に失敗しました");
+    console.error(`Error fetching book detail for ID ${contentId}:`, error);
+    throw error;
   }
 };
 
@@ -121,32 +101,29 @@ export const getArticleById = async (id: string) => {
 // カテゴリー別の記事一覧を取得
 export const getBooksByCategory = async (categoryId: string) => {
   try {
-    console.log('Fetching books for categoryId:', categoryId);
-    const response = await client.getList<BookType>({
+    const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
         filters: `categoryId[equals]${categoryId}`,
         fields: ['id', 'title', 'content', 'description', 'price', 'thumbnail', 'category', 'categoryId', 'createdAt', 'updatedAt'].join(',')
       }
     });
-
     return response;
   } catch (error) {
     console.error(`Error fetching books for categoryId ${categoryId}:`, error);
-    throw new Error("カテゴリー別記事の取得に失敗しました");
+    throw error;
   }
 };
 
 // カテゴリー一覧を取得
 export const getCategories = async (): Promise<Category[]> => {
   try {
-    console.log('Fetching categories...');
-    const response = await client.getList<BookType>({
+    const response = await client.get({
       endpoint: "bookcommerce",
       queries: {
         fields: ['id', 'categoryId', 'category'].join(','),
         limit: 100
-      }
+      },
     });
 
     if (!response?.contents?.length) {
@@ -174,7 +151,7 @@ export const getCategories = async (): Promise<Category[]> => {
     return Object.values(categoriesMap);
   } catch (error) {
     console.error("Error fetching categories:", error);
-    throw new Error("カテゴリー一覧の取得に失敗しました");
+    throw error;
   }
 };
 
