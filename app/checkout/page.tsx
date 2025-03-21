@@ -33,6 +33,7 @@ const CheckoutPage = async ({
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           bookId: searchParams.bookId,
           userId: searchParams.userId,
