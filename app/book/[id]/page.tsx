@@ -1,10 +1,11 @@
 import { getDetailBook } from "@/app/lib/microcms/client";
 import Image from "next/image";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User, Purchase } from "@/app/types/types";
+import Link from "next/link";
 
 const formatDate = (dateString: string | undefined): string => {
   if (!dateString) return "日付なし";
@@ -60,10 +61,21 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
       }
     }
 
-    // 有料記事で未購入の場合は決済画面へリダイレクト
+    // 有料記事で未購入の場合の処理
     if (book.price > 0 && !isPurchased) {
       if (!user) {
-        return redirect("/api/auth/signin");
+        return (
+          <div className="container mx-auto p-4 text-center">
+            <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
+            <p className="mb-4">この記事は有料コンテンツです</p>
+            <Link
+              href="/api/auth/signin"
+              className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              ログインして購入
+            </Link>
+          </div>
+        );
       }
 
       // 必須パラメータの存在確認
@@ -71,7 +83,6 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         throw new Error("必要な情報が不足しています");
       }
 
-      // 決済に必要な情報を安全に構築
       const params = new URLSearchParams();
       params.append("bookId", book.id);
       params.append("userId", user.id);
@@ -81,7 +92,18 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         params.append("description", book.description);
       }
 
-      return redirect(`/checkout?${params.toString()}`);
+      return (
+        <div className="container mx-auto p-4 text-center">
+          <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
+          <p className="mb-4">この記事は有料コンテンツです</p>
+          <Link
+            href={`/checkout?${params.toString()}`}
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            ¥{book.price.toLocaleString()}で購入
+          </Link>
+        </div>
+      );
     }
 
     // 無料記事または購入済みの場合は全文表示
