@@ -64,14 +64,18 @@ export async function POST(request: Request) {
         bookId: bookId
       },
       client_reference_id: user.id,
-      line_items: [{
-        price_data: {
-          currency: "jpy",
-          product_data: { name: title },
-          unit_amount: price
-        },
-        quantity: 1
-      }],
+      line_items: [
+        {
+          price_data: {
+            currency: "jpy",
+            product_data: {
+              name: title
+            },
+            unit_amount: Number(price)
+          },
+          quantity: 1
+        }
+      ],
       mode: "payment",
       success_url: `${BASE_URL}/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: BASE_URL,

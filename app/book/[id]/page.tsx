@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User, Purchase } from "@/app/types/types";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 const formatDate = (dateString: string | undefined): string => {
   if (!dateString) return "日付なし";
@@ -127,6 +128,7 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Cookie: cookies().toString(),
           },
           credentials: "include",
           cache: "no-store",
