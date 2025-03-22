@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { cookies } from "next/headers";
 
 // ExtendedUser型を定義
 interface ExtendedUser {
