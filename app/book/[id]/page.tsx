@@ -128,6 +128,8 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
+          cache: "no-store",
           body: JSON.stringify({
             bookId: book.id,
             userId: user.id,
