@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth-options";
 import { redirect } from "next/navigation";
-import { prisma } from "../lib/prisma";
+import prisma from "../lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
@@ -19,7 +19,7 @@ const ProfilePage = async () => {
   }
 
   // ユーザーの購入記事を取得
-  const purchasedBooks = await prisma.purchase.findMany({
+  const purchasedBooks = (await prisma.purchase.findMany({
     where: {
       userId: session.user?.id,
     },
@@ -29,7 +29,7 @@ const ProfilePage = async () => {
     orderBy: {
       createdAt: "desc",
     },
-  }) as PurchaseWithBook[];
+  })) as PurchaseWithBook[];
 
   return (
     <div className="container mx-auto px-4 py-8">
