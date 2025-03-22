@@ -1,92 +1,89 @@
-import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../lib/next-auth/options";
-import { BookType, Purchase, User } from "../types/types";
-import { getDetailBook } from "../lib/microcms/client";
-import PurchaseDetailBook from "../components/PurchaseDetailBook";
+import { nextAuthOptions } from "../lib/next-auth-options";
+import { redirect } from "next/navigation";
+import { prisma } from "../lib/prisma";
+import Image from "next/image";
+import Link from "next/link";
+import { Prisma } from "@prisma/client";
 
-export default async function ProfilePage() {
+type PurchaseWithBook = Prisma.PurchaseGetPayload<{
+  include: {
+    book: true;
+  };
+}>;
+
+const ProfilePage = async () => {
   const session = await getServerSession(nextAuthOptions);
-
-  // セッションがない場合の処理
-  if (!session || !session.user) {
-    return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-xl font-bold mb-4">プロフィール</h1>
-        <p>ログインしてください。</p>
-      </div>
-    );
+  if (!session) {
+    redirect("/login");
   }
 
-  const user = session.user as User;
-  let purchasesDetailBooks: BookType[] = [];
-
-  try {
-    // API のデータ取得を3回リトライ
-    let retries = 3;
-    let purchasesData = null;
-
-    while (retries > 0) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-        { cache: "no-store" } // SSR
-      );
-
-      if (response.ok) {
-        purchasesData = await response.json();
-        if (purchasesData.length > 0) break; // データが取得できたらループを抜ける
-      }
-
-      retries--;
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1秒待つ
-    }
-
-    if (!purchasesData) {
-      throw new Error("購入履歴の取得に失敗しました");
-    }
-
-    purchasesDetailBooks = await Promise.all(
-      purchasesData.map(async (purchase: Purchase) => {
-        return await getDetailBook(purchase.bookId);
-      })
-    );
-  } catch (error) {
-    console.error("Error fetching purchases:", error);
-  }
+  // ユーザーの購入記事を取得
+  const purchasedBooks = await prisma.purchase.findMany({
+    where: {
+      userId: session.user?.id,
+    },
+    include: {
+      book: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  }) as PurchaseWithBook[];
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-xl font-bold mb-4">プロフィール</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-8">プロフィール</h1>
 
-      <div className="bg-white shadow-md rounded p-4">
-        <div className="flex items-center">
-          <Image
-            priority
-            src={user.image || "/default-avatar.png"}
-            alt="user profile_icon"
-            width={60}
-            height={60}
-            className="rounded-full"
-          />
-          <h2 className="text-lg ml-4 font-semibold">
-            ユーザー名：{user.name || "ゲスト"}
-          </h2>
+      <div className="mb-8 flex items-center gap-4">
+        <Image
+          src={session.user?.image || "/default-avatar.png"}
+          alt="プロフィール画像"
+          width={80}
+          height={80}
+          className="rounded-full"
+        />
+        <div>
+          <p className="text-xl font-semibold">{session.user?.name}</p>
+          <p className="text-gray-600">{session.user?.email}</p>
         </div>
       </div>
 
-      <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
-      <div className="flex flex-wrap justify-start gap-4">
-        {purchasesDetailBooks.length > 0 ? (
-          purchasesDetailBooks.map((purchaseDetailBook: BookType) => (
-            <PurchaseDetailBook
-              key={purchaseDetailBook.id}
-              purchaseDetailBook={purchaseDetailBook}
-            />
-          ))
-        ) : (
-          <p>購入した記事はありません。</p>
+      <h2 className="text-xl font-bold mb-4">購入した記事</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {purchasedBooks.map((purchase) => (
+          <Link
+            href={`/book/${purchase.book.id}`}
+            key={purchase.id}
+            className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+          >
+            <div className="aspect-video relative">
+              <Image
+                src={purchase.book.thumbnail || "/default-book-cover.jpg"}
+                alt={purchase.book.title}
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div className="p-4">
+              <h3 className="font-bold mb-2">{purchase.book.title}</h3>
+              <p className="text-gray-600 text-sm mb-2">
+                購入日: {new Date(purchase.createdAt).toLocaleDateString()}
+              </p>
+              <p className="text-sm text-gray-500 line-clamp-2">
+                {purchase.book.description}
+              </p>
+            </div>
+          </Link>
+        ))}
+        {purchasedBooks.length === 0 && (
+          <p className="text-gray-500 col-span-full text-center py-8">
+            まだ購入した記事はありません
+          </p>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default ProfilePage;

@@ -17,13 +17,15 @@ const AuthStatus = () => {
           >
             ログアウト
           </Link>
-          <Image
-            src={session.user?.image || "/default-avatar.png"}
-            alt="プロフィール画像"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
+          <Link href="/profile">
+            <Image
+              src={session.user?.image || "/default-avatar.png"}
+              alt="プロフィール画像"
+              width={40}
+              height={40}
+              className="rounded-full cursor-pointer hover:opacity-80"
+            />
+          </Link>
         </div>
       ) : (
         <Link
