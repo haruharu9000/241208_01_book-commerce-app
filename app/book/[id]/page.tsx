@@ -1,6 +1,6 @@
 import { getDetailBook } from "@/app/lib/microcms/client";
 import Image from "next/image";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import React from "react";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
@@ -160,7 +160,20 @@ const DetailBook = async ({ params }: { params: { id: string } }) => {
         }
 
         console.log("Redirecting to:", data.checkout_url);
-        return redirect(data.checkout_url);
+        // クライアントサイドでリダイレクトするためのJSXを返す
+        return (
+          <html>
+            <head>
+              <meta
+                httpEquiv="refresh"
+                content={`0;url=${data.checkout_url}`}
+              />
+            </head>
+            <body>
+              <p>決済ページに移動しています...</p>
+            </body>
+          </html>
+        );
       } catch (error) {
         console.error("Checkout process error:", error);
         throw new Error(
