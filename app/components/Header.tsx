@@ -29,17 +29,25 @@ const Header = async () => {
             {user ? "プロフィール" : "ログイン"}
           </Link>
 
-          {session && (
-            <Link href="/profile">
-              <Image
-                src={session.user?.image || "/default-avatar.png"}
-                alt="プロフィール"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            </Link>
-          )}
+          {session ? (
+            <>
+              <Link href="/profile">
+                <Image
+                  src={session.user?.image || "/default-avatar.png"}
+                  alt="プロフィール"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </Link>
+              <Link
+                href="/api/auth/signout"
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                ログアウト
+              </Link>
+            </>
+          ) : null}
         </div>
       </nav>
     </header>
