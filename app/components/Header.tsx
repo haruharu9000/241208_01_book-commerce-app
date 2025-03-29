@@ -1,45 +1,39 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../lib/next-auth/options";
-import { User } from "../types/types";
+"use client";
 
-const Header = async () => {
-  const session = await getServerSession(nextAuthOptions);
-  const user = session?.user as User;
+import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
+
+const Header = () => {
+  const { data: session } = useSession();
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
 
   return (
-    <header className="bg-slate-600 text-gray-100 shadow-lg">
-      <nav className="flex items-center justify-between p-4">
-        <Link href={"/"} className="text-xl font-bold">
-          Medium
-        </Link>
-        <div className="flex items-center gap-1">
-          <Link
-            href="/"
-            className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          >
-            ホーム
+    <header className="bg-gray-700 text-white shadow-lg">
+      <nav className="container mx-auto px-6 py-4">
+        <div className="flex justify-between items-center">
+          <Link href="/" className="text-xl font-bold">
+            Medium
           </Link>
-          <Link
-            href={user ? "/profile" : "/api/auth/signin"}
-            className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          >
-            {user ? "プロフィール" : "ログイン"}
-          </Link>
-
-          {session && (
-            <Link href="/profile">
-              <Image
-                src={session.user?.image || "/default-avatar.png"}
-                alt="プロフィール"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
+          <div className="flex items-center space-x-4">
+            <Link href="/" className="hover:text-gray-300">
+              ホーム
             </Link>
-          )}
+            {session ? (
+              <button
+                onClick={handleLogout}
+                className="hover:text-gray-300 cursor-pointer"
+              >
+                ログアウト
+              </button>
+            ) : (
+              <Link href="/profile" className="hover:text-gray-300">
+                プロフィール
+              </Link>
+            )}
+          </div>
         </div>
       </nav>
     </header>
