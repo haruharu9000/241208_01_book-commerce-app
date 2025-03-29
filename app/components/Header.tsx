@@ -1,13 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: "/" });
+    try {
+      const response = await fetch("/api/auth/signout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("ログアウトエラー:", error);
+    }
   };
 
   return (
@@ -29,7 +45,7 @@ const Header = () => {
                 ログアウト
               </button>
             ) : (
-              <Link href="/profile" className="hover:text-gray-300">
+              <Link href="/api/auth/signin" className="hover:text-gray-300">
                 プロフィール
               </Link>
             )}
