@@ -13,28 +13,29 @@ const DetailBook = async ({
   params: { id: string };
   searchParams?: { from?: string };
 }) => {
-  if (!params.id || typeof params.id !== "string") {
-    return notFound();
-  }
-
-  const session = await getServerSession(nextAuthOptions);
-  const book = await getDetailBook(params.id).catch(() => null);
-
-  if (!book || typeof book !== "object") {
-    return notFound();
-  }
-
-  // 有料記事の場合のアクセス制御
-  if (book.price > 0) {
-    // 未ログインの場合、ログインページにリダイレクト
-    if (!session?.user?.id) {
-      const callbackUrl = encodeURIComponent(`/book/${params.id}`);
-      redirect(`/api/auth/signin?callbackUrl=${callbackUrl}`);
+  try {
+    if (!params.id || typeof params.id !== "string") {
+      return notFound();
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const session = await getServerSession(nextAuthOptions);
+    const book = await getDetailBook(params.id).catch(() => null);
 
-    try {
+    if (!book || typeof book !== "object") {
+      return notFound();
+    }
+
+    // 有料記事の場合のアクセス制御
+    if (book.price > 0) {
+      // 未ログインの場合、ログインページにリダイレクト
+      if (!session?.user?.id) {
+        const callbackUrl = encodeURIComponent(`/book/${params.id}`);
+        return redirect(`/api/auth/signin?callbackUrl=${callbackUrl}`);
+      }
+
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
       // 購入状態を確認
       const purchaseResponse = await fetch(
         `${baseUrl}/api/purchases/${session.user.id}`,
@@ -77,61 +78,59 @@ const DetailBook = async ({
           });
 
           if (!checkoutResponse.ok) {
-            throw new Error(
-              `決済処理中にエラーが発生しました: ${checkoutResponse.statusText}`
-            );
+            throw new Error("決済処理の開始に失敗しました");
           }
 
           const data = await checkoutResponse.json();
           if (data.checkout_url) {
-            redirect(data.checkout_url);
+            return redirect(data.checkout_url);
           }
           throw new Error("決済URLの取得に失敗しました");
         }
       } else if (!isPurchased) {
-        // チェックアウトからの遷移でも未購入の場合はエラー
         throw new Error("記事の購入が確認できません");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      throw new Error(
-        "記事へのアクセスに失敗しました。もう一度お試しください。"
-      );
     }
-  }
 
-  // 無料記事または購入済み記事の表示
-  return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        {book.thumbnail?.url && (
-          <Image
-            src={book.thumbnail.url}
-            alt={book.title || "無題"}
-            className="w-full h-80 object-cover object-center"
-            width={700}
-            height={400}
-            priority
-          />
-        )}
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
-          <div
-            className="prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: book.content || "" }}
-          />
+    // 無料記事または購入済み記事の表示
+    return (
+      <div className="container mx-auto p-4">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          {book.thumbnail?.url && (
+            <Image
+              src={book.thumbnail.url}
+              alt={book.title || "無題"}
+              className="w-full h-80 object-cover object-center"
+              width={700}
+              height={400}
+              priority
+            />
+          )}
+          <div className="p-6">
+            <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
+            <div
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: book.content || "" }}
+            />
+          </div>
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-sm text-gray-500">
+            公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
+          </span>
+          <span className="text-sm text-gray-500">
+            最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
+          </span>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <span className="text-sm text-gray-500">
-          公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
-        </span>
-        <span className="text-sm text-gray-500">
-          最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
-        </span>
-      </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error("DetailBook error:", error);
+    if ((error as Error).message.includes("NEXT_REDIRECT")) {
+      throw error; // リダイレクトエラーは再スロー
+    }
+    throw new Error("記事の表示中にエラーが発生しました");
+  }
 };
 
 export default DetailBook;
