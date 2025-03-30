@@ -215,6 +215,7 @@ export const getListBooks = async (queries?: {
       endpoint: "bookcommerce",
       queries: {
         ...queries?.queries,
+        fields: ["id", "title", "content", "thumbnail", "price", "createdAt", "updatedAt"].join(","),
         limit: 100,
       },
     });
