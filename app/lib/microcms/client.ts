@@ -212,22 +212,34 @@ export const getListBooks = async (queries?: {
 }) => {
   try {
     const searchQuery = queries?.queries?.q || "";
+    
+    // まず全てのコンテンツを取得
     const data = await client.get({
       endpoint: "bookcommerce",
       queries: {
         fields: ["id", "title", "content", "thumbnail", "price", "createdAt", "updatedAt"].join(","),
         limit: 100,
-        orders: "-publishedAt",
-        q: searchQuery,
       },
     });
     
-    // クライアントサイドでも本文検索を行う
-    if (searchQuery && data.contents) {
-      data.contents = data.contents.filter((book: Book) => 
-        book.content?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.title?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+    if (!data.contents) {
+      return data;
+    }
+
+    // 検索クエリが存在する場合、ローカルで検索を実行
+    if (searchQuery) {
+      const normalizedQuery = searchQuery.toLowerCase();
+      data.contents = data.contents.filter((book: Book) => {
+        const titleMatch = book.title?.toLowerCase().includes(normalizedQuery);
+        const contentMatch = book.content?.toLowerCase().includes(normalizedQuery);
+        console.log(`Searching "${normalizedQuery}" in book:`, {
+          title: book.title,
+          titleMatch,
+          contentMatch,
+          contentPreview: book.content?.substring(0, 100)
+        });
+        return titleMatch || contentMatch;
+      });
     }
     
     return data;
