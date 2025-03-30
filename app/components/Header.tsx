@@ -1,63 +1,55 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "../lib/next-auth/options";
-import { User } from "../types/types";
+"use client";
 
-const Header = async () => {
-  const session = await getServerSession(nextAuthOptions);
-  const user = session?.user as User;
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+const Header = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const handleLogout = async () => {
-    window.location.href = "/api/auth/signout";
+    try {
+      const response = await fetch("/api/auth/signout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("ログアウトエラー:", error);
+    }
   };
 
   return (
-    <header className="bg-slate-600 text-gray-100 shadow-lg">
-      <nav className="flex items-center justify-between p-4">
-        <Link href={"/"} className="text-xl font-bold">
-          Medium
-        </Link>
-        <div className="flex items-center gap-1">
-          <Link
-            href="/"
-            className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-          >
-            ホーム
+    <header className="bg-gray-700 text-white shadow-lg">
+      <nav className="container mx-auto px-6 py-4">
+        <div className="flex justify-between items-center">
+          <Link href="/" className="text-xl font-bold">
+            Medium
           </Link>
-          {user ? (
-            <>
-              <Link
-                href="/profile"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                プロフィール
-              </Link>
+          <div className="flex items-center space-x-4">
+            <Link href="/" className="hover:text-gray-300">
+              ホーム
+            </Link>
+            {session ? (
               <button
                 onClick={handleLogout}
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className="hover:text-gray-300 cursor-pointer"
               >
                 ログアウト
               </button>
-              <Link href="/profile">
-                <Image
-                  src={user?.image || "/default-avatar.png"}
-                  alt="プロフィール"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
+            ) : (
+              <Link href="/api/auth/signin" className="hover:text-gray-300">
+                プロフィール
               </Link>
-            </>
-          ) : (
-            <Link
-              href="/api/auth/signin"
-              className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >
-              ログイン
-            </Link>
-          )}
+            )}
+          </div>
         </div>
       </nav>
     </header>
