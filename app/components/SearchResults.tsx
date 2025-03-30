@@ -25,6 +25,11 @@ export default function SearchResults({
     );
   };
 
+  // HTMLタグを削除する関数
+  const stripHtmlTags = (html: string) => {
+    return html.replace(/<[^>]*>/g, "");
+  };
+
   if (books.length === 0) {
     return (
       <div className="text-center py-8">
@@ -61,7 +66,7 @@ export default function SearchResults({
               </h2>
               {book.content && (
                 <div className="text-sm text-gray-600 line-clamp-3">
-                  {highlightText(book.content, searchQuery)}
+                  {highlightText(stripHtmlTags(book.content), searchQuery)}
                 </div>
               )}
             </div>
