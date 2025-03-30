@@ -26,11 +26,11 @@ export default async function ProfilePage() {
     const purchases: Purchase[] = await purchasesResponse.json();
 
     return (
-      <div className="container mx-auto p-4 max-w-5xl">
+      <div className="container mx-auto p-4 max-w-6xl">
         {/* プロフィールセクション */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8 w-full">
+          <div className="flex items-center gap-6">
+            <div className="relative w-20 h-20 rounded-full overflow-hidden">
               <Image
                 src={session.user.image || "/default-avatar.png"}
                 alt={session.user.name || "ユーザー"}
@@ -39,7 +39,7 @@ export default async function ProfilePage() {
               />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-gray-900">
                 {session.user.name || "名前未設定"}
               </h2>
               <p className="text-gray-600">{session.user.email}</p>
@@ -48,7 +48,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* 購入済み記事セクション */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white rounded-lg shadow-sm p-6 w-full">
           <h3 className="text-xl font-bold mb-6">購入済み記事一覧</h3>
           <div className="space-y-4">
             {purchases.length > 0 ? (
@@ -60,7 +60,7 @@ export default async function ProfilePage() {
                 >
                   <div className="flex items-center">
                     {purchase.book?.thumbnail ? (
-                      <div className="w-32 h-32 relative flex-shrink-0">
+                      <div className="w-40 h-40 relative flex-shrink-0">
                         <Image
                           src={purchase.book.thumbnail.url}
                           alt={purchase.book.title}
@@ -69,7 +69,7 @@ export default async function ProfilePage() {
                         />
                       </div>
                     ) : (
-                      <div className="w-32 h-32 bg-gray-200 flex-shrink-0" />
+                      <div className="w-40 h-40 bg-gray-200 flex-shrink-0" />
                     )}
                     <div className="p-4 flex-grow">
                       <h2 className="text-lg font-semibold mb-2 text-gray-900">
