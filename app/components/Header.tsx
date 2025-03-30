@@ -28,15 +28,17 @@ const Header = () => {
               >
                 ログアウト
               </button>
-              <div className="w-8 h-8 rounded-full overflow-hidden">
-                <Image
-                  src={session.user.image || "/default-avatar.png"}
-                  alt="プロフィール"
-                  width={32}
-                  height={32}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <Link href="/profile" className="block">
+                <div className="w-8 h-8 rounded-full overflow-hidden hover:opacity-80">
+                  <Image
+                    src={session.user.image || "/default-avatar.png"}
+                    alt="プロフィール"
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </Link>
             </div>
           ) : (
             <Link
