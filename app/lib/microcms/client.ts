@@ -1,16 +1,16 @@
 import { createClient } from "microcms-js-sdk";
-import { BookType, ArticleType, Category } from "@/app/types/types";
+import { Book, Article, Category } from "@/app/types/types";
 
-if (!process.env.MICROCMS_SERVICE_DOMAIN && !process.env.NEXT_PUBLIC_SERVICE_DOMAIN) {
-  throw new Error("MICROCMS_SERVICE_DOMAIN or NEXT_PUBLIC_SERVICE_DOMAIN is required");
+if (!process.env.MICROCMS_SERVICE_DOMAIN) {
+  throw new Error("MICROCMS_SERVICE_DOMAIN is required");
 }
 
-if (!process.env.MICROCMS_API_KEY && !process.env.NEXT_PUBLIC_API_KEY) {
-  throw new Error("MICROCMS_API_KEY or NEXT_PUBLIC_API_KEY is required");
+if (!process.env.MICROCMS_API_KEY) {
+  throw new Error("MICROCMS_API_KEY is required");
 }
 
-const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN || process.env.NEXT_PUBLIC_SERVICE_DOMAIN;
-const apiKey = process.env.MICROCMS_API_KEY || process.env.NEXT_PUBLIC_API_KEY;
+const serviceDomain = process.env.MICROCMS_SERVICE_DOMAIN;
+const apiKey = process.env.MICROCMS_API_KEY;
 
 console.log('MicroCMS Service Domain:', serviceDomain); // デバッグ用
 
@@ -48,10 +48,10 @@ export const getDetailBook = async (contentId: string) => {
 };
 
 // 記事一覧を取得
-export const getAllArticles = async (): Promise<ArticleType[]> => {
+export const getAllArticles = async (): Promise<Article[]> => {
   try {
     console.log('Fetching all articles...'); // デバッグ用
-    const allArticles = await client.getList<ArticleType>({
+    const allArticles = await client.getList<Article>({
       endpoint: "articles",
       customRequestInit: {
         cache: "no-store",
@@ -119,7 +119,7 @@ export const getCategories = async (): Promise<Category[]> => {
     }
 
     // カテゴリー情報を整形して返す
-    const categoriesMap = response.contents.reduce((acc: { [key: string]: Category }, content: BookType) => {
+    const categoriesMap = response.contents.reduce((acc: { [key: string]: Category }, content: Book) => {
       const categoryId = content.categoryId;
       const categoryName = content.category;
       if (!categoryId || !categoryName) return acc;
@@ -147,13 +147,13 @@ export const getCategories = async (): Promise<Category[]> => {
 
 // 月別の記事一覧を取得
 export const getBooksByMonth = async () => {
-  const response = await client.getList<BookType>({
+  const response = await client.getList<Book>({
     endpoint: "bookcommerce",
     queries: { limit: 100 },
   });
 
   const books = response.contents;
-  const groupedBooks: { [key: string]: BookType[] } = {};
+  const groupedBooks: { [key: string]: Book[] } = {};
 
   books.forEach((book) => {
     const date = new Date(book.createdAt);
@@ -179,7 +179,7 @@ export const getBooksByMonth = async () => {
 // 特定の月の記事一覧を取得
 export const getBooksBySpecificMonth = async (yearMonth: string) => {
   try {
-    const response = await client.getList<BookType>({
+    const response = await client.getList<Book>({
       endpoint: "bookcommerce",
       queries: { 
         limit: 100,
