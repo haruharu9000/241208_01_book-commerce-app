@@ -26,7 +26,7 @@ export default async function ProfilePage() {
     const purchases: Purchase[] = await purchasesResponse.json();
 
     return (
-      <div className="container mx-auto p-4 max-w-6xl">
+      <div className="container mx-auto p-4 max-w-3xl">
         {/* プロフィールセクション */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 w-full">
           <div className="flex items-center gap-6">
@@ -69,7 +69,7 @@ export default async function ProfilePage() {
                         />
                       </div>
                     ) : (
-                      <div className="w-40 h-40 bg-gray-200 flex-shrink-0" />
+                      <div className="w-48 h-32 bg-gray-200 flex-shrink-0" />
                     )}
                     <div className="p-4 flex-grow">
                       <h2 className="text-lg font-semibold mb-2 text-gray-900">
@@ -97,7 +97,7 @@ export default async function ProfilePage() {
   } catch (error) {
     console.error("Profile page error:", error);
     return (
-      <div className="container mx-auto p-4 max-w-5xl">
+      <div className="container mx-auto p-4 max-w-7xl">
         <h1 className="text-2xl font-bold mb-6 text-center">エラー</h1>
         <p className="text-red-600 text-center">
           データの取得中にエラーが発生しました
