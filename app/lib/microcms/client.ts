@@ -40,18 +40,11 @@ export const getAllBooks = async () => {
 
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
-  try {
-    console.log('Fetching book detail for ID:', contentId); // デバッグ用
-    const detailBook = await client.getListDetail<BookType>({
-      endpoint: "bookcommerce",
-      contentId,
-      customRequestInit: { cache: "no-store" },
-    });
-    return detailBook;
-  } catch (error) {
-    console.error(`Error fetching book detail for ID ${contentId}:`, error);
-    throw error;
-  }
+  const data = await client.get({
+    endpoint: "books",
+    contentId,
+  });
+  return data;
 };
 
 // 記事一覧を取得
@@ -204,4 +197,17 @@ export const getBooksBySpecificMonth = async (yearMonth: string) => {
     console.error("Error fetching books for specific month:", error);
     throw error;
   }
+};
+
+// 記事一覧を取得（検索機能付き）
+export const getListBooks = async (queries?: {
+  queries?: {
+    q?: string;
+  };
+}) => {
+  const data = await client.get({
+    endpoint: "books",
+    queries: queries?.queries,
+  });
+  return data;
 };

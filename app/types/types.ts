@@ -19,21 +19,26 @@ type BookType = {
 } & MicroCMSType;
 
 // ユーザーの型定義
-type User = {
+export type User = {
   id: string;
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
 };
 
 // 購入情報の型定義
-type Purchase = {
+export type Purchase = {
   id: string;
   userId: string;
   bookId: string;
-  sessionId: string;
   createdAt: string;
-  user: User;
+  book: {
+    id: string;
+    title: string;
+    thumbnail?: {
+      url: string;
+    };
+  };
 };
 
 // 記事の型定義
@@ -52,4 +57,20 @@ type Category = {
 
 // まとめてエクスポート
 export type { BookType, User, Purchase, ArticleType, Category };
+
+export type Book = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  thumbnail?: {
+    url: string;
+    height: number;
+    width: number;
+  };
+  price: number;
+};
 
