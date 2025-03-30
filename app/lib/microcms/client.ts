@@ -211,14 +211,25 @@ export const getListBooks = async (queries?: {
   };
 }) => {
   try {
+    const searchQuery = queries?.queries?.q || "";
     const data = await client.get({
       endpoint: "bookcommerce",
       queries: {
-        ...queries?.queries,
         fields: ["id", "title", "content", "thumbnail", "price", "createdAt", "updatedAt"].join(","),
         limit: 100,
+        orders: "-publishedAt",
+        q: searchQuery,
       },
     });
+    
+    // クライアントサイドでも本文検索を行う
+    if (searchQuery && data.contents) {
+      data.contents = data.contents.filter((book: Book) => 
+        book.content?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.title?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
     return data;
   } catch (error) {
     console.error("Error fetching books:", error);
