@@ -31,37 +31,35 @@ export default async function ProfilePage() {
         <h1 className="text-2xl font-bold mb-8 text-center">
           購入済み記事一覧
         </h1>
-        <div className="grid gap-6">
+        <div className="space-y-6">
           {purchases.length > 0 ? (
             purchases.map((purchase) => (
               <Link
                 key={purchase.id}
                 href={`/book/${purchase.bookId}`}
-                className="block bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100"
+                className="flex bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100"
               >
-                <div className="flex items-center p-4">
-                  {purchase.book?.thumbnail ? (
-                    <div className="w-48 h-48 relative flex-shrink-0">
-                      <Image
-                        src={purchase.book.thumbnail.url}
-                        alt={purchase.book.title}
-                        fill
-                        className="object-cover rounded-md"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-48 h-48 bg-gray-200 rounded-md flex-shrink-0" />
-                  )}
-                  <div className="ml-6 flex-grow">
-                    <h2 className="text-xl font-semibold mb-2 text-gray-900">
-                      {purchase.book?.title || "タイトルなし"}
-                    </h2>
-                    <p className="text-sm text-gray-600">
-                      購入日:{" "}
-                      {new Date(purchase.createdAt).toLocaleDateString("ja-JP")}
-                    </p>
+                {purchase.book?.thumbnail ? (
+                  <div className="w-40 h-40 relative flex-shrink-0">
+                    <Image
+                      src={purchase.book.thumbnail.url}
+                      alt={purchase.book.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
                   </div>
+                ) : (
+                  <div className="w-40 h-40 bg-gray-200 flex-shrink-0" />
+                )}
+                <div className="p-6 flex-grow">
+                  <h2 className="text-xl font-semibold mb-2 text-gray-900">
+                    {purchase.book?.title || "タイトルなし"}
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    購入日:{" "}
+                    {new Date(purchase.createdAt).toLocaleDateString("ja-JP")}
+                  </p>
                 </div>
               </Link>
             ))
