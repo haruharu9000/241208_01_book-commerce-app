@@ -1,30 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 const Header = () => {
   const { data: session } = useSession();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/auth/signout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        router.push("/");
-        router.refresh();
-      }
-    } catch (error) {
-      console.error("ログアウトエラー:", error);
-    }
-  };
 
   return (
     <header className="bg-gray-700 text-white shadow-lg">
@@ -37,16 +17,16 @@ const Header = () => {
             <Link href="/" className="hover:text-gray-300">
               ホーム
             </Link>
-            {session ? (
+            {session?.user ? (
               <button
-                onClick={handleLogout}
+                onClick={() => signOut({ callbackUrl: "/" })}
                 className="hover:text-gray-300 cursor-pointer"
               >
                 ログアウト
               </button>
             ) : (
               <Link href="/api/auth/signin" className="hover:text-gray-300">
-                プロフィール
+                ログイン
               </Link>
             )}
           </div>
