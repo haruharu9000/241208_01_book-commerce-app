@@ -40,11 +40,16 @@ export const getAllBooks = async () => {
 
 // 書籍の詳細を取得
 export const getDetailBook = async (contentId: string) => {
-  const data = await client.get({
-    endpoint: "books",
-    contentId,
-  });
-  return data;
+  try {
+    const data = await client.get({
+      endpoint: "bookcommerce",
+      contentId,
+    });
+    return data;
+  } catch (error) {
+    console.error("Error fetching book detail:", error);
+    throw error;
+  }
 };
 
 // 記事一覧を取得
@@ -205,9 +210,17 @@ export const getListBooks = async (queries?: {
     q?: string;
   };
 }) => {
-  const data = await client.get({
-    endpoint: "books",
-    queries: queries?.queries,
-  });
-  return data;
+  try {
+    const data = await client.get({
+      endpoint: "bookcommerce",
+      queries: {
+        ...queries?.queries,
+        limit: 100,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    throw error;
+  }
 };

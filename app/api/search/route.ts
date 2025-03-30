@@ -2,23 +2,25 @@ import { NextResponse } from "next/server";
 import { getListBooks } from "@/app/lib/microcms/client";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q");
-
-  if (!query) {
-    return NextResponse.json({ message: "検索キーワードを入力してください" }, { status: 400 });
-  }
-
   try {
-    const response = await getListBooks({
-      queries: {
-        q: query,
-      },
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get("q");
+
+    if (!query) {
+      return NextResponse.json({ message: "検索クエリが必要です" }, { status: 400 });
+    }
+
+    const books = await getListBooks({
+      queries: { q: query }
     });
 
-    return NextResponse.json(response);
+    if (!books || !books.contents) {
+      return NextResponse.json({ message: "記事が見つかりませんでした" }, { status: 404 });
+    }
+
+    return NextResponse.json(books.contents);
   } catch (error) {
-    console.error("Search error:", error);
+    console.error("Search API error:", error);
     return NextResponse.json(
       { message: "検索中にエラーが発生しました" },
       { status: 500 }
