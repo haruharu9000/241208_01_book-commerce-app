@@ -45,12 +45,34 @@ export type Purchase = {
   };
 };
 
-// 記事の型定義
+// MicroCMS記事の型定義
 export type Article = {
   title: string;
   description: string;
   content: string;
 } & MicroCMSType;
+
+export type UserArticle = {
+  id: string;
+  title: string;
+  content: string;
+  description?: string;
+  isHidden: boolean;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  user?: User;
+};
+
+export type Bookmark = {
+  id: string;
+  bookId: string;
+  userId: string;
+  isHidden: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user?: User;
+};
 
 // カテゴリーの型定義
 export type Category = {
