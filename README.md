@@ -5,7 +5,7 @@
 
 ---
 
-## ✨ 主な機能
+## ⚙️ 主な機能
 
 - OAuth（GitHub / Google）によるユーザー認証
 - 書籍の閲覧（カテゴリ・月別アーカイブに対応）
@@ -28,8 +28,23 @@
 
 ## 📁 ディレクトリ構成（概要）
 
-📦 app ├── api/ # APIルート（checkout, purchases, search など） ├── book/ # 書籍詳細・購入成功ページ ├── category/ # カテゴリー別表示 ├── profile/ # ユーザープロフィール（購入履歴） ├── search/ # 検索ページ ├── components/ # UIコンポーネント ├── lib/ │ ├── microcms/ # MicroCMS クライアント処理 │ ├── next-auth/ # 認証設定（NextAuth.js） │ └── prisma.ts # Prisma 初期化 ├── types/ # TypeScript 型定義 └── layout.tsx # アプリ共通レイアウト
+・app/
+   ・api/：APIルート（checkout、purchases、search など）
+   ・book/：書籍詳細・購入成功ページ
+   ・category/：カテゴリー別書籍一覧
+   ・profile/：ユーザープロフィール（購入履歴）
+   ・search/：検索ページ
+   ・components/：再利用可能なUIコンポーネント
+   ・lib/
+      ・microcms/：MicroCMS クライアント処理
+      ・next-auth/：認証設定（NextAuth.js）
+      ・prisma.ts：Prisma 初期化
+   ・types/：TypeScript 型定義
+   ・layout.tsx：アプリ共通レイアウト
+・prisma/
+   ・schema.prisma：データベーススキーマ定義
+・public/：画像・アイコンなどの静的アセット
 
-📦 prisma ├── schema.prisma # データベーススキーマ
-
-📦 public # 画像・アイコンなど静的アセット
+## 🌐 補足
+このアプリは技術習得およびポートフォリオ用途として開発されたものです。
+技術選定や構成の考え方にご興味ある方は、お気軽にご連絡いただくか、スター・フォーク等いただければ幸いです。
