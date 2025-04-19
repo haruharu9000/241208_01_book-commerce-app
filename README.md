@@ -25,22 +25,25 @@
 
 ## 📁 ディレクトリ構成（概要）
 
-・app/
-   ・api/：APIルート（checkout、purchases、search など）
-   ・book/：書籍詳細・購入成功ページ
-   ・category/：カテゴリー別書籍一覧
-   ・profile/：ユーザープロフィール（購入履歴）
-   ・search/：検索ページ
-   ・components/：再利用可能なUIコンポーネント
-   ・lib/
-      ・microcms/：MicroCMS クライアント処理
-      ・next-auth/：認証設定（NextAuth.js）
-      ・prisma.ts：Prisma 初期化
-   ・types/：TypeScript 型定義
-   ・layout.tsx：アプリ共通レイアウト
-・prisma/
-   ・schema.prisma：データベーススキーマ定義
-・public/：画像・アイコンなどの静的アセット
+- app/
+  ├─ api/           ：APIルート（checkout、purchases、search など）
+  ├─ book/          ：書籍詳細・購入成功ページ
+  ├─ category/      ：カテゴリー別書籍一覧
+  ├─ profile/       ：ユーザープロフィール（購入履歴）
+  ├─ search/        ：検索ページ
+  ├─ components/    ：再利用可能なUIコンポーネント
+  ├─ lib/
+  │   ├─ microcms/  ：MicroCMS クライアント処理
+  │   ├─ next-auth/ ：認証設定（NextAuth.js）
+  │   └─ prisma.ts  ：Prisma 初期化
+  ├─ types/         ：TypeScript 型定義
+  └─ layout.tsx     ：アプリ共通レイアウト
+
+- prisma/
+  └─ schema.prisma  ：データベーススキーマ定義
+
+- public/           ：画像・アイコンなどの静的アセット
+
 
 ## 🌐 補足
 このアプリは技術習得およびポートフォリオ用途として開発されたものです。
