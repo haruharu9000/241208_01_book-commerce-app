@@ -1,6 +1,6 @@
 # 📚 Book Commerce App
 
-**Book Commerce App** Book Commerce Appは、Next.js を用いて開発した電子書籍販売プラットフォームです。  
+**Book Commerce App** は、Next.js を用いて開発した電子書籍販売プラットフォームです。  
 ユーザーは書籍を検索・閲覧し、認証・決済を経て、購入済みのコンテンツにアクセスできます。  
 
 本アプリでは、ユーザー認証（NextAuth） や 決済機能（Stripe） といった、Webビジネスにおける重要な2つの基盤機能を実装し、実際のサービス運営に近い構成を意識して開発を行いました。  
