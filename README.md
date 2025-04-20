@@ -13,14 +13,15 @@
 - 購入履歴の表示と購入済み書籍へのアクセス
 
 
-## 🛠️ 使用技術
+## 🛠️ 技術スタック
 
-- **フレームワーク**：Next.js（App Router）
-- **UI**：React, Tailwind CSS
-- **認証**：NextAuth.js
-- **決済**：Stripe
-- **データベース**：Prisma + PostgreSQL
-- **CMS**：MicroCMS（ヘッドレスCMS）
+- **フロントエンド**：Next.js、React、Tailwind CSS を用いたUI開発
+- **バックエンド**：Next.js API Routes によるAPI実装
+- **認証機能**：NextAuth.js によるOAuth認証（GitHub / Google）
+- **データベース**：PostgreSQL + Prisma ORM によるデータ管理
+- **コンテンツ管理**：MicroCMS を用いたヘッドレスCMS構築
+- **決済機能**：Stripe による決済導入
+- **デプロイ**：Vercel によるデプロイ・ホスティング
 
 
 ## 📁 ディレクトリ構成（概要）
@@ -41,6 +42,7 @@
 - prisma/
    - schema.prisma：データベーススキーマ定義
 - public/：画像・アイコンなどの静的アセット
+
 
 ## 🌐 補足
 
