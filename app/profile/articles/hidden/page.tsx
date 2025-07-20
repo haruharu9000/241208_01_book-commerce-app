@@ -77,7 +77,8 @@ export default async function HiddenArticlesPage() {
                   <p className="text-gray-600 mb-2">{article.description}</p>
                 )}
                 <p className="text-sm text-gray-500">
-                  作成日: {new Date(article.createdAt).toLocaleDateString("ja-JP")}
+                  作成日:{" "}
+                  {new Date(article.createdAt).toLocaleDateString("ja-JP")}
                 </p>
               </div>
             ))}

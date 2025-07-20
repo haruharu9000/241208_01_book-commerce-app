@@ -14,7 +14,7 @@ export default function NewArticlePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!title || !content) {
       setError("タイトルと内容は必須です");
       return;
@@ -62,7 +62,10 @@ export default function NewArticlePage() {
         </Link>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg shadow-sm p-6"
+      >
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
@@ -70,7 +73,10 @@ export default function NewArticlePage() {
         )}
 
         <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700 font-medium mb-2">
+          <label
+            htmlFor="title"
+            className="block text-gray-700 font-medium mb-2"
+          >
             タイトル <span className="text-red-500">*</span>
           </label>
           <input
@@ -84,7 +90,10 @@ export default function NewArticlePage() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
+          <label
+            htmlFor="description"
+            className="block text-gray-700 font-medium mb-2"
+          >
             概要
           </label>
           <input
@@ -97,7 +106,10 @@ export default function NewArticlePage() {
         </div>
 
         <div className="mb-6">
-          <label htmlFor="content" className="block text-gray-700 font-medium mb-2">
+          <label
+            htmlFor="content"
+            className="block text-gray-700 font-medium mb-2"
+          >
             内容 <span className="text-red-500">*</span>
           </label>
           <textarea

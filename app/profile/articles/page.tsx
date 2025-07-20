@@ -14,10 +14,9 @@ export default async function ArticlesPage() {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const articlesResponse = await fetch(
-      `${baseUrl}/api/profile/articles`,
-      { cache: "no-store" }
-    );
+    const articlesResponse = await fetch(`${baseUrl}/api/profile/articles`, {
+      cache: "no-store",
+    });
 
     if (!articlesResponse.ok) {
       throw new Error("記事の取得に失敗しました");
@@ -85,7 +84,8 @@ export default async function ArticlesPage() {
                   <p className="text-gray-600 mb-2">{article.description}</p>
                 )}
                 <p className="text-sm text-gray-500">
-                  作成日: {new Date(article.createdAt).toLocaleDateString("ja-JP")}
+                  作成日:{" "}
+                  {new Date(article.createdAt).toLocaleDateString("ja-JP")}
                 </p>
               </div>
             ))}

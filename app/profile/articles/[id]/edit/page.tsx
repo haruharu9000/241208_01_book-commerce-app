@@ -21,7 +21,7 @@ export default function EditArticlePage({
     const fetchArticle = async () => {
       try {
         const response = await fetch(`/api/profile/articles/${params.id}`);
-        
+
         if (!response.ok) {
           if (response.status === 404) {
             router.push("/profile/articles");
@@ -37,7 +37,9 @@ export default function EditArticlePage({
         setIsLoading(false);
       } catch (err) {
         console.error("記事取得エラー:", err);
-        setError(err instanceof Error ? err.message : "記事の取得に失敗しました");
+        setError(
+          err instanceof Error ? err.message : "記事の取得に失敗しました"
+        );
         setIsLoading(false);
       }
     };
@@ -47,7 +49,7 @@ export default function EditArticlePage({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!title || !content) {
       setError("タイトルと内容は必須です");
       return;
@@ -105,7 +107,10 @@ export default function EditArticlePage({
         </Link>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg shadow-sm p-6"
+      >
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
@@ -113,7 +118,10 @@ export default function EditArticlePage({
         )}
 
         <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700 font-medium mb-2">
+          <label
+            htmlFor="title"
+            className="block text-gray-700 font-medium mb-2"
+          >
             タイトル <span className="text-red-500">*</span>
           </label>
           <input
@@ -127,7 +135,10 @@ export default function EditArticlePage({
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700 font-medium mb-2">
+          <label
+            htmlFor="description"
+            className="block text-gray-700 font-medium mb-2"
+          >
             概要
           </label>
           <input
@@ -140,7 +151,10 @@ export default function EditArticlePage({
         </div>
 
         <div className="mb-6">
-          <label htmlFor="content" className="block text-gray-700 font-medium mb-2">
+          <label
+            htmlFor="content"
+            className="block text-gray-700 font-medium mb-2"
+          >
             内容 <span className="text-red-500">*</span>
           </label>
           <textarea
