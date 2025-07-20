@@ -20,14 +20,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className="bg-[#f5f3f0] dark:bg-[#0f0f0f]">
+    <html
+      lang="ja"
+      className="bg-elegant-lightBg dark:bg-elegant-darkBg"
+      style={{ backgroundColor: "var(--color-bg)" }}
+    >
       <body
-        className={`${notoSansJP.className} min-h-screen bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300`}
+        className={`${notoSansJP.className} min-h-screen bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300`}
+        style={{ backgroundColor: "var(--color-bg)" }}
       >
         <NextAuthProvider>
-          <div className="flex flex-col min-h-screen bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
+          <div className="main-container flex flex-col min-h-screen bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
             <Header />
-            <div className="flex flex-col lg:flex-row max-w-8xl mx-auto px-3 sm:px-6 md:px-8 py-3 sm:py-6 bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
+            <div className="flex flex-col lg:flex-row max-w-8xl mx-auto px-3 sm:px-6 md:px-8 py-3 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
               <main className="flex-1 lg:mr-8">
                 <Suspense fallback={<Loading />}>{children}</Suspense>
               </main>

@@ -1,110 +1,97 @@
+import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth/options";
-import { redirect } from "next/navigation";
-import { Purchase } from "@/app/types/types";
+import PurchaseDetailBook from "../components/PurchaseDetailBook";
+import { BookType, Purchase } from "../types/types";
 import Link from "next/link";
-import Image from "next/image";
 
 export default async function ProfilePage() {
   const session = await getServerSession(nextAuthOptions);
 
-  if (!session?.user) {
-    redirect("/login");
+  if (!session?.user?.id) {
+    return (
+      <div className="text-center py-20">
+        <p>ログインが必要です</p>
+      </div>
+    );
   }
 
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const purchasesResponse = await fetch(
-      `${baseUrl}/api/purchases/${session.user.id}`,
-      { cache: "no-store" }
-    );
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/purchases/${session.user.id}`,
+    { cache: "no-store" }
+  );
 
-    if (!purchasesResponse.ok) {
-      throw new Error("購入履歴の取得に失敗しました");
-    }
+  const purchases: (Purchase & { book: BookType })[] = await response.json();
 
-    const purchases: Purchase[] = await purchasesResponse.json();
-
-    return (
-      <div className="px-6 lg:px-12 py-4 sm:py-6 bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
-        {/* プロフィールセクション */}
-        <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 w-full transition-colors duration-300">
-          <div className="flex items-start gap-4">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-              <Image
-                src={session.user.image || "/default-avatar.png"}
-                alt={session.user.name || "ユーザー"}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="text-left">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-[#f5f3f0]">
-                {session.user.name || "名前未設定"}
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 dark:text-[#d1c7bc]">
-                {session.user.email}
-              </p>
-            </div>
+  return (
+    <div className="px-6 lg:px-12 py-4 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+      {/* プロフィールセクション */}
+      <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 w-full transition-colors duration-300">
+        <div className="flex items-start gap-4">
+          <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+            <Image
+              src={session.user.image || "/default-avatar.png"}
+              alt={session.user.name || "ユーザー"}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="text-left">
+            <h2 className="text-xl sm:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText">
+              {session.user.name || "名前未設定"}
+            </h2>
+            <p className="text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
+              {session.user.email}
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* 購入済み記事セクション */}
-        <div className="bg-white rounded-lg shadow-sm p-6 w-full">
-          <h3 className="text-xl font-bold mb-6">購入済み記事一覧</h3>
-          <div className="space-y-4">
-            {purchases.length > 0 ? (
-              purchases.map((purchase) => (
-                <Link
-                  key={purchase.id}
-                  href={`/book/${purchase.bookId}`}
-                  className="block bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-100"
-                >
-                  <div className="flex items-center">
-                    {purchase.book?.thumbnail ? (
-                      <div className="w-40 h-40 relative flex-shrink-0">
-                        <Image
-                          src={purchase.book.thumbnail.url}
-                          alt={purchase.book.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-48 h-32 bg-gray-200 flex-shrink-0" />
-                    )}
-                    <div className="p-4 flex-grow">
-                      <h2 className="text-lg font-semibold mb-2 text-gray-900">
-                        {purchase.book?.title || "タイトルなし"}
-                      </h2>
-                      <p className="text-sm text-gray-600">
-                        購入日:{" "}
-                        {new Date(purchase.createdAt).toLocaleDateString(
-                          "ja-JP"
-                        )}
-                      </p>
+      {/* 購入済み記事セクション */}
+      <div className="bg-white dark:bg-elegant-darkCard rounded-lg shadow-sm p-6 w-full transition-colors duration-300">
+        <h3 className="text-xl font-bold mb-6 text-elegant-lightText dark:text-elegant-darkText">
+          購入済み記事一覧
+        </h3>
+        <div className="space-y-4">
+          {purchases.length > 0 ? (
+            purchases.map((purchase) => (
+              <Link
+                key={purchase.id}
+                href={`/book/${purchase.bookId}`}
+                className="block bg-white dark:bg-elegant-darkCard rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-elegant-highlight dark:border-elegant-primary"
+              >
+                <div className="flex items-center">
+                  {purchase.book?.thumbnail ? (
+                    <div className="w-40 h-40 relative flex-shrink-0">
+                      <Image
+                        src={purchase.book.thumbnail.url}
+                        alt={purchase.book.title}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
+                  ) : (
+                    <div className="w-48 h-32 bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0" />
+                  )}
+                  <div className="p-4 flex-grow">
+                    <h2 className="text-lg font-semibold mb-2 text-elegant-lightText dark:text-elegant-darkText">
+                      {purchase.book?.title || "タイトルなし"}
+                    </h2>
+                    <p className="text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
+                      購入日:{" "}
+                      {new Date(purchase.createdAt).toLocaleDateString("ja-JP")}
+                    </p>
                   </div>
-                </Link>
-              ))
-            ) : (
-              <p className="text-center text-gray-600 py-8">
-                購入済みの記事はありません
-              </p>
-            )}
-          </div>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p className="text-center text-elegant-lightMuted dark:text-elegant-darkMuted py-8">
+              購入済みの記事はありません
+            </p>
+          )}
         </div>
       </div>
-    );
-  } catch (error) {
-    console.error("Profile page error:", error);
-    return (
-      <div className="container mx-auto p-4 max-w-7xl">
-        <h1 className="text-2xl font-bold mb-6 text-center">エラー</h1>
-        <p className="text-red-600 text-center">
-          データの取得中にエラーが発生しました
-        </p>
-      </div>
-    );
-  }
+    </div>
+  );
 }

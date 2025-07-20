@@ -19,7 +19,7 @@ const Sidebar = async () => {
     return (
       <div className="space-y-3 sm:space-y-6">
         {/* プロフィールセクション */}
-        <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
+        <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
           <div className="flex items-start gap-3 sm:gap-4">
             <div className="relative w-12 h-12 sm:w-24 sm:h-24 rounded-full overflow-hidden flex-shrink-0">
               <Image
@@ -31,10 +31,10 @@ const Sidebar = async () => {
               />
             </div>
             <div className="text-left">
-              <h2 className="text-sm sm:text-2xl font-bold text-[#2d1b1a] dark:text-[#f5f3f0]">
+              <h2 className="text-sm sm:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText">
                 haruaki
               </h2>
-              <p className="text-xs sm:text-base text-[#5a4a49] dark:text-[#d1c7bc]">
+              <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
                 Next.jsとMicroCMSを使ってブログを構築してます。
               </p>
             </div>
@@ -42,68 +42,72 @@ const Sidebar = async () => {
         </div>
 
         {/* 検索バー */}
-        <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
+        <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
           <SearchBar />
         </div>
 
         {/* カテゴリー */}
-        {categories.length > 0 && (
-          <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
-            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4 text-[#2d1b1a] dark:text-[#f5f3f0]">
-              カテゴリー
-            </h2>
-            <ul className="space-y-1 sm:space-y-2">
-              {categories.map((category: Category) => (
-                <li key={category.id}>
-                  <Link
-                    href={`/category/${category.id}`}
-                    className="flex justify-between items-center text-[#5a4a49] dark:text-[#d1c7bc] hover:text-[#6a1917] dark:hover:text-[#d4a574] text-xs sm:text-base transition-colors duration-200"
-                  >
-                    <span>{category.name}</span>
-                    <span className="text-xs text-[#8a8a8a] dark:text-[#666666]">
-                      (
-                      {
-                        contents.filter(
-                          (book: BookType) => book.categoryId === category.id
-                        ).length
-                      }
-                      )
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-elegant-lightText dark:text-elegant-darkText">
+            カテゴリー
+          </h2>
+          <ul className="space-y-1 sm:space-y-2">
+            {categories.map((category: Category) => (
+              <li key={category.id}>
+                <Link
+                  href={`/category/${category.id}`}
+                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-primary dark:hover:text-elegant-accent transition-colors"
+                >
+                  <span>
+                    {category.id === "worksummary" ? "日報" : category.name}
+                  </span>
+                  <span className="text-xs sm:text-sm">
+                    (
+                    {
+                      contents.filter(
+                        (book: BookType) => book.categoryId === category.id
+                      ).length
+                    }
+                    )
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {/* アーカイブ */}
-        {sortedMonths.length > 0 && (
-          <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
-            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4 text-[#2d1b1a] dark:text-[#f5f3f0]">
-              アーカイブ
-            </h2>
-            <ul className="space-y-1 sm:space-y-2">
-              {sortedMonths.map((month) => (
-                <li key={month}>
-                  <Link
-                    href={`/archive/${month}`}
-                    className="flex justify-between items-center text-[#5a4a49] dark:text-[#d1c7bc] hover:text-[#6a1917] dark:hover:text-[#d4a574] text-xs sm:text-base transition-colors duration-200"
-                  >
-                    <span>{month}</span>
-                    <span className="text-xs text-[#8a8a8a] dark:text-[#666666]">
-                      ({groupedBooks[month].length})
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-md p-3 sm:p-6 transition-colors duration-300">
+          <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-elegant-lightText dark:text-elegant-darkText">
+            アーカイブ
+          </h2>
+          <ul className="space-y-1 sm:space-y-2">
+            {sortedMonths.map((month) => (
+              <li key={month}>
+                <Link
+                  href={`/archive/${month}`}
+                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-primary dark:hover:text-elegant-accent transition-colors"
+                >
+                  <span>{month}</span>
+                  <span className="text-xs sm:text-sm">
+                    ({groupedBooks[month].length})
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   } catch (error) {
     console.error("Sidebar error:", error);
-    return <div>エラーが発生しました</div>;
+    return (
+      <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-md p-6 transition-colors duration-300">
+        <p className="text-elegant-lightMuted dark:text-elegant-darkMuted">
+          データの読み込みでエラーが発生しました
+        </p>
+      </div>
+    );
   }
 };
 

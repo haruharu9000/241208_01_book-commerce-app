@@ -14,8 +14,8 @@ export default async function SearchPage({
   });
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 max-w-5xl bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
-      <h1 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-center text-gray-900 dark:text-[#f5f3f0]">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 max-w-5xl bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+      <h1 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-center text-elegant-lightText dark:text-elegant-darkText">
         検索結果: &ldquo;{searchQuery}&rdquo;
       </h1>
       <SearchResults books={data.contents || []} searchQuery={searchQuery} />

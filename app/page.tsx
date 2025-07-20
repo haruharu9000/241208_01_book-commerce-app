@@ -29,9 +29,9 @@ export default async function Home() {
   }
 
   return (
-    <div className="px-3 sm:px-6 md:px-8 py-3 sm:py-6 bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
+    <div className="px-3 sm:px-6 md:px-8 py-3 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
       <div className="space-y-3 sm:space-y-6">
-        <h1 className="text-xl sm:text-3xl font-bold mb-3 sm:mb-6 text-gray-900 dark:text-[#f5f3f0]">
+        <h1 className="text-xl sm:text-3xl font-bold mb-3 sm:mb-6 text-elegant-lightText dark:text-elegant-darkText">
           記事一覧
         </h1>
         <div className="space-y-3 sm:space-y-6">

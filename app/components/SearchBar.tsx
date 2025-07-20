@@ -22,11 +22,11 @@ const SearchBar = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="記事を検索..."
-          className="w-full px-3 py-2 pl-10 pr-4 text-sm border border-[#e6c9a3] dark:border-[#666666] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6a1917] dark:focus:ring-[#d4a574] focus:border-transparent bg-[#faf8f5] dark:bg-[#2a2a2a] text-[#2d1b1a] dark:text-[#f5f3f0] placeholder-[#8a8a8a] dark:placeholder-[#666666] transition-colors duration-200"
+          className="w-full px-3 py-2 pl-10 pr-4 text-sm border border-elegant-highlight dark:border-elegant-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-elegant-primary dark:focus:ring-elegant-accent focus:border-transparent bg-elegant-lightBg dark:bg-elegant-darkBg text-elegant-lightText dark:text-elegant-darkText placeholder-elegant-lightMuted dark:placeholder-elegant-darkMuted transition-colors duration-200"
         />
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
-            className="h-4 w-4 text-[#8a8a8a] dark:text-[#666666]"
+            className="h-4 w-4 text-elegant-lightMuted dark:text-elegant-darkMuted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

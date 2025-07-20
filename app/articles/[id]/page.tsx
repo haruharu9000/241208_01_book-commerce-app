@@ -15,7 +15,7 @@ export default async function ArticlePage({
     }
 
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
         {book.thumbnail && (
           <div className="w-full h-48 sm:h-64 object-cover mb-4 sm:mb-6">
             <Image
@@ -27,8 +27,8 @@ export default async function ArticlePage({
             />
           </div>
         )}
-        <div className="p-4 sm:p-6 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg transition-colors duration-300">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-[#f5f3f0]">
+        <div className="p-4 sm:p-6 bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg transition-colors duration-300">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-elegant-lightText dark:text-elegant-darkText">
             {book.title}
           </h1>
           <div

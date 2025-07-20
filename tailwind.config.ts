@@ -6,10 +6,27 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: 'media', // システム設定に応じて自動切り替え
+  darkMode: 'class', // 手動でダークモード切り替え
   theme: {
     extend: {
       colors: {
+        elegant: {
+          // 基本色
+          primary: '#6b4c3b',        // 上品な深いブラウン（赤み少なめ）
+          accent: '#a68f79',         // 落ち着いたサンドベージュ
+          highlight: '#dcd2c1',      // 柔らかく上品なハイライトカラー
+
+          // ライトモード
+          lightBg: '#f5f1ec',        // アイボリー寄りの背景（柔らか）
+          lightText: '#2f1f16',      // 濃すぎず読みやすいブラウン
+          lightMuted: '#9c8e81',     // サブテキストやボーダー向け
+
+          // ダークモード
+          darkBg: '#1d1815',         // 黒に近いビターブラウン
+          darkCard: '#2c2420',       // コンテンツ背景用（柔らか暗め）
+          darkText: '#e9e2dc',       // アイボリー系のやさしい文字色
+          darkMuted: '#b4a59b',      // サブテキストや説明に最適
+        },
         maroon: {
           50: '#fdf2f2',
           100: '#fce7e7',

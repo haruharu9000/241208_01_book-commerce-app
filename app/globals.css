@@ -2,98 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
-/* マルーンを基調としたカスタムカラーパレット */
+/* 上品なブラウン系カラーパレット */
 :root {
-  --color-maroon: #6a1917;
-  --color-maroon-light: #8a2a28;
-  --color-maroon-dark: #4a0f0d;
-  --color-cream: #faf8f5;
-  --color-warm-gray: #f5f3f0;
-  --color-text-primary: #2d1b1a;
-  --color-text-secondary: #5a4a49;
-  --color-accent: #d4a574;
-  --color-accent-light: #e6c9a3;
+  --color-primary: #6b4c3b;
+  --color-accent: #a68f79;
+  --color-highlight: #dcd2c1;
+  --color-bg: #f5f1ec;
+  --color-card: #ffffff;
+  --color-text-primary: #2f1f16;
+  --color-text-secondary: #9c8e81;
+  --color-text-link: #3b2314; /* 濃いブラウン（背景と差を出す） */
+  --color-text-link-hover: #000000; /* ホバー時には黒に近い */
 }
 
 /* ダークモード用カラーパレット */
 .dark {
-  --color-maroon: #d4a574;
-  --color-maroon-light: #e6c9a3;
-  --color-maroon-dark: #b8935a;
-  --color-cream: #1a1a1a;
-  --color-warm-gray: #0f0f0f;
-  --color-text-primary: #f5f3f0;
-  --color-text-secondary: #d1c7bc;
-  --color-accent: #6a1917;
-  --color-accent-light: #8a2a28;
+  --color-primary: #a68f79;
+  --color-accent: #dcd2c1;
+  --color-highlight: #6b4c3b;
+  --color-bg: #1d1815;
+  --color-card: #2c2420;
+  --color-text-primary: #e9e2dc;
+  --color-text-secondary: #b4a59b;
+  --color-text-link: #f4eae2; /* ダークモード時は明るい白系 */
+  --color-text-link-hover: #ffffff;
 }
 
-/* HTMLとbodyの背景色を統一 */
+/* HTMLとbodyの背景色を統一してスクロール時の白い部分を防ぐ */
 html {
-  background-color: var(--color-warm-gray);
+  background-color: var(--color-bg);
   transition: background-color 0.3s ease;
+  /* オーバースクロール時の動作を制御 */
+  overscroll-behavior: none;
+  /* Safariでのバウンス効果を無効にする */
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
-  background-color: var(--color-warm-gray);
+  background-color: var(--color-bg);
+  transition: background-color 0.3s ease;
+  min-height: 100vh;
+  /* オーバースクロール時の動作を制御 */
+  overscroll-behavior: none;
+  /* 余白を完全に削除 */
+  margin: 0;
+  padding: 0;
+}
+
+/* ビューポート全体を背景色で覆う */
+#__next {
+  background-color: var(--color-bg);
   transition: background-color 0.3s ease;
   min-height: 100vh;
 }
 
 /* カードの背景色を統一 */
 .bg-white {
-  background-color: var(--color-cream);
+  background-color: var(--color-card);
   transition: background-color 0.3s ease;
 }
 
 /* ボタンやアクセントカラーの統一 */
 .bg-blue-500 {
-  background-color: var(--color-maroon);
+  background-color: var(--color-primary);
 }
 
 .bg-blue-600 {
-  background-color: var(--color-maroon-dark);
+  background-color: var(--color-accent);
 }
 
 .hover\:bg-blue-600:hover {
-  background-color: var(--color-maroon-dark);
+  background-color: var(--color-accent);
 }
 
 .hover\:bg-blue-700:hover {
-  background-color: var(--color-maroon-dark);
+  background-color: var(--color-accent);
 }
 
 .text-blue-600 {
-  color: var(--color-maroon);
+  color: var(--color-primary);
 }
 
 .hover\:text-blue-800:hover {
-  color: var(--color-maroon-dark);
+  color: var(--color-accent);
 }
 
 /* シャドウの色を調整 */
 .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(106, 25, 23, 0.1), 0 4px 6px -2px rgba(106, 25, 23, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(107, 76, 59, 0.1), 0 4px 6px -2px rgba(107, 76, 59, 0.05);
 }
 
 .dark .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(212, 165, 116, 0.2), 0 4px 6px -2px rgba(212, 165, 116, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(166, 143, 121, 0.2), 0 4px 6px -2px rgba(166, 143, 121, 0.1);
 }
 
 .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(106, 25, 23, 0.1), 0 10px 10px -5px rgba(106, 25, 23, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(107, 76, 59, 0.1), 0 10px 10px -5px rgba(107, 76, 59, 0.04);
 }
 
 .dark .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(212, 165, 116, 0.2), 0 10px 10px -5px rgba(212, 165, 116, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(166, 143, 121, 0.2), 0 10px 10px -5px rgba(166, 143, 121, 0.1);
 }
 
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(106, 25, 23, 0.1), 0 2px 4px -1px rgba(106, 25, 23, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(107, 76, 59, 0.1), 0 2px 4px -1px rgba(107, 76, 59, 0.06);
 }
 
 .dark .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(212, 165, 116, 0.2), 0 2px 4px -1px rgba(212, 165, 116, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(166, 143, 121, 0.2), 0 2px 4px -1px rgba(166, 143, 121, 0.1);
 }
 
 /* テキストカラーの調整 */
@@ -109,7 +125,7 @@ body {
 
 /* ダークモード用の追加スタイル */
 .dark .bg-gray-100 {
-  background-color: var(--color-warm-gray);
+  background-color: var(--color-bg);
 }
 
 .dark .text-gray-100 {
@@ -125,16 +141,16 @@ body {
 }
 
 .dark .border-gray-100 {
-  border-color: #333;
+  border-color: rgba(166, 143, 121, 0.3);
 }
 
 .dark .border-gray-200 {
-  border-color: #444;
+  border-color: rgba(166, 143, 121, 0.4);
 }
 
 /* 背景色の完全対応 */
 .dark .bg-gray-50 {
-  background-color: #1a1a1a;
+  background-color: var(--color-card);
 }
 
 .dark .bg-green-50 {
@@ -156,15 +172,43 @@ body {
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--color-card);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--color-text-secondary);
   border-radius: 4px;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: var(--color-text-primary);
+}
+
+/* オーバースクロール時の白い部分を防ぐための追加設定 */
+html,
+body,
+#__next,
+.main-container {
+  background-color: var(--color-bg) !important;
+}
+
+/* iOS Safari用の追加設定 */
+@supports (-webkit-touch-callout: none) {
+  html {
+    /* iOS Safariでのオーバースクロール時の白い部分を防ぐ */
+    background-attachment: fixed;
+  }
+  
+  body {
+    /* iOS Safariでのバウンス効果を無効にする */
+    position: fixed;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  
+  body.no-scroll {
+    overflow: hidden;
+  }
 }
 
