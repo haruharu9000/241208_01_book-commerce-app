@@ -19,6 +19,8 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
+          {/* ダークモード切り替えボタン */}
+          <DarkModeToggle />
           <Link
             href="/"
             className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-highlight dark:hover:text-elegant-lightBg px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
@@ -52,8 +54,6 @@ const Header = () => {
               ログイン
             </Link>
           )}
-          {/* ダークモード切り替えボタン */}
-          <DarkModeToggle />
         </div>
       </nav>
     </header>
