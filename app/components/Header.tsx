@@ -15,7 +15,7 @@ const Header = () => {
           href="/"
           className="text-base sm:text-xl font-bold text-elegant-lightBg dark:text-elegant-darkText"
         >
-          LOG/OS
+          sandbox:/
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
