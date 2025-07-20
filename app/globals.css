@@ -2,30 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 上品なブラウン系カラーパレット */
+/* 上品で温かみのあるブラウン系カラーパレット */
 :root {
   --color-primary: #6b4c3b;
   --color-accent: #a68f79;
   --color-highlight: #dcd2c1;
-  --color-bg: #f5f1ec;
+  --color-warm-accent: #b8936f;
+  --color-bg: #f7f3ed;
   --color-card: #ffffff;
   --color-text-primary: #2f1f16;
   --color-text-secondary: #9c8e81;
-  --color-text-link: #3b2314; /* 濃いブラウン（背景と差を出す） */
-  --color-text-link-hover: #000000; /* ホバー時には黒に近い */
 }
 
-/* ダークモード用カラーパレット */
+/* ダークモード用軽やかで優雅なカラーパレット */
 .dark {
-  --color-primary: #a68f79;
-  --color-accent: #dcd2c1;
+  --color-primary: #b8936f;
+  --color-accent: #d4a574;
   --color-highlight: #6b4c3b;
-  --color-bg: #1d1815;
-  --color-card: #2c2420;
-  --color-text-primary: #e9e2dc;
-  --color-text-secondary: #b4a59b;
-  --color-text-link: #f4eae2; /* ダークモード時は明るい白系 */
-  --color-text-link-hover: #ffffff;
+  --color-warm-accent: #c4b5a7;
+  --color-bg: #2a2320;
+  --color-card: #3d352f;
+  --color-text-primary: #f0e8df;
+  --color-text-secondary: #c4b5a7;
 }
 
 /* HTMLとbodyの背景色を統一してスクロール時の白い部分を防ぐ */
@@ -87,29 +85,29 @@ body {
   color: var(--color-accent);
 }
 
-/* シャドウの色を調整 */
+/* シャドウの色を調整（軽やかに） */
 .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(107, 76, 59, 0.1), 0 4px 6px -2px rgba(107, 76, 59, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(107, 76, 59, 0.08), 0 4px 6px -2px rgba(107, 76, 59, 0.04);
 }
 
 .dark .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(166, 143, 121, 0.2), 0 4px 6px -2px rgba(166, 143, 121, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(184, 147, 111, 0.15), 0 4px 6px -2px rgba(184, 147, 111, 0.08);
 }
 
 .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(107, 76, 59, 0.1), 0 10px 10px -5px rgba(107, 76, 59, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(107, 76, 59, 0.08), 0 10px 10px -5px rgba(107, 76, 59, 0.03);
 }
 
 .dark .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(166, 143, 121, 0.2), 0 10px 10px -5px rgba(166, 143, 121, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(184, 147, 111, 0.15), 0 10px 10px -5px rgba(184, 147, 111, 0.08);
 }
 
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(107, 76, 59, 0.1), 0 2px 4px -1px rgba(107, 76, 59, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(107, 76, 59, 0.08), 0 2px 4px -1px rgba(107, 76, 59, 0.04);
 }
 
 .dark .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(166, 143, 121, 0.2), 0 2px 4px -1px rgba(166, 143, 121, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(184, 147, 111, 0.15), 0 2px 4px -1px rgba(184, 147, 111, 0.08);
 }
 
 /* テキストカラーの調整 */
@@ -141,11 +139,11 @@ body {
 }
 
 .dark .border-gray-100 {
-  border-color: rgba(166, 143, 121, 0.3);
+  border-color: rgba(196, 181, 167, 0.3);
 }
 
 .dark .border-gray-200 {
-  border-color: rgba(166, 143, 121, 0.4);
+  border-color: rgba(196, 181, 167, 0.4);
 }
 
 /* 背景色の完全対応 */

@@ -32,11 +32,11 @@ export default function RootLayout({
         <NextAuthProvider>
           <div className="main-container flex flex-col min-h-screen bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
             <Header />
-            <div className="flex flex-col lg:flex-row max-w-8xl mx-auto px-3 sm:px-6 md:px-8 py-3 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
-              <main className="flex-1 lg:mr-8">
+            <div className="flex flex-col lg:flex-row max-w-8xl mx-auto px-4 sm:px-8 md:px-12 py-6 sm:py-8 md:py-10 gap-6 lg:gap-8 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+              <main className="flex-1 lg:mr-6">
                 <Suspense fallback={<Loading />}>{children}</Suspense>
               </main>
-              <aside className="w-full lg:w-80 mt-4 lg:mt-0">
+              <aside className="w-full lg:w-80 mt-6 lg:mt-0">
                 <Suspense fallback={<Loading />}>
                   <Sidebar />
                 </Suspense>

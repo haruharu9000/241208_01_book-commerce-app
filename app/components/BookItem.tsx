@@ -27,24 +27,39 @@ export default function BookItem({
             </div>
           </div>
         )}
-        <div className="flex-1 p-3 sm:p-6 flex flex-col justify-between">
+        <div className="flex-1 p-4 sm:p-6 md:p-8 flex flex-col justify-between">
           <div>
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 text-elegant-lightText dark:text-elegant-darkText line-clamp-2">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4 text-elegant-lightText dark:text-elegant-darkText line-clamp-2">
               {book.title}
             </h2>
-            <p className="text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 mb-3 sm:mb-4">
+            <p className="text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 mb-4 sm:mb-6">
               {book.content?.replace(/<[^>]*>/g, "").substring(0, 150)}...
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
             <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
-              {book.createdAt}
+              {new Date(book.createdAt).toLocaleDateString("ja-JP")}
             </span>
-            {isPurchased && (
-              <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 py-1 rounded-full">
-                購入済み
-              </span>
-            )}
+            <div className="flex items-center gap-4">
+              {/* 価格表示（購入ボタンの左横） */}
+              {typeof book.price === "number" && book.price > 0 && (
+                <p className="text-sm sm:text-base font-bold text-elegant-primary dark:text-elegant-accent">
+                  ¥{book.price.toLocaleString()}
+                </p>
+              )}
+              {isPurchased ? (
+                <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-3 py-1.5 rounded-full">
+                  購入済み
+                </span>
+              ) : (
+                typeof book.price === "number" &&
+                book.price > 0 && (
+                  <span className="inline-block bg-elegant-primary dark:bg-elegant-accent text-white dark:text-elegant-lightText text-xs px-3 py-1.5 rounded-full hover:bg-elegant-accent dark:hover:bg-elegant-primary transition-colors duration-200">
+                    購入する
+                  </span>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>

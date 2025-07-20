@@ -11,21 +11,24 @@ const config: Config = {
     extend: {
       colors: {
         elegant: {
-          // 基本色
+          // 基本色（統一感のある上品な色調）
           primary: '#6b4c3b',        // 上品な深いブラウン（赤み少なめ）
           accent: '#a68f79',         // 落ち着いたサンドベージュ
           highlight: '#dcd2c1',      // 柔らかく上品なハイライトカラー
+          warmAccent: '#b8936f',     // 温かみのあるマルーン寄りアクセント
 
-          // ライトモード
-          lightBg: '#f5f1ec',        // アイボリー寄りの背景（柔らか）
+          // ライトモード（温かみのある上品な色調）
+          lightBg: '#f7f3ed',        // より温かみのあるアイボリー
+          lightCard: '#ffffff',      // 純白のカード背景
           lightText: '#2f1f16',      // 濃すぎず読みやすいブラウン
           lightMuted: '#9c8e81',     // サブテキストやボーダー向け
 
-          // ダークモード
-          darkBg: '#1d1815',         // 黒に近いビターブラウン
-          darkCard: '#2c2420',       // コンテンツ背景用（柔らか暗め）
-          darkText: '#e9e2dc',       // アイボリー系のやさしい文字色
-          darkMuted: '#b4a59b',      // サブテキストや説明に最適
+          // ダークモード（軽やかで優雅な色調）
+          darkBg: '#2a2320',         // より軽やかなダークブラウン
+          darkCard: '#3d352f',       // 温かみのあるカード背景
+          darkText: '#f0e8df',       // 柔らかく上品なアイボリー
+          darkMuted: '#c4b5a7',      // 明るめのミューテッド色
+          darkAccent: '#d4a574',     // マルーン寄りの温かいアクセント
         },
         maroon: {
           50: '#fdf2f2',
