@@ -33,9 +33,9 @@ const Sidebar = async () => {
               </div>
             </div>
             <div>
-              <h2 className="text-xl font-bold">hoge</h2>
+              <h2 className="text-xl font-bold">haruaki</h2>
               <p className="text-gray-600 text-sm">
-                知の探求、広告非依存のブログプラットフォームを構築中。
+                Next.jsとMicroCMSを使ってブログを構築してます。
               </p>
             </div>
           </div>
