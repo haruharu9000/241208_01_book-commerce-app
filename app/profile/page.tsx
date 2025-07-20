@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth/options";
-import PurchaseDetailBook from "../components/PurchaseDetailBook";
 import { BookType, Purchase } from "../types/types";
 import Link from "next/link";
 
