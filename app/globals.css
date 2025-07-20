@@ -190,6 +190,63 @@ body,
   background-color: var(--color-bg) !important;
 }
 
+/* 記事本文のダークモード視認性改善 */
+.dark .prose {
+  color: #f0e8df; /* elegant-darkText相当の明るい色 */
+}
+
+.dark .prose p {
+  color: #f0e8df; /* 段落テキストを明るく */
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #f0e8df; /* 見出しテキストを明るく */
+}
+
+.dark .prose strong {
+  color: #f0e8df; /* 太字テキストを明るく */
+}
+
+.dark .prose em {
+  color: #e6ddd4; /* 斜体テキストを少し柔らかく */
+}
+
+.dark .prose blockquote {
+  color: #c4b5a7; /* 引用テキストを少し暗めに */
+  border-left-color: #d4a574; /* 引用ボーダーをアクセント色に */
+}
+
+.dark .prose code {
+  color: #f0e8df; /* インラインコードを明るく */
+  background-color: rgba(212, 165, 116, 0.2); /* アクセント色の背景 */
+}
+
+.dark .prose pre {
+  background-color: rgba(61, 53, 47, 0.8); /* コードブロック背景 */
+}
+
+.dark .prose pre code {
+  color: #f0e8df; /* コードブロック内のテキスト */
+}
+
+.dark .prose a {
+  color: #d4a574; /* リンクをアクセント色に */
+}
+
+.dark .prose a:hover {
+  color: #b8936f; /* ホバー時のリンク色 */
+}
+
+.dark .prose ul li::marker,
+.dark .prose ol li::marker {
+  color: #c4b5a7; /* リストマーカーを見やすく */
+}
+
 /* iOS Safari用の追加設定 */
 @supports (-webkit-touch-callout: none) {
   html {
