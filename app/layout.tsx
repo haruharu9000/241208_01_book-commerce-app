@@ -20,12 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
-      <body className={`${notoSansJP.className} min-h-screen`}>
+    <html lang="ja" className="bg-[#f5f3f0] dark:bg-[#0f0f0f]">
+      <body
+        className={`${notoSansJP.className} min-h-screen bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300`}
+      >
         <NextAuthProvider>
-          <div className="flex flex-col min-h-screen">
+          <div className="flex flex-col min-h-screen bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
             <Header />
-            <div className="flex flex-col lg:flex-row max-w-8xl mx-auto px-3 sm:px-6 md:px-8 py-3 sm:py-6">
+            <div className="flex flex-col lg:flex-row max-w-8xl mx-auto px-3 sm:px-6 md:px-8 py-3 sm:py-6 bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
               <main className="flex-1 lg:mr-8">
                 <Suspense fallback={<Loading />}>{children}</Suspense>
               </main>

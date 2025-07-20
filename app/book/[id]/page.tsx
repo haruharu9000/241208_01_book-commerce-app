@@ -94,8 +94,8 @@ const DetailBook = async ({
 
     // 無料記事または購入済み記事の表示
     return (
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6">
-        <div className="bg-white shadow-lg rounded-xl overflow-hidden max-w-4xl mx-auto">
+      <div className="px-6 lg:px-12 py-4 sm:py-6 bg-[#f5f3f0] dark:bg-[#0f0f0f] transition-colors duration-300">
+        <div className="bg-white dark:bg-[#1a1a1a] shadow-lg rounded-xl overflow-hidden transition-colors duration-300">
           {book.thumbnail?.url && (
             <Image
               src={book.thumbnail.url}
@@ -107,16 +107,16 @@ const DetailBook = async ({
             />
           )}
           <div className="p-4 sm:p-6">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-gray-900">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-[#f5f3f0]">
               {book.title || "無題"}
             </h1>
             <div
-              className="prose max-w-none text-sm sm:text-base leading-relaxed"
+              className="prose max-w-none text-sm sm:text-base leading-relaxed dark:prose-invert"
               dangerouslySetInnerHTML={{ __html: book.content || "" }}
             />
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 sm:mt-6 text-sm text-gray-500 gap-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 sm:mt-6 text-sm text-gray-500 dark:text-[#d1c7bc] gap-2">
           <span>
             公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
           </span>
