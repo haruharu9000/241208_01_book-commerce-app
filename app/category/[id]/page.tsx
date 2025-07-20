@@ -29,7 +29,10 @@ export default async function CategoryPage({
     }
   }
 
-  const categoryDisplayName = params.id === "worksummary" ? "日報" : params.id;
+  const categoryDisplayName =
+    params.id === "worksummarry" ? "日報"
+      : params.id === "programming" ? "プログラミング"
+      : params.id;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">

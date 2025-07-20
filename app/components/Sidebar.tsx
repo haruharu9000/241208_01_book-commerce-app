@@ -59,7 +59,11 @@ const Sidebar = async () => {
                   className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-primary dark:hover:text-elegant-accent transition-colors py-1"
                 >
                   <span>
-                    {category.id === "worksummary" ? "日報" : category.name}
+                    {category.id === "worksummary"
+                      ? "日報"
+                      : category.id === "programming"
+                        ? "プログラミング"
+                        : category.name}
                   </span>
                   <span className="text-xs sm:text-sm">
                     (
