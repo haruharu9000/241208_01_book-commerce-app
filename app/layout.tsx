@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={`${notoSansJP.className} min-h-screen bg-gray-100`}>
+      <body className={`${notoSansJP.className} min-h-screen`}>
         <NextAuthProvider>
           <div className="flex flex-col min-h-screen">
             <Header />

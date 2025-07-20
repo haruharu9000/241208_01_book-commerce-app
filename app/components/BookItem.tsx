@@ -39,14 +39,14 @@ export default function BookItem({
           <div className="mt-auto">
             {typeof book.price === "number" && book.price > 0 && (
               <div className="flex items-center justify-between">
-                <p className="text-sm md:text-lg font-bold text-blue-600">
+                <p className="text-sm md:text-lg font-bold text-[#6a1917]">
                   ¥{book.price.toLocaleString()}
                 </p>
                 <span
                   className={`text-xs md:text-base px-2 md:px-3 py-1 rounded-full ${
                     isPurchased
                       ? "text-green-600 bg-green-50"
-                      : "text-blue-600 bg-blue-50 hover:bg-blue-100"
+                      : "text-[#6a1917] bg-[#faf8f5] hover:bg-[#f5f3f0]"
                   }`}
                 >
                   {isPurchased ? "購入済み" : "購入する"}

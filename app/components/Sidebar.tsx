@@ -31,8 +31,10 @@ const Sidebar = async () => {
               />
             </div>
             <div className="text-left">
-              <h2 className="text-sm sm:text-2xl font-bold">haruaki</h2>
-              <p className="text-xs sm:text-base text-gray-600">
+              <h2 className="text-sm sm:text-2xl font-bold text-[#2d1b1a]">
+                haruaki
+              </h2>
+              <p className="text-xs sm:text-base text-[#5a4a49]">
                 Next.jsとMicroCMSを使ってブログを構築してます。
               </p>
             </div>
@@ -47,7 +49,7 @@ const Sidebar = async () => {
         {/* カテゴリー */}
         {categories.length > 0 && (
           <div className="bg-white rounded-xl shadow-md p-3 sm:p-6">
-            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4">
+            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4 text-[#2d1b1a]">
               カテゴリー
             </h2>
             <ul className="space-y-1 sm:space-y-2">
@@ -55,10 +57,10 @@ const Sidebar = async () => {
                 <li key={category.id}>
                   <Link
                     href={`/category/${category.id}`}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-xs sm:text-base"
+                    className="flex justify-between items-center text-[#5a4a49] hover:text-[#6a1917] text-xs sm:text-base transition-colors duration-200"
                   >
                     <span>{category.name}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#8a8a8a]">
                       (
                       {
                         contents.filter(
@@ -77,7 +79,7 @@ const Sidebar = async () => {
         {/* アーカイブ */}
         {sortedMonths.length > 0 && (
           <div className="bg-white rounded-xl shadow-md p-3 sm:p-6">
-            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4">
+            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4 text-[#2d1b1a]">
               アーカイブ
             </h2>
             <ul className="space-y-1 sm:space-y-2">
@@ -85,10 +87,10 @@ const Sidebar = async () => {
                 <li key={month}>
                   <Link
                     href={`/archive/${month}`}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-xs sm:text-base"
+                    className="flex justify-between items-center text-[#5a4a49] hover:text-[#6a1917] text-xs sm:text-base transition-colors duration-200"
                   >
                     <span>{month}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-[#8a8a8a]">
                       ({groupedBooks[month].length})
                     </span>
                   </Link>

@@ -8,7 +8,7 @@ const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="bg-slate-600 text-gray-100 shadow-lg">
+    <header className="bg-[#6a1917] text-gray-100 shadow-lg">
       <nav className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
         <Link href="/" className="text-base sm:text-xl font-bold">
           LOG/OS

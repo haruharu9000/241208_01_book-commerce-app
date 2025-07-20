@@ -2,3 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* マルーンを基調としたカスタムカラーパレット */
+:root {
+  --color-maroon: #6a1917;
+  --color-maroon-light: #8a2a28;
+  --color-maroon-dark: #4a0f0d;
+  --color-cream: #faf8f5;
+  --color-warm-gray: #f5f3f0;
+  --color-text-primary: #2d1b1a;
+  --color-text-secondary: #5a4a49;
+  --color-accent: #d4a574;
+  --color-accent-light: #e6c9a3;
+}
+
+/* 背景色の統一 */
+body {
+  background-color: var(--color-warm-gray);
+}
+
+/* カードの背景色を統一 */
+.bg-white {
+  background-color: var(--color-cream);
+}
+
+/* ボタンやアクセントカラーの統一 */
+.bg-blue-500 {
+  background-color: var(--color-maroon);
+}
+
+.bg-blue-600 {
+  background-color: var(--color-maroon-dark);
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: var(--color-maroon-dark);
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: var(--color-maroon-dark);
+}
+
+.text-blue-600 {
+  color: var(--color-maroon);
+}
+
+.hover\:text-blue-800:hover {
+  color: var(--color-maroon-dark);
+}
+
+/* シャドウの色を調整 */
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(106, 25, 23, 0.1), 0 4px 6px -2px rgba(106, 25, 23, 0.05);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(106, 25, 23, 0.1), 0 10px 10px -5px rgba(106, 25, 23, 0.04);
+}
+
+/* テキストカラーの調整 */
+.text-gray-900 {
+  color: var(--color-text-primary);
+}
+
+.text-gray-600 {
+  color: var(--color-text-secondary);
+}
+
