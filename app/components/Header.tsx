@@ -8,7 +8,7 @@ const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="bg-[#6a1917] text-gray-100 shadow-lg">
+    <header className="bg-[#6a1917] dark:bg-[#d4a574] text-gray-100 dark:text-[#2d1b1a] shadow-lg transition-colors duration-300">
       <nav className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
         <Link href="/" className="text-base sm:text-xl font-bold">
           LOG/OS
@@ -16,7 +16,7 @@ const Header = () => {
         <div className="flex items-center gap-2 sm:gap-4">
           <Link
             href="/"
-            className="text-gray-300 hover:text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
+            className="text-gray-300 dark:text-[#5a4a49] hover:text-white dark:hover:text-[#2d1b1a] px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
           >
             ホーム
           </Link>
@@ -24,7 +24,7 @@ const Header = () => {
             <div className="flex items-center gap-2 sm:gap-4">
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-gray-300 hover:text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
+                className="text-gray-300 dark:text-[#5a4a49] hover:text-white dark:hover:text-[#2d1b1a] px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
               >
                 ログアウト
               </button>
@@ -42,7 +42,7 @@ const Header = () => {
           ) : (
             <Link
               href="/login"
-              className="text-gray-300 hover:text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
+              className="text-gray-300 dark:text-[#5a4a49] hover:text-white dark:hover:text-[#2d1b1a] px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
             >
               ログイン
             </Link>
