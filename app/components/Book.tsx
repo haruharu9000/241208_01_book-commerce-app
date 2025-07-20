@@ -83,10 +83,10 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
         }
       `}</style>
 
-      <div className="flex flex-col items-center m-4">
+      <div className="flex flex-col items-center p-2 md:p-4">
         <a
           onClick={handlePurchaseClick}
-          className="cursor-pointer shadow-2xl duration-300 hover:translate-y-1 hover:shadow-none"
+          className="cursor-pointer shadow-xl rounded-xl overflow-hidden duration-300 hover:translate-y-1 hover:shadow-2xl max-w-xs md:max-w-sm w-full"
         >
           <Image
             priority
@@ -94,31 +94,41 @@ const Book = ({ book, isPurchased, user }: BookProps) => {
             alt={book.title}
             width={450}
             height={350}
-            className="rounded-t-md"
+            className="w-full h-auto"
           />
-          <div className="px-4 py-4 bg-slate-100 rounded-b-md">
-            <h2 className="text-lg font-semibold">{book.title}</h2>
-            <p className="mt-2 text-lg text-slate-600">{book.description}</p>
-            <p className="mt-2 text-md text-slate-700">価格:{book.price}円</p>
+          <div className="px-4 py-4 md:px-6 md:py-6 bg-slate-100">
+            <h2 className="text-base md:text-lg font-semibold mb-2 leading-tight">
+              {book.title}
+            </h2>
+            <p className="text-sm md:text-base text-slate-600 mb-3 leading-relaxed">
+              {book.description}
+            </p>
+            <p className="text-sm md:text-base text-slate-700 font-medium">
+              価格: {book.price}円
+            </p>
           </div>
         </a>
 
         {showModal && (
-          <div className="absolute top-0 left-0 right-0 bottom-0 bg-slate-900 bg-opacity-50 flex justify-center items-center modal">
-            <div className="bg-white p-8 rounded-lg">
-              <h3 className="text-xl mb-4">本を購入しますか？</h3>
-              <button
-                onClick={handlePurchaseConfirm}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
-              >
-                購入する
-              </button>
-              <button
-                onClick={handleCancel}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-              >
-                キャンセル
-              </button>
+          <div className="absolute top-0 left-0 right-0 bottom-0 bg-slate-900 bg-opacity-50 flex justify-center items-center modal p-4">
+            <div className="bg-white p-6 md:p-8 rounded-xl max-w-sm w-full mx-4">
+              <h3 className="text-lg md:text-xl mb-4 font-semibold">
+                本を購入しますか？
+              </h3>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={handlePurchaseConfirm}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                >
+                  購入する
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+                >
+                  キャンセル
+                </button>
+              </div>
             </div>
           </div>
         )}

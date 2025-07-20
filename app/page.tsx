@@ -29,11 +29,13 @@ export default async function Home() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="md:col-span-3">
-          <h1 className="text-3xl font-bold mb-6">記事一覧</h1>
-          <div className="space-y-6">
+    <div className="max-w-2xl px-4 sm:px-6 md:px-8 py-4 sm:py-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="md:col-span-2 lg:col-span-3 xl:col-span-4">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-gray-900">
+            記事一覧
+          </h1>
+          <div className="space-y-4 sm:space-y-6">
             {contents.map((book: BookType) => (
               <BookItem
                 key={book.id}

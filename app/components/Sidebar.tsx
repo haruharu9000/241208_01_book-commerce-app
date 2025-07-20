@@ -17,24 +17,22 @@ const Sidebar = async () => {
     const { groupedBooks, sortedMonths } = await getBooksByMonth();
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* プロフィールセクション */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center space-x-4 mb-4">
-            <div className="w-[200px] relative">
-              <div className="relative w-full pt-[75%]">
-                <Image
-                  src="/profile-icon.jpg"
-                  alt="Profile"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  className="rounded-lg"
-                />
-              </div>
+        <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+          <div className="flex items-start gap-4">
+            <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+              <Image
+                src="/profile-icon.jpg"
+                alt="Profile"
+                fill
+                style={{ objectFit: "cover" }}
+                className="rounded-full"
+              />
             </div>
-            <div>
-              <h2 className="text-xl font-bold">haruaki</h2>
-              <p className="text-gray-600 text-sm">
+            <div className="text-left">
+              <h2 className="text-lg sm:text-xl font-bold">haruaki</h2>
+              <p className="text-gray-600 text-sm sm:text-base">
                 Next.jsとMicroCMSを使ってブログを構築してます。
               </p>
             </div>
@@ -42,23 +40,25 @@ const Sidebar = async () => {
         </div>
 
         {/* 検索バー */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
           <SearchBar />
         </div>
 
         {/* カテゴリー */}
         {categories.length > 0 && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">カテゴリー</h2>
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+              カテゴリー
+            </h2>
             <ul className="space-y-2">
               {categories.map((category: Category) => (
                 <li key={category.id}>
                   <Link
                     href={`/category/${category.id}`}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-600"
+                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-sm sm:text-base"
                   >
                     <span>{category.name}</span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-xs sm:text-sm text-gray-500">
                       (
                       {
                         contents.filter(
@@ -76,17 +76,19 @@ const Sidebar = async () => {
 
         {/* アーカイブ */}
         {sortedMonths.length > 0 && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4">アーカイブ</h2>
+          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+              アーカイブ
+            </h2>
             <ul className="space-y-2">
               {sortedMonths.map((month) => (
                 <li key={month}>
                   <Link
                     href={`/archive/${month}`}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-600"
+                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-sm sm:text-base"
                   >
                     <span>{month}</span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-xs sm:text-sm text-gray-500">
                       ({groupedBooks[month].length})
                     </span>
                   </Link>
@@ -98,14 +100,8 @@ const Sidebar = async () => {
       </div>
     );
   } catch (error) {
-    console.error("Error in Sidebar component:", error);
-    return (
-      <div className="space-y-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <p className="text-red-500">データの読み込みに失敗しました。</p>
-        </div>
-      </div>
-    );
+    console.error("Sidebar error:", error);
+    return <div>エラーが発生しました</div>;
   }
 };
 

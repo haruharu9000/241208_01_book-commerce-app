@@ -94,31 +94,33 @@ const DetailBook = async ({
 
     // 無料記事または購入済み記事の表示
     return (
-      <div className="container mx-auto p-4">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6">
+        <div className="bg-white shadow-lg rounded-xl overflow-hidden max-w-4xl mx-auto">
           {book.thumbnail?.url && (
             <Image
               src={book.thumbnail.url}
               alt={book.title || "無題"}
-              className="w-full h-80 object-cover object-center"
+              className="w-full h-64 sm:h-80 object-cover object-center"
               width={700}
               height={400}
               priority
             />
           )}
-          <div className="p-6">
-            <h1 className="text-3xl font-bold mb-4">{book.title || "無題"}</h1>
+          <div className="p-4 sm:p-6">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-gray-900">
+              {book.title || "無題"}
+            </h1>
             <div
-              className="prose max-w-none"
+              className="prose max-w-none text-sm sm:text-base leading-relaxed"
               dangerouslySetInnerHTML={{ __html: book.content || "" }}
             />
           </div>
         </div>
-        <div className="flex justify-between items-center mt-2">
-          <span className="text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 sm:mt-6 text-sm text-gray-500 gap-2">
+          <span>
             公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
           </span>
-          <span className="text-sm text-gray-500">
+          <span>
             最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
           </span>
         </div>

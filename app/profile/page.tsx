@@ -26,11 +26,11 @@ export default async function ProfilePage() {
     const purchases: Purchase[] = await purchasesResponse.json();
 
     return (
-      <div className="container mx-auto p-4 max-w-3xl">
+      <div className="px-6 lg:px-12 py-4 sm:py-6">
         {/* プロフィールセクション */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8 w-full">
-          <div className="flex items-center gap-6">
-            <div className="relative w-20 h-20 rounded-full overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 w-full">
+          <div className="flex items-start gap-4">
+            <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
               <Image
                 src={session.user.image || "/default-avatar.png"}
                 alt={session.user.name || "ユーザー"}
@@ -38,11 +38,13 @@ export default async function ProfilePage() {
                 className="object-cover"
               />
             </div>
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">
+            <div className="text-left">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                 {session.user.name || "名前未設定"}
               </h2>
-              <p className="text-gray-600">{session.user.email}</p>
+              <p className="text-sm sm:text-base text-gray-600">
+                {session.user.email}
+              </p>
             </div>
           </div>
         </div>
