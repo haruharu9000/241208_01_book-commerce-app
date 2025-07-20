@@ -15,16 +15,14 @@ export default function BookItem({
     <Link href={`/book/${book.id}`} className="block hover:opacity-80">
       <div className="flex flex-col md:flex-row bg-white dark:bg-elegant-darkCard rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
         {book.thumbnail && (
-          <div className="w-full md:w-1/3 md:min-w-[200px]">
-            <div className="relative w-full pt-[75%]">
-              <Image
-                src={book.thumbnail.url}
-                alt={book.title}
-                fill
-                style={{ objectFit: "cover" }}
-                className="rounded-t-xl md:rounded-l-xl md:rounded-t-none"
-              />
-            </div>
+          <div className="w-full md:w-1/3 md:min-w-[200px] h-48 md:h-auto relative">
+            <Image
+              src={book.thumbnail.url}
+              alt={book.title}
+              fill
+              style={{ objectFit: "cover" }}
+              className="rounded-t-xl md:rounded-l-xl md:rounded-t-none"
+            />
           </div>
         )}
         <div className="flex-1 p-4 sm:p-6 md:p-8 flex flex-col justify-between">

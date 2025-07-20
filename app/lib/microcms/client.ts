@@ -127,22 +127,27 @@ export const getCategories = async (): Promise<Category[]> => {
     const categoriesMap = response.contents.reduce((acc: { [key: string]: Category }, content: Book) => {
       const categoryId = content.categoryId;
       const categoryName = content.category;
-      if (!categoryId || !categoryName) return acc;
-
-      if (!acc[categoryId]) {
-        acc[categoryId] = {
-          id: categoryId,
-          name: categoryName,
-          count: 1
-        };
-      } else {
-        acc[categoryId].count = (acc[categoryId].count || 0) + 1;
+      
+      console.log('Processing book:', { id: content.id, categoryId, categoryName }); // デバッグ用
+      
+      // categoryIdとcategoryNameの両方が存在する場合のみ処理
+      if (categoryId && categoryName) {
+        if (!acc[categoryId]) {
+          acc[categoryId] = {
+            id: categoryId,
+            name: categoryName,
+            count: 1
+          };
+        } else {
+          acc[categoryId].count = (acc[categoryId].count || 0) + 1;
+        }
+        console.log('Updated category:', acc[categoryId]); // デバッグ用
       }
       return acc;
     }, {});
 
     const categories = Object.values(categoriesMap) as Category[];
-    console.log('Processed categories:', categories); // デバッグ用
+    console.log('Final processed categories:', categories); // デバッグ用
     return categories;
   } catch (error) {
     console.error("Error fetching categories:", error);

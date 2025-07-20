@@ -67,11 +67,10 @@ const Sidebar = async () => {
                   </span>
                   <span className="text-xs sm:text-sm">
                     (
-                    {
+                    {category.count ||
                       contents.filter(
                         (book: BookType) => book.categoryId === category.id
-                      ).length
-                    }
+                      ).length}
                     )
                   </span>
                 </Link>
