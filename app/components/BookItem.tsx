@@ -13,7 +13,7 @@ export default function BookItem({
 }) {
   return (
     <Link href={`/book/${book.id}`} className="block hover:opacity-80">
-      <div className="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-sm md:max-w-none">
+      <div className="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
         {book.thumbnail && (
           <div className="w-full md:w-1/3 md:min-w-[200px]">
             <div className="relative w-full pt-[75%]">
@@ -27,23 +27,23 @@ export default function BookItem({
             </div>
           </div>
         )}
-        <div className="flex-1 p-4 md:p-6 flex flex-col">
-          <div className="mb-3 md:mb-4">
-            <h2 className="text-lg md:text-xl font-bold mb-2 text-gray-900 leading-tight">
+        <div className="flex-1 p-3 md:p-6 flex flex-col">
+          <div className="mb-2 md:mb-4">
+            <h2 className="text-base md:text-xl font-bold mb-1 md:mb-2 text-gray-900 leading-tight">
               {book.title}
             </h2>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed line-clamp-2 md:line-clamp-none">
               {book.description}
             </p>
           </div>
           <div className="mt-auto">
             {typeof book.price === "number" && book.price > 0 && (
               <div className="flex items-center justify-between">
-                <p className="text-base md:text-lg font-bold text-blue-600">
+                <p className="text-sm md:text-lg font-bold text-blue-600">
                   ¥{book.price.toLocaleString()}
                 </p>
                 <span
-                  className={`text-sm md:text-base px-3 py-1 rounded-full ${
+                  className={`text-xs md:text-base px-2 md:px-3 py-1 rounded-full ${
                     isPurchased
                       ? "text-green-600 bg-green-50"
                       : "text-blue-600 bg-blue-50 hover:bg-blue-100"

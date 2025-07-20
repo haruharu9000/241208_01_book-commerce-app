@@ -9,14 +9,14 @@ const Header = () => {
 
   return (
     <header className="bg-slate-600 text-gray-100 shadow-lg">
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
-        <Link href="/" className="text-lg sm:text-xl font-bold">
+      <nav className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
+        <Link href="/" className="text-base sm:text-xl font-bold">
           LOG/OS
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
           <Link
             href="/"
-            className="text-gray-300 hover:text-white px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium"
+            className="text-gray-300 hover:text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
           >
             ホーム
           </Link>
@@ -24,12 +24,12 @@ const Header = () => {
             <div className="flex items-center gap-2 sm:gap-4">
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-gray-300 hover:text-white px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium"
+                className="text-gray-300 hover:text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
               >
                 ログアウト
               </button>
               <Link href="/profile">
-                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden">
+                <div className="relative w-7 h-7 sm:w-10 sm:h-10 rounded-full overflow-hidden">
                   <Image
                     src={session.user.image || "/default-avatar.png"}
                     alt="profile"
@@ -42,7 +42,7 @@ const Header = () => {
           ) : (
             <Link
               href="/login"
-              className="text-gray-300 hover:text-white px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium"
+              className="text-gray-300 hover:text-white px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
             >
               ログイン
             </Link>

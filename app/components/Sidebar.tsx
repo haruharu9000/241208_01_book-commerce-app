@@ -17,11 +17,11 @@ const Sidebar = async () => {
     const { groupedBooks, sortedMonths } = await getBooksByMonth();
 
     return (
-      <div className="space-y-4 sm:space-y-6">
+      <div className="space-y-3 sm:space-y-6">
         {/* プロフィールセクション */}
-        <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-          <div className="flex items-start gap-4">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+        <div className="bg-white rounded-xl shadow-md p-3 sm:p-6">
+          <div className="flex items-start gap-3 sm:gap-4">
+            <div className="relative w-12 h-12 sm:w-24 sm:h-24 rounded-full overflow-hidden flex-shrink-0">
               <Image
                 src="/profile-icon.jpg"
                 alt="Profile"
@@ -31,8 +31,8 @@ const Sidebar = async () => {
               />
             </div>
             <div className="text-left">
-              <h2 className="text-lg sm:text-xl font-bold">haruaki</h2>
-              <p className="text-gray-600 text-sm sm:text-base">
+              <h2 className="text-sm sm:text-2xl font-bold">haruaki</h2>
+              <p className="text-xs sm:text-base text-gray-600">
                 Next.jsとMicroCMSを使ってブログを構築してます。
               </p>
             </div>
@@ -40,25 +40,25 @@ const Sidebar = async () => {
         </div>
 
         {/* 検索バー */}
-        <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+        <div className="bg-white rounded-xl shadow-md p-3 sm:p-6">
           <SearchBar />
         </div>
 
         {/* カテゴリー */}
         {categories.length > 0 && (
-          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+          <div className="bg-white rounded-xl shadow-md p-3 sm:p-6">
+            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4">
               カテゴリー
             </h2>
-            <ul className="space-y-2">
+            <ul className="space-y-1 sm:space-y-2">
               {categories.map((category: Category) => (
                 <li key={category.id}>
                   <Link
                     href={`/category/${category.id}`}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-sm sm:text-base"
+                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-xs sm:text-base"
                   >
                     <span>{category.name}</span>
-                    <span className="text-xs sm:text-sm text-gray-500">
+                    <span className="text-xs text-gray-500">
                       (
                       {
                         contents.filter(
@@ -76,19 +76,19 @@ const Sidebar = async () => {
 
         {/* アーカイブ */}
         {sortedMonths.length > 0 && (
-          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-            <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+          <div className="bg-white rounded-xl shadow-md p-3 sm:p-6">
+            <h2 className="text-sm sm:text-xl font-bold mb-2 sm:mb-4">
               アーカイブ
             </h2>
-            <ul className="space-y-2">
+            <ul className="space-y-1 sm:space-y-2">
               {sortedMonths.map((month) => (
                 <li key={month}>
                   <Link
                     href={`/archive/${month}`}
-                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-sm sm:text-base"
+                    className="flex justify-between items-center text-gray-700 hover:text-blue-600 text-xs sm:text-base"
                   >
                     <span>{month}</span>
-                    <span className="text-xs sm:text-sm text-gray-500">
+                    <span className="text-xs text-gray-500">
                       ({groupedBooks[month].length})
                     </span>
                   </Link>
