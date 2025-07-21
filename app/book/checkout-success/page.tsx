@@ -78,7 +78,7 @@ const PurchaseSuccess = () => {
 
       <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300 max-w-none">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-10 sm:mb-14 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mt-8 sm:mt-10 mb-8 sm:mb-10 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
             <svg
               className="w-8 h-8 text-green-600 dark:text-green-400"
               fill="none"
@@ -93,7 +93,7 @@ const PurchaseSuccess = () => {
               />
             </svg>
           </div>
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-12 sm:mb-14">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-10 sm:mb-12">
             購入ありがとうございます！
           </h2>
 
