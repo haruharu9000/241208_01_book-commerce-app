@@ -15,7 +15,7 @@ export default async function ArticlePage({
     }
 
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+      <div className="space-y-4 sm:space-y-6 md:space-y-8">
         {book.thumbnail && (
           <div className="w-full h-48 sm:h-64 object-cover mb-4 sm:mb-6">
             <Image

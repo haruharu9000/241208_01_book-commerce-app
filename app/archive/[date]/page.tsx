@@ -32,7 +32,7 @@ export default async function ArchivePage({
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+    <div className="space-y-4 sm:space-y-6 md:space-y-8">
       <h1 className="text-3xl font-bold mb-6 text-elegant-lightText dark:text-elegant-darkText">
         アーカイブ: {decodedDate}
       </h1>
