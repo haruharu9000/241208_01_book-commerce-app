@@ -32,8 +32,10 @@ export default async function ArchivePage({
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6">アーカイブ: {decodedDate}</h1>
+    <div className="max-w-4xl mx-auto px-4 py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+      <h1 className="text-3xl font-bold mb-6 text-elegant-lightText dark:text-elegant-darkText">
+        アーカイブ: {decodedDate}
+      </h1>
       {books.length > 0 ? (
         <div className="space-y-6">
           {books.map((book) => (
@@ -45,7 +47,9 @@ export default async function ArchivePage({
           ))}
         </div>
       ) : (
-        <p className="text-gray-600">この月の記事はありません。</p>
+        <p className="text-elegant-lightMuted dark:text-elegant-darkMuted">
+          この月の記事はありません。
+        </p>
       )}
     </div>
   );

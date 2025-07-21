@@ -1,21 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import DarkModeToggle from "./DarkModeToggle";
+import LogoutButton from "./LogoutButton";
 
 const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="bg-elegant-primary dark:bg-elegant-warmAccent text-white dark:text-elegant-darkText transition-colors duration-300">
+    <header className="bg-elegant-primary dark:bg-elegant-darkCard text-white dark:text-elegant-darkText transition-colors duration-300 border-b border-elegant-highlight dark:border-elegant-primary">
       <nav className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
         <Link
           href="/"
-          className="text-base sm:text-xl font-bold text-elegant-lightBg dark:text-elegant-darkText"
+          className="text-base sm:text-xl font-bold text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-accent dark:hover:text-elegant-darkAccent transition-colors duration-200"
         >
-          sandbox:/
+          <span>sandbox:</span>
+          <span className="dark:text-elegant-darkRedAccent">/</span>
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
@@ -23,33 +25,37 @@ const Header = () => {
           <DarkModeToggle />
           <Link
             href="/"
-            className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-highlight dark:hover:text-elegant-lightBg px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
+            className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-accent dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
           >
             ホーム
           </Link>
+
           {session?.user ? (
             <div className="flex items-center gap-2 sm:gap-4">
-              <button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-highlight dark:hover:text-elegant-lightBg px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
+              <Link
+                href="/profile"
+                className="flex items-center gap-1 sm:gap-2 text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-accent dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
               >
-                ログアウト
-              </button>
-              <Link href="/profile">
-                <div className="relative w-7 h-7 sm:w-10 sm:h-10 rounded-full overflow-hidden">
-                  <Image
-                    src={session.user.image || "/default-avatar.png"}
-                    alt="profile"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                {session.user.image && (
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 relative rounded-full overflow-hidden">
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                )}
+                <span className="hidden sm:inline">
+                  {session.user.name || session.user.email}
+                </span>
               </Link>
+              <LogoutButton />
             </div>
           ) : (
             <Link
               href="/login"
-              className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-highlight dark:hover:text-elegant-lightBg px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
+              className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-accent dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
             >
               ログイン
             </Link>

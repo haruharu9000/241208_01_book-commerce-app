@@ -59,7 +59,7 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={toggleDarkMode}
-      className="px-3 py-2 rounded-md text-xs sm:text-sm font-medium bg-elegant-lightBg/20 dark:bg-elegant-darkText/20 text-elegant-lightBg dark:text-elegant-darkText hover:bg-elegant-lightBg/30 dark:hover:bg-elegant-darkText/30 transition-colors duration-200 border border-elegant-lightBg/30 dark:border-elegant-darkText/30"
+      className="px-3 py-2 rounded-md text-xs sm:text-sm font-medium bg-elegant-lightBg/10 dark:bg-elegant-darkText/10 text-elegant-lightBg dark:text-elegant-darkText hover:bg-elegant-accent/20 dark:hover:bg-elegant-darkAccent/20 hover:text-elegant-accent dark:hover:text-elegant-darkAccent transition-colors duration-200 border border-elegant-lightBg/20 dark:border-elegant-darkText/20"
       aria-label="ダークモード切り替え"
     >
       {isDark ? (

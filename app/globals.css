@@ -2,28 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 上品で温かみのあるブラウン系カラーパレット */
+/* シックで上品、優雅なカラーパレット */
 :root {
-  --color-primary: #6b4c3b;
-  --color-accent: #a68f79;
-  --color-highlight: #dcd2c1;
-  --color-warm-accent: #b8936f;
-  --color-bg: #f7f3ed;
+  --color-primary: #2c2c2e;
+  --color-accent: #2c5530;
+  --color-highlight: #f8f8f9;
+  --color-warm-accent: #6b7c87;
+  --color-red-accent: #8b3538;
+  --color-bg: #fafafa;
   --color-card: #ffffff;
-  --color-text-primary: #2f1f16;
-  --color-text-secondary: #9c8e81;
+  --color-text-primary: #1a1a1c;
+  --color-text-secondary: #6d6d70;
 }
 
-/* ダークモード用軽やかで優雅なカラーパレット */
+/* ダークモード用洗練されたカラーパレット */
 .dark {
-  --color-primary: #b8936f;
-  --color-accent: #d4a574;
-  --color-highlight: #6b4c3b;
-  --color-warm-accent: #c4b5a7;
-  --color-bg: #2a2320;
-  --color-card: #3d352f;
-  --color-text-primary: #f0e8df;
-  --color-text-secondary: #c4b5a7;
+  --color-primary: #6b7c87;
+  --color-accent: #5fb3a3;
+  --color-highlight: #2c2c2e;
+  --color-warm-accent: #aeaeb2;
+  --color-red-accent: #ff6b73;
+  --color-bg: #1c1c1e;
+  --color-card: #2c2c2e;
+  --color-text-primary: #f2f2f7;
+  --color-text-secondary: #aeaeb2;
 }
 
 /* HTMLとbodyの背景色を統一してスクロール時の白い部分を防ぐ */
@@ -85,29 +87,29 @@ body {
   color: var(--color-accent);
 }
 
-/* シャドウの色を調整（軽やかに） */
+/* シャドウの色を調整（洗練されたグレー系） */
 .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(107, 76, 59, 0.08), 0 4px 6px -2px rgba(107, 76, 59, 0.04);
+  box-shadow: 0 10px 15px -3px rgba(44, 44, 46, 0.1), 0 4px 6px -2px rgba(44, 44, 46, 0.05);
 }
 
 .dark .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(184, 147, 111, 0.15), 0 4px 6px -2px rgba(184, 147, 111, 0.08);
+  box-shadow: 0 10px 15px -3px rgba(107, 124, 135, 0.2), 0 4px 6px -2px rgba(107, 124, 135, 0.1);
 }
 
 .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(107, 76, 59, 0.08), 0 10px 10px -5px rgba(107, 76, 59, 0.03);
+  box-shadow: 0 20px 25px -5px rgba(44, 44, 46, 0.1), 0 10px 10px -5px rgba(44, 44, 46, 0.04);
 }
 
 .dark .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(184, 147, 111, 0.15), 0 10px 10px -5px rgba(184, 147, 111, 0.08);
+  box-shadow: 0 20px 25px -5px rgba(107, 124, 135, 0.2), 0 10px 10px -5px rgba(107, 124, 135, 0.1);
 }
 
 .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(107, 76, 59, 0.08), 0 2px 4px -1px rgba(107, 76, 59, 0.04);
+  box-shadow: 0 4px 6px -1px rgba(44, 44, 46, 0.1), 0 2px 4px -1px rgba(44, 44, 46, 0.05);
 }
 
 .dark .shadow-md {
-  box-shadow: 0 4px 6px -1px rgba(184, 147, 111, 0.15), 0 2px 4px -1px rgba(184, 147, 111, 0.08);
+  box-shadow: 0 4px 6px -1px rgba(107, 124, 135, 0.2), 0 2px 4px -1px rgba(107, 124, 135, 0.1);
 }
 
 /* テキストカラーの調整 */
@@ -139,11 +141,11 @@ body {
 }
 
 .dark .border-gray-100 {
-  border-color: rgba(196, 181, 167, 0.3);
+  border-color: rgba(174, 174, 178, 0.3);
 }
 
 .dark .border-gray-200 {
-  border-color: rgba(196, 181, 167, 0.4);
+  border-color: rgba(174, 174, 178, 0.4);
 }
 
 /* 背景色の完全対応 */
@@ -192,11 +194,11 @@ body,
 
 /* 記事本文のダークモード視認性改善 */
 .dark .prose {
-  color: #f0e8df; /* elegant-darkText相当の明るい色 */
+  color: #f2f2f7; /* elegant-darkText相当の明るい色 */
 }
 
 .dark .prose p {
-  color: #f0e8df; /* 段落テキストを明るく */
+  color: #f2f2f7; /* 段落テキストを明るく */
 }
 
 .dark .prose h1,
@@ -205,46 +207,46 @@ body,
 .dark .prose h4,
 .dark .prose h5,
 .dark .prose h6 {
-  color: #f0e8df; /* 見出しテキストを明るく */
+  color: #f2f2f7; /* 見出しテキストを明るく */
 }
 
 .dark .prose strong {
-  color: #f0e8df; /* 太字テキストを明るく */
+  color: #f2f2f7; /* 太字テキストを明るく */
 }
 
 .dark .prose em {
-  color: #e6ddd4; /* 斜体テキストを少し柔らかく */
+  color: #e5e5ea; /* 斜体テキストを少し柔らかく */
 }
 
 .dark .prose blockquote {
-  color: #c4b5a7; /* 引用テキストを少し暗めに */
-  border-left-color: #d4a574; /* 引用ボーダーをアクセント色に */
+  color: #aeaeb2; /* 引用テキストを少し暗めに */
+  border-left-color: #5fb3a3; /* 引用ボーダーをティールアクセント色に */
 }
 
 .dark .prose code {
-  color: #f0e8df; /* インラインコードを明るく */
-  background-color: rgba(212, 165, 116, 0.2); /* アクセント色の背景 */
+  color: #f2f2f7; /* インラインコードを明るく */
+  background-color: rgba(95, 179, 163, 0.15); /* ティールアクセント色の背景 */
 }
 
 .dark .prose pre {
-  background-color: rgba(61, 53, 47, 0.8); /* コードブロック背景 */
+  background-color: rgba(44, 44, 46, 0.8); /* コードブロック背景 */
 }
 
 .dark .prose pre code {
-  color: #f0e8df; /* コードブロック内のテキスト */
+  color: #f2f2f7; /* コードブロック内のテキスト */
 }
 
 .dark .prose a {
-  color: #d4a574; /* リンクをアクセント色に */
+  color: #5fb3a3; /* リンクをティールアクセント色に */
 }
 
 .dark .prose a:hover {
-  color: #b8936f; /* ホバー時のリンク色 */
+  color: #6b7c87; /* ホバー時のリンク色 */
 }
 
 .dark .prose ul li::marker,
 .dark .prose ol li::marker {
-  color: #c4b5a7; /* リストマーカーを見やすく */
+  color: #aeaeb2; /* リストマーカーを見やすく */
 }
 
 /* iOS Safari用の追加設定 */

@@ -41,7 +41,7 @@ export default function BookItem({
             <div className="flex items-center gap-4">
               {/* 価格表示（購入ボタンの左横） */}
               {typeof book.price === "number" && book.price > 0 && (
-                <p className="text-sm sm:text-base font-bold text-elegant-primary dark:text-elegant-accent">
+                <p className="text-sm sm:text-base font-bold text-elegant-lightMuted dark:text-elegant-darkMuted">
                   ¥{book.price.toLocaleString()}
                 </p>
               )}
@@ -52,7 +52,7 @@ export default function BookItem({
               ) : (
                 typeof book.price === "number" &&
                 book.price > 0 && (
-                  <span className="inline-block bg-elegant-primary dark:bg-elegant-accent text-white dark:text-elegant-lightText text-xs px-3 py-1.5 rounded-full hover:bg-elegant-accent dark:hover:bg-elegant-primary transition-colors duration-200">
+                  <span className="inline-block bg-elegant-lightMuted dark:bg-elegant-darkMuted text-white dark:text-elegant-darkText text-xs px-3 py-1.5 rounded-full hover:bg-elegant-lightText dark:hover:bg-elegant-darkText transition-colors duration-200">
                     購入する
                   </span>
                 )
