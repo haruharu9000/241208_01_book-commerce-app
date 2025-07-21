@@ -4,6 +4,13 @@ import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User, Purchase, BookType } from "@/app/types/types";
 
+// カテゴリー表示名マッピング（必要に応じて増やせる）
+const categoryDisplayNames: { [key: string]: string } = {
+  worksummary: "日報",
+  programming: "プログラミング",
+  // 例: design: "デザイン",
+};
+
 export default async function CategoryPage({
   params,
 }: {
@@ -29,10 +36,8 @@ export default async function CategoryPage({
     }
   }
 
-  const categoryDisplayName =
-    params.id === "worksummarry" ? "日報"
-      : params.id === "programming" ? "プログラミング"
-      : params.id;
+  // マッピングに基づく日本語名表示（fallbackあり）
+  const categoryDisplayName = categoryDisplayNames[params.id] || params.id;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
