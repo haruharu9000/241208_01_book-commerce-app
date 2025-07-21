@@ -224,21 +224,21 @@ body,
 }
 
 .prose code {
-  color: #6d6d70; /* インラインコードを優しい色に */
-  background-color: rgba(44, 85, 48, 0.1); /* アクセント色の背景 */
+  color: #2c5530; /* インラインコード：elegant-accent */
+  background-color: transparent; /* 背景なし */
 }
 
 .prose pre {
-  background-color: #1a1a1a; /* ターミナル風の黒背景 */
-  border: 1px solid #333333; /* 境界線 */
-  border-radius: 8px; /* 角丸 */
-  padding: 1rem; /* 内部余白 */
+  background-color: transparent; /* 背景なし */
+  border: none; /* 境界線なし */
+  border-radius: 0; /* 角丸なし */
+  padding: 0; /* パディングなし */
   overflow-x: auto; /* 横スクロール */
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* ターミナルフォント */
 }
 
 .prose pre code {
-  color: #00ff41; /* ターミナルグリーン */
+  color: #2c5530; /* ライトモード：elegant-accent（上品なディープフォレストグリーン） */
   background-color: transparent; /* 背景透明 */
   padding: 0; /* パディングリセット */
   font-size: 0.875rem; /* フォントサイズ調整 */
@@ -289,17 +289,17 @@ body,
 }
 
 .dark .prose code {
-  color: #aeaeb2; /* インラインコードを明るく */
-  background-color: rgba(95, 179, 163, 0.15); /* ティールアクセント色の背景 */
+  color: #5fb3a3; /* インラインコード：elegant-accent（ダークモード） */
+  background-color: transparent; /* 背景なし */
 }
 
 .dark .prose pre {
-  background-color: #0a0a0a; /* ダークモードでより深い黒 */
-  border: 1px solid #404040; /* ダークモード用境界線 */
+  background-color: transparent; /* 背景なし */
+  border: none; /* 境界線なし */
 }
 
 .dark .prose pre code {
-  color: #00ff41; /* ダークモードでも同じターミナルグリーン */
+  color: #5fb3a3; /* ダークモード：elegant-accent（統一感） */
 }
 
 .dark .prose a {

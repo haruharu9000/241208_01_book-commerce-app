@@ -76,7 +76,7 @@ const PurchaseSuccess = () => {
         購入完了
       </h1>
 
-      <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300">
+      <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300 max-w-none">
         <div className="text-center">
           <div className="w-16 h-16 mx-auto mb-4 sm:mb-6 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
             <svg
@@ -93,12 +93,9 @@ const PurchaseSuccess = () => {
               />
             </svg>
           </div>
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-3 sm:mb-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-6 sm:mb-8">
             購入ありがとうございます！
           </h2>
-          <p className="text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted mb-6 sm:mb-8">
-            購入手続きが正常に完了しました。
-          </p>
 
           {error ? (
             <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
@@ -107,10 +104,10 @@ const PurchaseSuccess = () => {
               </p>
             </div>
           ) : bookId ? (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <Link
                 href={`/book/${bookId}`}
-                className="inline-block bg-elegant-primary dark:bg-elegant-accent text-elegant-lightBg dark:text-white px-6 py-3 rounded-lg font-medium hover:bg-elegant-warmAccent dark:hover:bg-elegant-darkAccent transition-colors duration-200"
+                className="inline-block bg-elegant-primary dark:bg-elegant-darkBlueHover text-elegant-lightBg dark:text-white px-6 py-3 rounded-lg font-medium hover:bg-elegant-warmAccent dark:hover:bg-elegant-warmAccent transition-colors duration-200"
               >
                 購入した記事を見る
               </Link>
