@@ -57,41 +57,40 @@ export default async function ProfilePage() {
               <Link
                 key={purchase.id}
                 href={`/book/${purchase.bookId}`}
-                className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-elegant-highlight/20 dark:border-elegant-primary/20 max-w-full purchase-card"
+                className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-elegant-highlight dark:border-elegant-primary purchase-card"
               >
                 <div className="flex flex-col md:flex-row">
                   {purchase.book?.thumbnail ? (
-                    <div className="w-full md:w-1/3 md:min-w-[180px] h-32 sm:h-40 md:h-auto relative flex-shrink-0">
+                    <div className="w-full md:w-48 h-48 relative flex-shrink-0">
                       <Image
                         src={purchase.book.thumbnail.url}
                         alt={purchase.book.title}
                         fill
                         className="object-cover rounded-t-xl md:rounded-l-xl md:rounded-t-none"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                   ) : (
-                    <div className="w-full md:w-1/3 md:min-w-[180px] h-32 sm:h-40 md:h-auto bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0" />
+                    <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
                   )}
-                  <div className="flex-1 p-3 sm:p-4 md:p-6 flex flex-col justify-between min-w-0">
-                    <div className="min-w-0">
-                      <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 text-elegant-lightText dark:text-elegant-darkText line-clamp-2 break-words">
-                        {purchase.book?.title || "タイトルなし"}
-                      </h2>
-                      <p className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-2 mb-3 sm:mb-4 break-words overflow-hidden purchase-content">
-                        {purchase.book?.content
-                          ?.replace(/<[^>]*>/g, "")
-                          .substring(0, 120)}
-                        ...
-                      </p>
+                  <div className="flex-grow min-w-0 p-4 md:p-6">
+                    <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight break-words line-clamp-2">
+                      {purchase.book?.title || "タイトルなし"}
+                    </h2>
+                    <div className="text-sm md:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 leading-relaxed break-words overflow-hidden mb-3 md:mb-4 purchase-content">
+                      {purchase.book?.content
+                        ?.replace(/<[^>]*>/g, "")
+                        .substring(0, 150)}
+                      ...
                     </div>
-                    <div className="flex flex-row justify-between items-center gap-2 sm:gap-3">
-                      <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted truncate flex-shrink">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs md:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
                         購入日:{" "}
                         {new Date(purchase.createdAt).toLocaleDateString(
                           "ja-JP"
                         )}
                       </span>
-                      <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-full flex-shrink-0">
+                      <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 md:px-3 py-1 md:py-1.5 rounded-full">
                         購入済み
                       </span>
                     </div>

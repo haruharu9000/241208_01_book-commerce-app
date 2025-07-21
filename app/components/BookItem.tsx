@@ -12,47 +12,49 @@ export default function BookItem({
   isPurchased: boolean;
 }) {
   return (
-    <Link href={`/book/${book.id}`} className="block hover:opacity-80">
-      <div className="flex flex-col md:flex-row bg-white dark:bg-elegant-darkCard rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-        {book.thumbnail && (
-          <div className="w-full md:w-1/3 md:min-w-[200px] h-32 sm:h-48 md:h-auto relative">
+    <Link
+      href={`/book/${book.id}`}
+      className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-elegant-highlight dark:border-elegant-primary"
+    >
+      <div className="flex flex-col md:flex-row">
+        {book.thumbnail ? (
+          <div className="w-full md:w-48 h-48 relative flex-shrink-0">
             <Image
               src={book.thumbnail.url}
               alt={book.title}
               fill
-              style={{ objectFit: "cover" }}
-              className="rounded-t-xl md:rounded-l-xl md:rounded-t-none"
+              className="object-cover rounded-t-xl md:rounded-l-xl md:rounded-t-none"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
+        ) : (
+          <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
         )}
-        <div className="flex-1 p-3 sm:p-6 md:p-8 flex flex-col justify-between">
-          <div>
-            <h2 className="text-base sm:text-xl md:text-2xl font-bold mb-2 sm:mb-4 text-elegant-lightText dark:text-elegant-darkText line-clamp-2">
-              {book.title}
-            </h2>
-            <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 mb-3 sm:mb-6">
-              {book.content?.replace(/<[^>]*>/g, "").substring(0, 150)}...
-            </p>
+        <div className="flex-grow min-w-0 p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight break-words line-clamp-2">
+            {book.title}
+          </h2>
+          <div className="text-sm md:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 leading-relaxed break-words overflow-hidden mb-3 md:mb-4">
+            {book.content?.replace(/<[^>]*>/g, "").substring(0, 150)}...
           </div>
-          <div className="flex flex-row justify-between items-center gap-3 sm:gap-4">
-            <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="text-xs md:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
               {new Date(book.createdAt).toLocaleDateString("ja-JP")}
             </span>
-            <div className="flex items-center gap-6">
-              {/* 価格表示（購入ボタンの左横） */}
+            <div className="flex items-center gap-2 md:gap-3">
               {typeof book.price === "number" && book.price > 0 && (
-                <p className="text-xs sm:text-base font-bold text-elegant-lightMuted dark:text-elegant-darkMuted">
+                <span className="text-xs md:text-sm font-bold text-elegant-lightMuted dark:text-elegant-darkMuted">
                   ¥{book.price.toLocaleString()}
-                </p>
+                </span>
               )}
               {isPurchased ? (
-                <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 md:px-3 py-1 md:py-1.5 rounded-full">
                   購入済み
                 </span>
               ) : (
                 typeof book.price === "number" &&
                 book.price > 0 && (
-                  <span className="inline-block bg-elegant-primary dark:bg-elegant-warmAccent text-elegant-lightBg dark:text-elegant-lightBg text-xs px-2 sm:px-3 py-0.5 sm:py-1.5 rounded-full hover:bg-elegant-warmAccent dark:hover:bg-elegant-primary transition-colors duration-200">
+                  <span className="inline-block bg-elegant-primary dark:bg-elegant-warmAccent text-elegant-lightBg dark:text-elegant-lightBg text-xs px-2 md:px-3 py-1 md:py-1.5 rounded-full hover:bg-elegant-warmAccent dark:hover:bg-elegant-primary transition-colors duration-200">
                     購入する
                   </span>
                 )
