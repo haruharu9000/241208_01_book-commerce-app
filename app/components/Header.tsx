@@ -11,51 +11,53 @@ const Header = () => {
 
   return (
     <header className="bg-elegant-primary dark:bg-elegant-darkCard text-white dark:text-elegant-darkText transition-colors duration-300 border-b border-elegant-highlight dark:border-elegant-primary">
-      <nav className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
-        <Link
-          href="/"
-          className="text-base sm:text-xl font-bold text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent transition-colors duration-200"
-        >
-          <span>sandbox:</span>
-          <span className="dark:text-elegant-darkRedAccent">/</span>
-        </Link>
-
-        <div className="flex items-center gap-1 sm:gap-4">
-          {/* ダークモード切り替えボタン */}
-          <DarkModeToggle />
+      <div className="max-w-8xl mx-auto px-4 sm:px-8 md:px-12">
+        <nav className="flex items-center justify-between py-2 sm:py-4">
           <Link
             href="/"
-            className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
+            className="text-base sm:text-xl font-bold text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent transition-colors duration-200"
           >
-            ホーム
+            <span>sandbox:</span>
+            <span className="dark:text-elegant-darkRedAccent">/</span>
           </Link>
 
-          {session?.user ? (
-            <div className="flex items-center gap-1 sm:gap-4">
-              <LogoutButton />
-              {session.user.image && (
-                <Link href="/profile">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded-full overflow-hidden hover:opacity-80 transition-opacity duration-200">
-                    <Image
-                      src={session.user.image}
-                      alt={session.user.name || "User"}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                </Link>
-              )}
-            </div>
-          ) : (
+          <div className="flex items-center gap-1 sm:gap-4">
+            {/* ダークモード切り替えボタン */}
+            <DarkModeToggle />
             <Link
-              href="/login"
+              href="/"
               className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
             >
-              ログイン
+              ホーム
             </Link>
-          )}
-        </div>
-      </nav>
+
+            {session?.user ? (
+              <div className="flex items-center gap-1 sm:gap-4">
+                <LogoutButton />
+                {session.user.image && (
+                  <Link href="/profile">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded-full overflow-hidden hover:opacity-80 transition-opacity duration-200">
+                      <Image
+                        src={session.user.image}
+                        alt={session.user.name || "User"}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
+              >
+                ログイン
+              </Link>
+            )}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 };
