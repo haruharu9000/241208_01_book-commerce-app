@@ -24,9 +24,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="space-y-4 sm:space-y-6 md:space-y-8">
-      <h1 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 md:mb-8 text-elegant-lightText dark:text-elegant-darkText">
-        プロフィール
-      </h1>
 
       {/* プロフィールセクション */}
       <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300">
