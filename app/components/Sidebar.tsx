@@ -37,7 +37,7 @@ const Sidebar = async () => {
               <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
                 Next.jsとMicroCMS
                 <br />
-                でブログ構築中です
+                でnoteっぽい何かを構築中
               </p>
             </div>
           </div>
