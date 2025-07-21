@@ -325,11 +325,9 @@ body,
   }
   
   body {
-    /* iOS Safariでのバウンス効果を無効にする */
-    position: fixed;
+    /* 横スクロールのみ無効にして縦スクロールは維持 */
     overflow-x: hidden;
-    width: 100%;
-    height: 100%;
+    /* position: fixed と height: 100% を削除してスクロールを有効化 */
   }
   
   body.no-scroll {
