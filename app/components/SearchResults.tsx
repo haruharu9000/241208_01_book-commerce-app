@@ -61,21 +61,21 @@ export default function SearchResults({
           href={`/book/${book.id}`}
           className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-elegant-highlight dark:border-elegant-primary"
         >
-          <div className="flex flex-col md:flex-row items-start p-4 md:p-6">
+          <div className="flex flex-col md:flex-row">
             {book.thumbnail ? (
-              <div className="w-full md:w-48 h-48 relative flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+              <div className="w-full md:w-48 h-48 relative flex-shrink-0">
                 <Image
                   src={book.thumbnail.url}
                   alt={book.title}
                   fill
-                  className="object-cover rounded-lg"
+                  className="object-cover rounded-t-xl md:rounded-l-xl md:rounded-t-none"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             ) : (
-              <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary rounded-lg flex-shrink-0 mb-4 md:mb-0 md:mr-6" />
+              <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
             )}
-            <div className="flex-grow min-w-0">
+            <div className="flex-grow min-w-0 p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight break-words">
                 {highlightText(book.title, searchQuery)}
               </h2>
