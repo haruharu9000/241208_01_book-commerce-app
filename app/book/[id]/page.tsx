@@ -94,7 +94,7 @@ const DetailBook = async ({
 
     // 無料記事または購入済み記事の表示
     return (
-      <div className="px-6 lg:px-12 py-4 sm:py-6 bg-elegant-lightBg dark:bg-elegant-darkBg transition-colors duration-300">
+      <div className="space-y-4 sm:space-y-6 md:space-y-8">
         <div className="bg-white dark:bg-elegant-darkCard shadow-lg rounded-xl overflow-hidden transition-colors duration-300">
           {book.thumbnail?.url && (
             <Image
@@ -116,12 +116,9 @@ const DetailBook = async ({
             />
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 sm:mt-6 text-sm text-elegant-lightMuted dark:text-elegant-darkMuted gap-2">
+        <div className="mt-4 sm:mt-6 text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
           <span>
             公開日: {new Date(book.createdAt).toLocaleDateString("ja-JP")}
-          </span>
-          <span>
-            最終更新: {new Date(book.updatedAt).toLocaleDateString("ja-JP")}
           </span>
         </div>
       </div>
