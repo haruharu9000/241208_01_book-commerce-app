@@ -35,7 +35,7 @@ const Header = () => {
               <LogoutButton />
               {session.user.image && (
                 <Link href="/profile">
-                  <div className="w-7 h-7 sm:w-9 sm:h-9 relative rounded-full overflow-hidden hover:opacity-80 transition-opacity duration-200">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded-full overflow-hidden hover:opacity-80 transition-opacity duration-200">
                     <Image
                       src={session.user.image}
                       alt={session.user.name || "User"}
