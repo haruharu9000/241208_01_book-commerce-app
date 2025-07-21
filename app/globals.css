@@ -229,16 +229,16 @@ body,
 }
 
 .prose pre {
-  background-color: transparent; /* 背景なし */
-  border: none; /* 境界線なし */
-  border-radius: 0; /* 角丸なし */
-  padding: 0; /* パディングなし */
+  background-color: #f7f9fc; /* ライトモード：ソフトなブルーグレー背景 */
+  border: 1px solid #e1e8ed; /* 淡いブルーグレー境界線 */
+  border-radius: 8px; /* 角丸 */
+  padding: 1rem; /* 内部余白 */
   overflow-x: auto; /* 横スクロール */
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* ターミナルフォント */
 }
 
 .prose pre code {
-  color: #2c5530; /* ライトモード：elegant-accent（上品なディープフォレストグリーン） */
+  color: #2d3748; /* ライトモード：ダークブルーグレー（目に優しい） */
   background-color: transparent; /* 背景透明 */
   padding: 0; /* パディングリセット */
   font-size: 0.875rem; /* フォントサイズ調整 */
@@ -294,12 +294,14 @@ body,
 }
 
 .dark .prose pre {
-  background-color: transparent; /* 背景なし */
-  border: none; /* 境界線なし */
+  background-color: #0d1117; /* ダークモード：深い黒背景（GitHub風） */
+  border: 1px solid #30363d; /* ダークグレー境界線 */
+  border-radius: 8px; /* 角丸 */
+  padding: 1rem; /* 内部余白 */
 }
 
 .dark .prose pre code {
-  color: #5fb3a3; /* ダークモード：elegant-accent（統一感） */
+  color: #00ff41; /* ダークモード：ターミナルグリーン */
 }
 
 .dark .prose a {
