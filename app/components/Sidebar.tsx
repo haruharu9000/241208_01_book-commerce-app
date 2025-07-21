@@ -56,7 +56,7 @@ const Sidebar = async () => {
               <li key={category.id}>
                 <Link
                   href={`/category/${category.id}`}
-                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-blueHover dark:hover:text-elegant-darkBlueHover transition-colors py-1"
+                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-lightGreenHover dark:hover:text-elegant-darkBlueHover transition-colors py-1"
                 >
                   <span>
                     {category.id === "worksummary"
@@ -89,7 +89,7 @@ const Sidebar = async () => {
               <li key={month}>
                 <Link
                   href={`/archive/${month}`}
-                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-blueHover dark:hover:text-elegant-darkBlueHover transition-colors py-1"
+                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-lightGreenHover dark:hover:text-elegant-darkBlueHover transition-colors py-1"
                 >
                   <span>{month}</span>
                   <span className="text-xs sm:text-sm">

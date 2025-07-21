@@ -193,12 +193,68 @@ body,
 }
 
 /* 記事本文のダークモード視認性改善 */
+.prose {
+  color: #6d6d70; /* elegant-lightMuted相当の優しい色 */
+}
+
+.prose p {
+  color: #6d6d70; /* 段落テキストを優しい色に */
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: #1a1a1c; /* 見出しは少し濃いめに保持 */
+}
+
+.prose strong {
+  color: #1a1a1c; /* 太字テキストは強調として濃いめに */
+}
+
+.prose em {
+  color: #8b8b8d; /* 斜体テキストを少し柔らかく */
+}
+
+.prose blockquote {
+  color: #9c9c9e; /* 引用テキストを少し暗めに */
+  border-left-color: #2c5530; /* 引用ボーダーをアクセント色に */
+}
+
+.prose code {
+  color: #6d6d70; /* インラインコードを優しい色に */
+  background-color: rgba(44, 85, 48, 0.1); /* アクセント色の背景 */
+}
+
+.prose pre {
+  background-color: rgba(44, 44, 46, 0.05); /* コードブロック背景を淡く */
+}
+
+.prose pre code {
+  color: #6d6d70; /* コードブロック内のテキスト */
+}
+
+.prose a {
+  color: #4fb06d; /* ライトモード：サイドバーホバーと同じ明るい緑 */
+}
+
+.prose a:hover {
+  color: #2c5530; /* ホバー時はアクセント色に */
+}
+
+.prose ul li::marker,
+.prose ol li::marker {
+  color: #9c9c9e; /* リストマーカーを見やすく */
+}
+
 .dark .prose {
-  color: #f2f2f7; /* elegant-darkText相当の明るい色 */
+  color: #aeaeb2; /* elegant-darkMuted相当の明るい色 */
 }
 
 .dark .prose p {
-  color: #f2f2f7; /* 段落テキストを明るく */
+  color: #aeaeb2; /* 段落テキストを明るく */
 }
 
 .dark .prose h1,
@@ -215,16 +271,16 @@ body,
 }
 
 .dark .prose em {
-  color: #e5e5ea; /* 斜体テキストを少し柔らかく */
+  color: #c7c7cc; /* 斜体テキストを少し柔らかく */
 }
 
 .dark .prose blockquote {
-  color: #aeaeb2; /* 引用テキストを少し暗めに */
+  color: #8e8e93; /* 引用テキストを少し暗めに */
   border-left-color: #5fb3a3; /* 引用ボーダーをティールアクセント色に */
 }
 
 .dark .prose code {
-  color: #f2f2f7; /* インラインコードを明るく */
+  color: #aeaeb2; /* インラインコードを明るく */
   background-color: rgba(95, 179, 163, 0.15); /* ティールアクセント色の背景 */
 }
 
@@ -233,20 +289,20 @@ body,
 }
 
 .dark .prose pre code {
-  color: #f2f2f7; /* コードブロック内のテキスト */
+  color: #aeaeb2; /* コードブロック内のテキスト */
 }
 
 .dark .prose a {
-  color: #5fb3a3; /* リンクをティールアクセント色に */
+  color: #7bb3c7; /* ダークモード用の明るい青 */
 }
 
 .dark .prose a:hover {
-  color: #6b7c87; /* ホバー時のリンク色 */
+  color: #5fb3a3; /* ホバー時のリンク色 */
 }
 
 .dark .prose ul li::marker,
 .dark .prose ol li::marker {
-  color: #aeaeb2; /* リストマーカーを見やすく */
+  color: #8e8e93; /* リストマーカーを見やすく */
 }
 
 /* iOS Safari用の追加設定 */

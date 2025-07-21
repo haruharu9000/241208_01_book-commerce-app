@@ -18,6 +18,8 @@ const config: Config = {
           warmAccent: '#6b7c87',     // 上品なスレートブルーグレー
           redAccent: '#8b3538',      // サイトタイトル用の上品な深い赤
           blueHover: '#4a90a4',      // カテゴリーホバー用の明るい青
+          lightBlueHover: '#5ba3d4', // ライトモード用の明るい青（ヘッダー）
+          lightGreenHover: '#4fb06d', // ライトモード用の明るい緑（サイドバー）
 
           // ライトモード（シックでエレガント）
           lightBg: '#fafafa',        // 極淡いグレーホワイト
