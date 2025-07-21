@@ -229,11 +229,20 @@ body,
 }
 
 .prose pre {
-  background-color: rgba(44, 44, 46, 0.05); /* コードブロック背景を淡く */
+  background-color: #1a1a1a; /* ターミナル風の黒背景 */
+  border: 1px solid #333333; /* 境界線 */
+  border-radius: 8px; /* 角丸 */
+  padding: 1rem; /* 内部余白 */
+  overflow-x: auto; /* 横スクロール */
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; /* ターミナルフォント */
 }
 
 .prose pre code {
-  color: #6d6d70; /* コードブロック内のテキスト */
+  color: #00ff41; /* ターミナルグリーン */
+  background-color: transparent; /* 背景透明 */
+  padding: 0; /* パディングリセット */
+  font-size: 0.875rem; /* フォントサイズ調整 */
+  line-height: 1.6; /* 行間調整 */
 }
 
 .prose a {
@@ -285,11 +294,12 @@ body,
 }
 
 .dark .prose pre {
-  background-color: rgba(44, 44, 46, 0.8); /* コードブロック背景 */
+  background-color: #0a0a0a; /* ダークモードでより深い黒 */
+  border: 1px solid #404040; /* ダークモード用境界線 */
 }
 
 .dark .prose pre code {
-  color: #aeaeb2; /* コードブロック内のテキスト */
+  color: #00ff41; /* ダークモードでも同じターミナルグリーン */
 }
 
 .dark .prose a {

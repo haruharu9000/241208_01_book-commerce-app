@@ -71,25 +71,67 @@ const PurchaseSuccess = () => {
   }, [sessionId]);
 
   return (
-    <div className="flex items-center justify-center mt-20">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          購入ありがとうございます！
-        </h1>
-        <p className="text-lg text-gray-600">
-          購入手続きが正常に完了しました。
-        </p>
-        {error ? (
-          <p className="text-red-600 mt-4">{error}</p>
-        ) : bookId ? (
-          <div className="mt-6">
-            <Link href={`/book/${bookId}`} className="text-indigo-600">
-              購入した本を見る
-            </Link>
+    <div className="space-y-4 sm:space-y-6 md:space-y-8">
+      <h1 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 md:mb-8 text-elegant-lightText dark:text-elegant-darkText">
+        購入完了
+      </h1>
+
+      <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 sm:mb-6 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-green-600 dark:text-green-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
           </div>
-        ) : (
-          <p className="text-gray-600 mt-4">購入データを取得中...</p>
-        )}
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-3 sm:mb-4">
+            購入ありがとうございます！
+          </h2>
+          <p className="text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted mb-6 sm:mb-8">
+            購入手続きが正常に完了しました。
+          </p>
+
+          {error ? (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+              <p className="text-red-700 dark:text-red-400 text-sm sm:text-base">
+                {error}
+              </p>
+            </div>
+          ) : bookId ? (
+            <div className="space-y-4">
+              <Link
+                href={`/book/${bookId}`}
+                className="inline-block bg-elegant-primary dark:bg-elegant-accent text-elegant-lightBg dark:text-white px-6 py-3 rounded-lg font-medium hover:bg-elegant-warmAccent dark:hover:bg-elegant-darkAccent transition-colors duration-200"
+              >
+                購入した記事を見る
+              </Link>
+              <div>
+                <Link
+                  href="/"
+                  className="inline-block text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-lightText dark:hover:text-elegant-darkText transition-colors duration-200 text-sm sm:text-base"
+                >
+                  ← ホームに戻る
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center space-x-2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-elegant-lightMuted dark:border-elegant-darkMuted"></div>
+              <p className="text-elegant-lightMuted dark:text-elegant-darkMuted text-sm sm:text-base">
+                購入データを取得中...
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
