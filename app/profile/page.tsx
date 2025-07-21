@@ -24,7 +24,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="space-y-4 sm:space-y-6 md:space-y-8">
-
       {/* プロフィールセクション */}
       <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300">
         <div className="flex items-start gap-4 sm:gap-6">
@@ -62,7 +61,7 @@ export default async function ProfilePage() {
               >
                 <div className="flex flex-col md:flex-row">
                   {purchase.book?.thumbnail ? (
-                    <div className="w-full md:w-1/3 md:min-w-[200px] h-32 sm:h-48 md:h-auto relative">
+                    <div className="w-full md:w-1/3 md:min-w-[180px] h-32 sm:h-40 md:h-auto relative flex-shrink-0">
                       <Image
                         src={purchase.book.thumbnail.url}
                         alt={purchase.book.title}
@@ -71,28 +70,28 @@ export default async function ProfilePage() {
                       />
                     </div>
                   ) : (
-                    <div className="w-full md:w-1/3 md:min-w-[200px] h-32 sm:h-48 md:h-auto bg-elegant-highlight dark:bg-elegant-primary" />
+                    <div className="w-full md:w-1/3 md:min-w-[180px] h-32 sm:h-40 md:h-auto bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0" />
                   )}
-                  <div className="flex-1 p-3 sm:p-6 md:p-8 flex flex-col justify-between">
-                    <div>
-                      <h2 className="text-base sm:text-xl md:text-2xl font-bold mb-2 sm:mb-4 text-elegant-lightText dark:text-elegant-darkText line-clamp-2">
+                  <div className="flex-1 p-3 sm:p-4 md:p-6 flex flex-col justify-between min-w-0">
+                    <div className="min-w-0">
+                      <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 text-elegant-lightText dark:text-elegant-darkText line-clamp-2">
                         {purchase.book?.title || "タイトルなし"}
                       </h2>
-                      <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 mb-3 sm:mb-6">
+                      <p className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-2 mb-3 sm:mb-4">
                         {purchase.book?.content
                           ?.replace(/<[^>]*>/g, "")
-                          .substring(0, 150)}
+                          .substring(0, 120)}
                         ...
                       </p>
                     </div>
-                    <div className="flex flex-row justify-between items-center gap-3 sm:gap-4">
-                      <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
+                    <div className="flex flex-row justify-between items-center gap-2 sm:gap-3">
+                      <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted truncate">
                         購入日:{" "}
                         {new Date(purchase.createdAt).toLocaleDateString(
                           "ja-JP"
                         )}
                       </span>
-                      <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                      <span className="inline-block bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-full flex-shrink-0">
                         購入済み
                       </span>
                     </div>
