@@ -36,11 +36,13 @@ export default async function ProfilePage() {
             />
           </div>
           <div className="text-left">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-2">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-1">
               {session.user.name || "名前未設定"}
             </h2>
-            <p className="text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
-              {session.user.email}
+            <p className="text-base sm:text-lg text-elegant-lightMuted dark:text-elegant-darkMuted">
+              Next.jsとMicroCMS
+              <br />
+              でブログ構築中です
             </p>
           </div>
         </div>
@@ -61,7 +63,7 @@ export default async function ProfilePage() {
               >
                 <div className="flex flex-col md:flex-row">
                   {purchase.book?.thumbnail ? (
-                    <div className="w-full md:w-48 h-48 relative flex-shrink-0">
+                    <div className="w-full md:w-1/3 md:min-w-[200px] h-48 md:h-auto relative flex-shrink-0">
                       <Image
                         src={purchase.book.thumbnail.url}
                         alt={purchase.book.title}
@@ -71,7 +73,7 @@ export default async function ProfilePage() {
                       />
                     </div>
                   ) : (
-                    <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
+                    <div className="w-full md:w-1/3 md:min-w-[200px] h-48 md:h-auto bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
                   )}
                   <div className="flex-grow min-w-0 p-4 md:p-6">
                     <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight break-words line-clamp-2">

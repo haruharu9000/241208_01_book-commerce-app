@@ -18,7 +18,7 @@ export default function BookItem({
     >
       <div className="flex flex-col md:flex-row">
         {book.thumbnail ? (
-          <div className="w-full md:w-48 h-48 relative flex-shrink-0">
+          <div className="w-full md:w-1/3 md:min-w-[200px] h-48 md:h-auto relative flex-shrink-0">
             <Image
               src={book.thumbnail.url}
               alt={book.title}
@@ -28,7 +28,7 @@ export default function BookItem({
             />
           </div>
         ) : (
-          <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
+          <div className="w-full md:w-1/3 md:min-w-[200px] h-48 md:h-auto bg-elegant-highlight dark:bg-elegant-primary flex-shrink-0 rounded-t-xl md:rounded-l-xl md:rounded-t-none" />
         )}
         <div className="flex-grow min-w-0 p-4 md:p-6">
           <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight break-words line-clamp-2">
