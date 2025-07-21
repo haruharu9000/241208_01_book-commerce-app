@@ -20,7 +20,7 @@ const Header = () => {
           <span className="dark:text-elegant-darkRedAccent">/</span>
         </Link>
 
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-1 sm:gap-4">
           {/* ダークモード切り替えボタン */}
           <DarkModeToggle />
           <Link
@@ -31,25 +31,19 @@ const Header = () => {
           </Link>
 
           {session?.user ? (
-            <div className="flex items-center gap-2 sm:gap-4">
-              <Link
-                href="/profile"
-                className="flex items-center gap-1 sm:gap-2 text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
-              >
-                <span className="hidden sm:inline">
-                  {session.user.name || session.user.email}
-                </span>
-              </Link>
+            <div className="flex items-center gap-1 sm:gap-4">
               <LogoutButton />
               {session.user.image && (
-                <div className="w-5 h-5 sm:w-6 sm:h-6 relative rounded-full overflow-hidden">
-                  <Image
-                    src={session.user.image}
-                    alt={session.user.name || "User"}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
+                <Link href="/profile">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 relative rounded-full overflow-hidden hover:opacity-80 transition-opacity duration-200">
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                </Link>
               )}
             </div>
           ) : (
