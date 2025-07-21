@@ -53,31 +53,34 @@ const Sidebar = async () => {
           <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-elegant-lightText dark:text-elegant-darkText">
             カテゴリー
           </h2>
+
           <ul className="space-y-2 sm:space-y-3">
-            {categories.map((category: Category) => (
-              <li key={category.id}>
-                <Link
-                  href={`/category/${category.id}`}
-                  className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-lightGreenHover dark:hover:text-elegant-darkBlueHover transition-colors py-1"
-                >
-                  <span>
-                    {category.id === "worksummary"
-                      ? "日報"
-                      : category.id === "programming"
-                        ? "プログラミング"
-                        : category.name}
-                  </span>
-                  <span className="text-xs sm:text-sm">
-                    (
-                    {category.count ||
-                      contents.filter(
-                        (book: BookType) => book.categoryId === category.id
-                      ).length}
-                    )
-                  </span>
-                </Link>
-              </li>
-            ))}
+            {categories.map((category: Category) => {
+              const displayNames: { [key: string]: string } = {
+                worksummary: "日報",
+                programming: "プログラミング",
+                // 必要に応じて追加（例: design: "デザイン"）
+              };
+
+              return (
+                <li key={category.id}>
+                  <Link
+                    href={`/category/${category.id}`}
+                    className="flex justify-between items-center text-sm sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted hover:text-elegant-lightGreenHover dark:hover:text-elegant-darkBlueHover transition-colors py-1"
+                  >
+                    <span>{displayNames[category.id] || category.name}</span>
+                    <span className="text-xs sm:text-sm">
+                      (
+                      {category.count ||
+                        contents.filter(
+                          (book: BookType) => book.categoryId === category.id
+                        ).length}
+                      )
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
