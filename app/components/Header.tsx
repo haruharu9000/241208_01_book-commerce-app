@@ -36,21 +36,21 @@ const Header = () => {
                 href="/profile"
                 className="flex items-center gap-1 sm:gap-2 text-elegant-lightBg dark:text-elegant-darkText hover:text-elegant-lightBlueHover dark:hover:text-elegant-darkAccent px-2 sm:px-3 py-1 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
               >
-                {session.user.image && (
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 relative rounded-full overflow-hidden">
-                    <Image
-                      src={session.user.image}
-                      alt={session.user.name || "User"}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                )}
                 <span className="hidden sm:inline">
                   {session.user.name || session.user.email}
                 </span>
               </Link>
               <LogoutButton />
+              {session.user.image && (
+                <div className="w-5 h-5 sm:w-6 sm:h-6 relative rounded-full overflow-hidden">
+                  <Image
+                    src={session.user.image}
+                    alt={session.user.name || "User"}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              )}
             </div>
           ) : (
             <Link
