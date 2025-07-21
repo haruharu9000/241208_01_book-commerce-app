@@ -36,7 +36,7 @@ export default async function ProfilePage() {
             />
           </div>
           <div className="text-left">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-1">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-0.5">
               {session.user.name || "名前未設定"}
             </h2>
             <p className="text-base sm:text-lg text-elegant-lightMuted dark:text-elegant-darkMuted">
