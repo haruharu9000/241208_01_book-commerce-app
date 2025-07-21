@@ -57,7 +57,7 @@ export default async function ProfilePage() {
               <Link
                 key={purchase.id}
                 href={`/book/${purchase.bookId}`}
-                className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-elegant-highlight/20 dark:border-elegant-primary/20 max-w-full"
+                className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-elegant-highlight/20 dark:border-elegant-primary/20 max-w-full purchase-card"
               >
                 <div className="flex flex-col md:flex-row">
                   {purchase.book?.thumbnail ? (
@@ -77,7 +77,7 @@ export default async function ProfilePage() {
                       <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 text-elegant-lightText dark:text-elegant-darkText line-clamp-2 break-words">
                         {purchase.book?.title || "タイトルなし"}
                       </h2>
-                      <p className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-2 mb-3 sm:mb-4 break-words overflow-hidden">
+                      <p className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-2 mb-3 sm:mb-4 break-words overflow-hidden purchase-content">
                         {purchase.book?.content
                           ?.replace(/<[^>]*>/g, "")
                           .substring(0, 120)}

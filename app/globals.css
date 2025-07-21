@@ -317,6 +317,42 @@ body,
   color: #8e8e93; /* リストマーカーを見やすく */
 }
 
+/* 購入済み記事一覧の強制改行対策 */
+.purchase-content {
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.purchase-content * {
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  max-width: 100% !important;
+}
+
+/* 特に長いURL、コード、英数字の連続に対する対策 */
+.purchase-card {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+}
+
+.purchase-card p,
+.purchase-card h1,
+.purchase-card h2,
+.purchase-card h3,
+.purchase-card span,
+.purchase-card div {
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
 /* iOS Safari用の追加設定 */
 @supports (-webkit-touch-callout: none) {
   html {
