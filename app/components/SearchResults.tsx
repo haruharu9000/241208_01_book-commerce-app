@@ -59,7 +59,7 @@ export default function SearchResults({
         <Link
           key={book.id}
           href={`/book/${book.id}`}
-          className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-elegant-highlight dark:border-elegant-primary max-w-sm md:max-w-none"
+          className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-elegant-highlight dark:border-elegant-primary"
         >
           <div className="flex flex-col md:flex-row items-start p-4 md:p-6">
             {book.thumbnail ? (
@@ -76,11 +76,11 @@ export default function SearchResults({
               <div className="w-full md:w-48 h-48 bg-elegant-highlight dark:bg-elegant-primary rounded-lg flex-shrink-0 mb-4 md:mb-0 md:mr-6" />
             )}
             <div className="flex-grow min-w-0">
-              <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight">
+              <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 text-elegant-lightText dark:text-elegant-darkText leading-tight break-words">
                 {highlightText(book.title, searchQuery)}
               </h2>
               {book.content && (
-                <div className="text-sm md:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 leading-relaxed">
+                <div className="text-sm md:text-base text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-3 leading-relaxed break-words overflow-hidden">
                   {highlightText(stripHtmlTags(book.content), searchQuery)}
                 </div>
               )}
