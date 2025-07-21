@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 
 const LogoutButton = () => {
   const handleSignOut = () => {
-    signOut();
+    signOut({ callbackUrl: "/" });
   };
 
   return (

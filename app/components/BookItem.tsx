@@ -52,7 +52,7 @@ export default function BookItem({
               ) : (
                 typeof book.price === "number" &&
                 book.price > 0 && (
-                  <span className="inline-block bg-elegant-lightMuted dark:bg-elegant-darkMuted text-white dark:text-elegant-darkText text-xs px-2 sm:px-3 py-0.5 sm:py-1.5 rounded-full hover:bg-elegant-lightText dark:hover:bg-elegant-darkText transition-colors duration-200">
+                  <span className="inline-block bg-elegant-primary dark:bg-elegant-warmAccent text-elegant-lightBg dark:text-elegant-lightBg text-xs px-2 sm:px-3 py-0.5 sm:py-1.5 rounded-full hover:bg-elegant-warmAccent dark:hover:bg-elegant-primary transition-colors duration-200">
                     購入する
                   </span>
                 )
