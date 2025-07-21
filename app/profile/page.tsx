@@ -57,7 +57,7 @@ export default async function ProfilePage() {
               <Link
                 key={purchase.id}
                 href={`/book/${purchase.bookId}`}
-                className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-elegant-highlight/20 dark:border-elegant-primary/20"
+                className="block bg-white dark:bg-elegant-darkCard rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-elegant-highlight/20 dark:border-elegant-primary/20 max-w-full"
               >
                 <div className="flex flex-col md:flex-row">
                   {purchase.book?.thumbnail ? (
@@ -74,10 +74,10 @@ export default async function ProfilePage() {
                   )}
                   <div className="flex-1 p-3 sm:p-4 md:p-6 flex flex-col justify-between min-w-0">
                     <div className="min-w-0">
-                      <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 text-elegant-lightText dark:text-elegant-darkText line-clamp-2">
+                      <h2 className="text-base sm:text-lg md:text-xl font-bold mb-2 sm:mb-3 text-elegant-lightText dark:text-elegant-darkText line-clamp-2 break-words">
                         {purchase.book?.title || "タイトルなし"}
                       </h2>
-                      <p className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-2 mb-3 sm:mb-4">
+                      <p className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted line-clamp-2 mb-3 sm:mb-4 break-words overflow-hidden">
                         {purchase.book?.content
                           ?.replace(/<[^>]*>/g, "")
                           .substring(0, 120)}
@@ -85,7 +85,7 @@ export default async function ProfilePage() {
                       </p>
                     </div>
                     <div className="flex flex-row justify-between items-center gap-2 sm:gap-3">
-                      <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted truncate">
+                      <span className="text-xs sm:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted truncate flex-shrink">
                         購入日:{" "}
                         {new Date(purchase.createdAt).toLocaleDateString(
                           "ja-JP"
