@@ -31,7 +31,7 @@ const Sidebar = async () => {
               />
             </div>
             <div className="text-left">
-              <h2 className="text-base sm:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-2">
+              <h2 className="text-base sm:text-2xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-1">
                 haruaki
               </h2>
               <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">

@@ -27,7 +27,7 @@ export default async function ProfilePage() {
       {/* プロフィールセクション */}
       <div className="bg-white dark:bg-elegant-darkCard rounded-xl shadow-lg p-4 sm:p-6 md:p-8 transition-colors duration-300">
         <div className="flex items-start gap-4 sm:gap-6">
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden flex-shrink-0">
             <Image
               src={session.user.image || "/default-avatar.png"}
               alt={session.user.name || "ユーザー"}
@@ -36,7 +36,7 @@ export default async function ProfilePage() {
             />
           </div>
           <div className="text-left">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-elegant-lightText dark:text-elegant-darkText mb-0.5">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-elegant-lightText dark:text-elegant-darkText md:mb-1">
               {session.user.name || "名前未設定"}
             </h2>
             <p className="text-base sm:text-lg text-elegant-lightMuted dark:text-elegant-darkMuted">

@@ -41,7 +41,7 @@ export default function BookItem({
             <span className="text-xs md:text-sm text-elegant-lightMuted dark:text-elegant-darkMuted">
               {new Date(book.createdAt).toLocaleDateString("ja-JP")}
             </span>
-            <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-3 md:gap-4">
               {typeof book.price === "number" && book.price > 0 && (
                 <span className="text-xs md:text-sm font-bold text-elegant-lightMuted dark:text-elegant-darkMuted">
                   ¥{book.price.toLocaleString()}
