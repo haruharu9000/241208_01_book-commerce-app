@@ -1,5 +1,16 @@
 import { getListBooks } from "@/app/lib/microcms/client";
 import SearchResults from "@/app/components/SearchResults";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "記事検索",
+  description:
+    "技術記事やプログラミング関連の記事を検索できます。キーワードを入力して興味のある記事を見つけましょう。",
+  openGraph: {
+    title: "記事検索 | sandbox:/",
+    description: "技術記事やプログラミング関連の記事を検索できます。",
+  },
+};
 
 export default async function SearchPage({
   searchParams,

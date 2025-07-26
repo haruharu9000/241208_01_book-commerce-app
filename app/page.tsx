@@ -3,6 +3,17 @@ import { BookType, Purchase, User } from "./types/types";
 import { getAllBooks } from "./lib/microcms/client";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "./lib/next-auth/options";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "ホーム",
+  description:
+    "最新のプログラミング技術記事や開発ノウハウを掲載しています。Next.js、React、TypeScriptなどのWeb開発に役立つ情報をお届けします。",
+  openGraph: {
+    title: "ホーム | sandbox:/",
+    description: "最新のプログラミング技術記事や開発ノウハウを掲載しています。",
+  },
+};
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {

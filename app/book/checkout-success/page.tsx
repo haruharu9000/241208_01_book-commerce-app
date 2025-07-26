@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+// クライアントコンポーネントのため、metadataは親のlayout.tsxで設定します
 
 const PurchaseSuccess = () => {
   const [sessionId, setSessionId] = useState<string | undefined>();

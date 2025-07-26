@@ -3,12 +3,26 @@ import BookItem from "@/app/components/BookItem";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User, Purchase } from "@/app/types/types";
+import { Metadata } from "next";
 
-export default async function ArchivePage({
-  params,
-}: {
+interface Props {
   params: { date: string };
-}) {
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const decodedDate = decodeURIComponent(params.date);
+
+  return {
+    title: `${decodedDate}の記事`,
+    description: `${decodedDate}に投稿された技術記事の一覧です。この時期の開発ノウハウや技術トレンドをご覧いただけます。`,
+    openGraph: {
+      title: `${decodedDate}の記事 | sandbox:/`,
+      description: `${decodedDate}に投稿された技術記事の一覧です。`,
+    },
+  };
+}
+
+export default async function ArchivePage({ params }: Props) {
   // URLデコードを行う
   const decodedDate = decodeURIComponent(params.date);
   const session = await getServerSession(nextAuthOptions);

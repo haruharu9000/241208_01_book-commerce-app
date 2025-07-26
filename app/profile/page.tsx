@@ -1,8 +1,18 @@
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../lib/next-auth/options";
-import { BookType, Purchase } from "../types/types";
+import { Purchase, BookType } from "../types/types";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "プロフィール",
+  description: "ユーザーのプロフィール情報と購入済み記事の一覧を表示します。",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function ProfilePage() {
   const session = await getServerSession(nextAuthOptions);

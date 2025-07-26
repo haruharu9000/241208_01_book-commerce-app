@@ -1,5 +1,15 @@
 import { getDetailBook } from "@/app/lib/microcms/client";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "記事購入",
+  description: "記事の購入手続きを行います。",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function CheckoutPage({
   params,

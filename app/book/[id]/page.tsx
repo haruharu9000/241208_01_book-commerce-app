@@ -5,14 +5,65 @@ import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { Purchase } from "@/app/types/types";
 import { cookies } from "next/headers";
+import { Metadata } from "next";
 
-const DetailBook = async ({
-  params,
-  searchParams,
-}: {
+interface Props {
   params: { id: string };
   searchParams?: { from?: string };
-}) => {
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  try {
+    const book = await getDetailBook(params.id).catch(() => null);
+
+    if (!book) {
+      return {
+        title: "記事が見つかりません",
+        description: "お探しの記事が見つかりませんでした。",
+      };
+    }
+
+    const description =
+      book.content?.replace(/<[^>]*>/g, "").substring(0, 160) + "...";
+
+    return {
+      title: book.title,
+      description: description || `${book.title}の詳細記事です。`,
+      keywords: ["プログラミング", "技術記事", book.title],
+      openGraph: {
+        title: `${book.title} | sandbox:/`,
+        description: description || `${book.title}の詳細記事です。`,
+        type: "article",
+        publishedTime: book.createdAt,
+        modifiedTime: book.updatedAt,
+        authors: ["haruaki"],
+        images: book.thumbnail?.url
+          ? [
+              {
+                url: book.thumbnail.url,
+                width: 1200,
+                height: 630,
+                alt: book.title,
+              },
+            ]
+          : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${book.title} | sandbox:/`,
+        description: description || `${book.title}の詳細記事です。`,
+        images: book.thumbnail?.url ? [book.thumbnail.url] : [],
+      },
+    };
+  } catch {
+    return {
+      title: "記事が見つかりません",
+      description: "お探しの記事が見つかりませんでした。",
+    };
+  }
+}
+
+const DetailBook = async ({ params, searchParams }: Props) => {
   try {
     if (!params.id || typeof params.id !== "string") {
       return notFound();

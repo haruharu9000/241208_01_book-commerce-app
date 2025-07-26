@@ -3,6 +3,7 @@ import BookItem from "@/app/components/BookItem";
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "@/app/lib/next-auth/options";
 import { User, Purchase, BookType } from "@/app/types/types";
+import { Metadata } from "next";
 
 // カテゴリー表示名マッピング（必要に応じて増やせる）
 const categoryDisplayNames: { [key: string]: string } = {
@@ -11,11 +12,24 @@ const categoryDisplayNames: { [key: string]: string } = {
   // 例: design: "デザイン",
 };
 
-export default async function CategoryPage({
-  params,
-}: {
+interface Props {
   params: { id: string };
-}) {
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const categoryName = categoryDisplayNames[params.id] || params.id;
+
+  return {
+    title: `${categoryName}カテゴリ`,
+    description: `${categoryName}に関する技術記事一覧です。専門的な知識やノウハウを学べる記事を集めました。`,
+    openGraph: {
+      title: `${categoryName}カテゴリ | sandbox:/`,
+      description: `${categoryName}に関する技術記事一覧です。`,
+    },
+  };
+}
+
+export default async function CategoryPage({ params }: Props) {
   const { contents } = await getBooksByCategory(params.id);
   const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
