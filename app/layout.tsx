@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s - sandbox:/",
   },
   description:
-    "テクノロジーから日々の気づき、観察・探究・構築物まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
+    "テクノロジーを通して、小さな気づきを観察し、考え、ときにかたちにしてみる。",
   keywords: [
     "プログラミング",
     "Web開発",
@@ -34,14 +34,14 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_API_URL || "https://sandbox-blog.com",
     title: "sandbox:/ - 知の探求",
     description:
-      "テクノロジーから日々の気づき、観察・探究・構築物まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
+      "テクノロジーを通して、小さな気づきを観察し、考え、ときにかたちにしてみる。",
     siteName: "sandbox:/",
   },
   twitter: {
     card: "summary_large_image",
     title: "sandbox:/ - 知の探求",
     description:
-      "テクノロジーから日々の気づき、観察・探究・構築物まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
+      "テクノロジーを通して、小さな気づきを観察し、考え、ときにかたちにしてみる。",
     creator: "@haruaki",
   },
   robots: {
