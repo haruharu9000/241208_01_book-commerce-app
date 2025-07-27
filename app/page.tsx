@@ -11,7 +11,8 @@ export const metadata: Metadata = {
     "最新のプログラミング技術記事や開発ノウハウを掲載しています。Next.js、React、TypeScriptなどのWeb開発に役立つ情報をお届けします。",
   openGraph: {
     title: "ホーム | sandbox:/",
-    description: "最新のプログラミング技術記事や開発ノウハウを掲載しています。",
+    description:
+      "テクノロジーから日々の気づき、観察・探究・構築物まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
   },
 };
 
