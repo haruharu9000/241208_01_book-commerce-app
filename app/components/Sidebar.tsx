@@ -35,7 +35,7 @@ const Sidebar = async () => {
                 haruaki
               </h2>
               <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
-                Next.jsでnoteっぽい何かを構築中
+                知の探求。テクノロジーから日々の気づき、観測や構築の断片まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。
               </p>
             </div>
           </div>

@@ -11,19 +11,20 @@ const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: {
-    default: "sandbox:/ - 技術ブログ&記事販売プラットフォーム",
-    template: "%s | sandbox:/",
+    default: "sandbox:/ - 知の探求",
+    template: "%s - sandbox:/",
   },
   description:
-    "プログラミングやWeb開発に関する技術記事を投稿・販売するプラットフォームです。Next.js、React、TypeScriptなどの最新技術情報をお届けします。",
+    "テクノロジーから日々の気づき、観測や構築の断片まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
   keywords: [
     "プログラミング",
     "Web開発",
     "Next.js",
     "React",
     "TypeScript",
-    "技術ブログ",
-    "記事販売",
+    "テクノロジー",
+    "個人ブログ",
+    "知的探究",
   ],
   authors: [{ name: "haruaki" }],
   creator: "haruaki",
@@ -31,16 +32,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ja_JP",
     url: process.env.NEXT_PUBLIC_API_URL || "https://sandbox-blog.com",
-    title: "sandbox:/ - 技術ブログ&記事販売プラットフォーム",
+    title: "sandbox:/ - 知の探求",
     description:
-      "プログラミングやWeb開発に関する技術記事を投稿・販売するプラットフォームです。",
+      "テクノロジーから日々の気づき、観測や構築の断片まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
     siteName: "sandbox:/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "sandbox:/ - 技術ブログ&記事販売プラットフォーム",
+    title: "sandbox:/ - 知の探求",
     description:
-      "プログラミングやWeb開発に関する技術記事を投稿・販売するプラットフォームです。",
+      "テクノロジーから日々の気づき、観測や構築の断片まで。ジャンルには依らず、思考と技術と日常のあいだを行き来しながら、そのプロセスを綴っています。",
     creator: "@haruaki",
   },
   robots: {
