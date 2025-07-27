@@ -35,7 +35,7 @@ const Sidebar = async () => {
                 haruaki
               </h2>
               <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
-                知の探究。 気づきから思考へ、思考から試作へ。
+                知の探究。<br />
                 テクノロジーと日常のあいだを行き来する記録です。
               </p>
             </div>
