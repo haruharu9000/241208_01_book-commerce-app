@@ -18,8 +18,13 @@ export const metadata: Metadata = {
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
-  const { contents } = await getAllBooks();
-  const session = await getServerSession(nextAuthOptions);
+  // 並列でデータを取得してパフォーマンスを向上
+  const [booksData, session] = await Promise.all([
+    getAllBooks(),
+    getServerSession(nextAuthOptions),
+  ]);
+
+  const { contents } = booksData;
   const user = session?.user as User;
 
   let purchaseBookIds: string[] = [];
@@ -27,7 +32,10 @@ export default async function Home() {
   if (user) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-      { cache: "no-store" } // SSR
+      {
+        cache: "force-cache", // キャッシュを有効化（5分間有効）
+        next: { revalidate: 300 },
+      }
     );
 
     if (response.ok) {

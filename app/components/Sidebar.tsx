@@ -12,9 +12,15 @@ import SearchBar from "./SearchBar";
 
 const Sidebar = async () => {
   try {
-    const { contents } = await getAllBooks();
-    const categories = await getCategories();
-    const { groupedBooks, sortedMonths } = await getBooksByMonth();
+    // API呼び出しを並列化してパフォーマンスを大幅改善
+    const [booksData, categories, monthlyData] = await Promise.all([
+      getAllBooks(),
+      getCategories(),
+      getBooksByMonth(),
+    ]);
+
+    const { contents } = booksData;
+    const { groupedBooks, sortedMonths } = monthlyData;
 
     return (
       <div className="space-y-4 sm:space-y-6 md:space-y-8">
@@ -35,7 +41,8 @@ const Sidebar = async () => {
                 haruaki
               </h2>
               <p className="text-xs sm:text-base text-elegant-lightMuted dark:text-elegant-darkMuted">
-                知の探究。<br />
+                知の探究。
+                <br />
                 テクノロジーと日常のあいだを行き来する記録です。
               </p>
             </div>

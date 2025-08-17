@@ -3,8 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BookType } from "../types/types";
+import { memo } from "react";
 
-export default function BookItem({
+// メモ化でre-renderを防ぐ
+const BookItem = memo(function BookItem({
   book,
   isPurchased,
 }: {
@@ -25,6 +27,8 @@ export default function BookItem({
               fill
               className="object-cover rounded-t-xl md:rounded-l-xl md:rounded-t-none"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={false} // 優先度を下げる（LCPに影響しない）
+              loading="lazy" // 遅延読み込み
             />
           </div>
         ) : (
@@ -65,4 +69,6 @@ export default function BookItem({
       </div>
     </Link>
   );
-}
+});
+
+export default BookItem;

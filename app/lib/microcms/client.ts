@@ -19,15 +19,18 @@ export const client = createClient({
   apiKey: apiKey!,
 });
 
-// 書籍一覧を取得
+// 書籍一覧を取得（キャッシュ最適化）
 export const getAllBooks = async () => {
   try {
     console.log('Fetching all books...'); // デバッグ用
     const allBooks = await client.get({
       endpoint: "bookcommerce",
-      queries: { limit: 100 },
+      queries: { 
+        limit: 100,
+        fields: ["id", "title", "content", "thumbnail", "price", "createdAt", "categoryId", "category"].join(",")
+      },
       customRequestInit: {
-        next: { revalidate: 3600 }
+        next: { revalidate: 1800 } // 30分間キャッシュ（より頻繁な更新）
       },
     });
     console.log('Books fetched successfully:', allBooks); // デバッグ用
@@ -105,7 +108,7 @@ export const getBooksByCategory = async (categoryId: string) => {
   }
 };
 
-// カテゴリー一覧を取得
+// カテゴリー一覧を取得（キャッシュ最適化）
 export const getCategories = async (): Promise<Category[]> => {
   try {
     console.log('Fetching categories...'); // デバッグ用
@@ -114,6 +117,9 @@ export const getCategories = async (): Promise<Category[]> => {
       queries: {
         fields: ['id', 'categoryId', 'category'].join(','),
         limit: 100
+      },
+      customRequestInit: {
+        next: { revalidate: 3600 } // 1時間キャッシュ（カテゴリーは変更頻度が低い）
       },
     });
     console.log('Categories response:', response); // デバッグ用
@@ -155,11 +161,17 @@ export const getCategories = async (): Promise<Category[]> => {
   }
 };
 
-// 月別の記事一覧を取得
+// 月別の記事一覧を取得（キャッシュ最適化）
 export const getBooksByMonth = async () => {
   const response = await client.getList<Book>({
     endpoint: "bookcommerce",
-    queries: { limit: 100 },
+    queries: { 
+      limit: 100,
+      fields: ["id", "title", "createdAt"].join(",") // 最小限のフィールドのみ
+    },
+    customRequestInit: {
+      next: { revalidate: 1800 } // 30分間キャッシュ
+    },
   });
 
   const books = response.contents;
