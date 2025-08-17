@@ -12,15 +12,9 @@ import SearchBar from "./SearchBar";
 
 const Sidebar = async () => {
   try {
-    // API呼び出しを並列化してパフォーマンスを大幅改善
-    const [booksData, categories, monthlyData] = await Promise.all([
-      getAllBooks(),
-      getCategories(),
-      getBooksByMonth(),
-    ]);
-
-    const { contents } = booksData;
-    const { groupedBooks, sortedMonths } = monthlyData;
+    const { contents } = await getAllBooks();
+    const categories = await getCategories();
+    const { groupedBooks, sortedMonths } = await getBooksByMonth();
 
     return (
       <div className="space-y-4 sm:space-y-6 md:space-y-8">

@@ -7,12 +7,7 @@ import Loading from "./loading";
 import { Suspense } from "react";
 import Sidebar from "./components/Sidebar";
 
-const notoSansJP = Noto_Sans_JP({
-  subsets: ["latin"],
-  weight: ["400", "700"], // 必要な重みのみ指定
-  display: "swap", // font-display: swap でフラッシュを防ぐ
-  preload: true, // プリロードを有効化
-});
+const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: {
@@ -33,16 +28,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "haruaki" }],
   creator: "haruaki",
-  // パフォーマンス最適化のためのメタデータ
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#1a1a1a" },
-  ],
   openGraph: {
     type: "website",
     locale: "ja_JP",
@@ -62,13 +47,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 

@@ -19,22 +19,9 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-    // 画像最適化の設定を追加
-    formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  // パフォーマンス最適化
   reactStrictMode: false,
-  trailingSlash: false,
-  poweredByHeader: false, // X-Powered-By ヘッダーを無効化
-  compress: true, // gzip圧縮を有効化
-  // 実験的機能（パフォーマンス向上）
-  experimental: {
-    optimizeCss: true, // CSS最適化
-    scrollRestoration: true, // スクロール位置復元
-  },
+  trailingSlash: false,  // ← 追加
   async rewrites() {
     return [
       {

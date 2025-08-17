@@ -30,13 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CategoryPage({ params }: Props) {
-  // 並列でデータを取得してパフォーマンスを向上
-  const [booksData, session] = await Promise.all([
-    getBooksByCategory(params.id),
-    getServerSession(nextAuthOptions),
-  ]);
-
-  const { contents } = booksData;
+  const { contents } = await getBooksByCategory(params.id);
+  const session = await getServerSession(nextAuthOptions);
   const user = session?.user as User;
 
   let purchaseBookIds: string[] = [];
@@ -44,10 +39,7 @@ export default async function CategoryPage({ params }: Props) {
   if (user) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
-      {
-        cache: "force-cache",
-        next: { revalidate: 300 },
-      }
+      { cache: "no-store" }
     );
 
     if (response.ok) {
