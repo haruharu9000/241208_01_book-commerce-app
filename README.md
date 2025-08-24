@@ -82,13 +82,13 @@
 
 ## 📚 参考教材
 
-電子記事販売WebアプリケーションをNext.jsをフル活用して実践力を身に着けるWeb開発マスター講座<br>
+電子記事販売WebアプリケーションをNext.jsをフル活用して実践力を身に着けるWeb開発マスター講座  
 https://www.udemy.com/course/book-commerce-web-dev-with-nextjs/?couponCode=MT220725JP
 
-教材の完成品デモ<br>
+教材の完成品デモ  
 https://book-commerce-app-with-shincodecamp.vercel.app/
 
 ## 🌐 補足
 
-このアプリは技術習得およびポートフォリオ用途として開発されたものです。<br>
+このアプリは技術習得およびポートフォリオ用途として開発されたものです。  
 ご興味ある方は、お気軽にご連絡いただくか、スター・フォーク等いただければ幸いです。
